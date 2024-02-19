@@ -133,11 +133,7 @@
 		BB5198C62B82F01000862CD2 /* ConeMacKit */ = {
 			isa = PBXGroup;
 			children = (
-				BB5198CF2B82F06A00862CD2 /* Component */,
-				BB5198F52B82F06A00862CD2 /* CustomCells */,
-				BB5198E02B82F06A00862CD2 /* CustomViews */,
-				BB5198FB2B82F06A00862CD2 /* Extensions */,
-				BB5198CE2B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift */,
+				BB5199452B82F8ED00862CD2 /* Classes */,
 				BB5198C72B82F01000862CD2 /* ConeMacKit.h */,
 			);
 			path = ConeMacKit;
@@ -428,6 +424,18 @@
 			children = (
 			);
 			path = NSWindow;
+			sourceTree = "<group>";
+		};
+		BB5199452B82F8ED00862CD2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				BB5198CF2B82F06A00862CD2 /* Component */,
+				BB5198F52B82F06A00862CD2 /* CustomCells */,
+				BB5198E02B82F06A00862CD2 /* CustomViews */,
+				BB5198FB2B82F06A00862CD2 /* Extensions */,
+				BB5198CE2B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
