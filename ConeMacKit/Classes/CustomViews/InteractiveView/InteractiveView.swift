@@ -41,11 +41,11 @@ open class InteractiveView: NSView, InteractiveViewProtocol {
         }
     }
     
-    public var isEntered: Bool = false
+    open var isEntered: Bool = false
     
-    public var isClicked: Bool = false
+    open var isClicked: Bool = false
     
-    public var mouseTrackingArea: NSTrackingArea!
+    open var mouseTrackingArea: NSTrackingArea!
       
     
     public override init(frame frameRect: NSRect) {
@@ -76,7 +76,7 @@ open class InteractiveView: NSView, InteractiveViewProtocol {
         }
     }
      
-    public func interactiveStateDidChanged(lastState: Interactive.State) {
+    open func interactiveStateDidChanged(lastState: Interactive.State) {
         window?.invalidateCursorRects(for: self)
         let priority = statePriority(for: interactiveState)
         let backgroundColor = adapterValue(in: interactiveBackgroundColors, for: priority)

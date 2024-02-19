@@ -52,6 +52,7 @@
 		BB5199422B82F06B00862CD2 /* NSLayoutConstraint_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5199122B82F06A00862CD2 /* NSLayoutConstraint_Kit.swift */; };
 		BB5199432B82F06B00862CD2 /* NSColor_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5199142B82F06A00862CD2 /* NSColor_Kit.swift */; };
 		BB5199442B82F06B00862CD2 /* NSButton_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5199162B82F06A00862CD2 /* NSButton_Kit.swift */; };
+		BBEBCAA72B832E8000849088 /* String_Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEBCAA62B832E8000849088 /* String_Bundle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,7 @@
 		BB5199122B82F06A00862CD2 /* NSLayoutConstraint_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraint_Kit.swift; sourceTree = "<group>"; };
 		BB5199142B82F06A00862CD2 /* NSColor_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColor_Kit.swift; sourceTree = "<group>"; };
 		BB5199162B82F06A00862CD2 /* NSButton_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSButton_Kit.swift; sourceTree = "<group>"; };
+		BBEBCAA62B832E8000849088 /* String_Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Bundle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,6 +357,7 @@
 			children = (
 				BB51990A2B82F06A00862CD2 /* String_Kit.swift */,
 				BB51990B2B82F06A00862CD2 /* String_MD5.swift */,
+				BBEBCAA62B832E8000849088 /* String_Bundle.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBEBCAA72B832E8000849088 /* String_Bundle.swift in Sources */,
 				BB5199292B82F06B00862CD2 /* NSWindow_Popover.swift in Sources */,
 				BB51991F2B82F06A00862CD2 /* UserInteractionable.swift in Sources */,
 				BB5199382B82F06B00862CD2 /* Collection_Kit.swift in Sources */,
