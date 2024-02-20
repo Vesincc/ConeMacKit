@@ -103,7 +103,7 @@ public extension InteractiveStateable {
 }
 
 
-extension InteractiveStateable {
+public extension InteractiveStateable {
     
     func statePriority(for state: Interactive.State) -> [Interactive.State] {
         if state == [.disabled, .selected, .hovered] {
@@ -138,6 +138,11 @@ extension InteractiveStateable {
             }
         }
         return nil
+    }
+    
+    func adapterState(attentions: [Interactive.State]) -> Interactive.State {
+        let priority = statePriority(for: interactiveState)
+        return priority.first(where: { attentions.contains($0) }) ?? .normal
     }
     
     func fixState() {

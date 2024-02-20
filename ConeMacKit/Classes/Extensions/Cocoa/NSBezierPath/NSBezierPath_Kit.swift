@@ -8,7 +8,7 @@
 import Foundation
 import Cocoa
 
-extension NSBezierPath {
+public extension NSBezierPath {
     
     var cgPath: CGPath {
         let path = CGMutablePath()
