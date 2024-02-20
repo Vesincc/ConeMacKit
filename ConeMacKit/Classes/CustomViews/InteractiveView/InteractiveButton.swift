@@ -112,7 +112,7 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
         
         let hiddenImageAndText = adapterValue(in: interactiveHiddenImageAndText, for: priority) ?? (false, false)
         var text = adapterValue(in: interactiveTexts, for: priority) ?? title
-        var image = adapterValue(in: interactiveImages, for: priority)
+        var image = adapterValue(in: interactiveImages, for: priority) ?? self.image
         if hiddenImageAndText.imageHidden {
             image = nil
         }
@@ -122,7 +122,7 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
         
         let attributedText = adapterValue(in: interactiveAttributedTexts, for: priority)
         let textColor = adapterValue(in: interactiveTextColors, for: priority) ?? .black
-        let font = adapterValue(in: interactiveFonts, for: priority) ?? NSFont.systemFont(ofSize: 14)
+        let font = adapterValue(in: interactiveFonts, for: priority) ?? self.font ?? NSFont.systemFont(ofSize: 14)
         let block = adapterValue(in: interactiveBlocks, for: priority)
         
         if backgroundColorEnable {
