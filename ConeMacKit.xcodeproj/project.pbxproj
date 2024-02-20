@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB1D95622B849BCE00BB1F22 /* PlainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1D95612B849BCE00BB1F22 /* PlainTextField.swift */; };
 		BB5198C82B82F01000862CD2 /* ConeMacKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BB5198C72B82F01000862CD2 /* ConeMacKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BB5199192B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5198CE2B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift */; };
 		BB51991A2B82F06A00862CD2 /* Setter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5198D12B82F06A00862CD2 /* Setter.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BB1D95612B849BCE00BB1F22 /* PlainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainTextField.swift; sourceTree = "<group>"; };
 		BB5198C42B82F01000862CD2 /* ConeMacKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ConeMacKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB5198C72B82F01000862CD2 /* ConeMacKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConeMacKit.h; sourceTree = "<group>"; };
 		BB5198CE2B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceBuilder_Duplicates.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 		BB5198E12B82F06A00862CD2 /* SecurePlainTextField */ = {
 			isa = PBXGroup;
 			children = (
+				BB1D95612B849BCE00BB1F22 /* PlainTextField.swift */,
 				BB5198E22B82F06A00862CD2 /* SecurePlainTextField.swift */,
 			);
 			path = SecurePlainTextField;
@@ -539,6 +542,7 @@
 				BB51992F2B82F06B00862CD2 /* GradientButton.swift in Sources */,
 				BB51991D2B82F06A00862CD2 /* Cursorable.swift in Sources */,
 				BB5199422B82F06B00862CD2 /* NSLayoutConstraint_Kit.swift in Sources */,
+				BB1D95622B849BCE00BB1F22 /* PlainTextField.swift in Sources */,
 				BB5199242B82F06A00862CD2 /* Blocked.swift in Sources */,
 				BB51993D2B82F06B00862CD2 /* CGRect_Kit.swift in Sources */,
 				BB51991B2B82F06A00862CD2 /* Pace_Zip.swift in Sources */,

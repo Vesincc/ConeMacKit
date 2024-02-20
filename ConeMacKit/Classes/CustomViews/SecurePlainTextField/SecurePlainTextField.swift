@@ -8,10 +8,10 @@
 import Foundation
 import Cocoa
 
-class SecurePlainTextField: NSSecureTextField {
+open class SecurePlainTextField: NSSecureTextField {
      
     /// 是否密文输入
-    var isSecureTextEntry: Bool = true {
+    open var isSecureTextEntry: Bool = true {
         didSet {
             updatePasswrodCell()
         }
@@ -28,10 +28,10 @@ class SecurePlainTextField: NSSecureTextField {
     
     fileprivate var insertionPointColorValue: NSColor?
      
-    var didBecomeFirstResponder: (() -> ())?
+    open var didBecomeFirstResponder: (() -> ())?
     
     @discardableResult
-    override func becomeFirstResponder() -> Bool {
+    open override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
         if success {
             if let color = insertionPointColorValue {
@@ -48,7 +48,7 @@ class SecurePlainTextField: NSSecureTextField {
         configers()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         configers()
     }
