@@ -34,7 +34,7 @@ public class Interactive {
         
         public static var hovered: Interactive.State {
             Interactive.State(rawValue: 1 << 4)
-        } 
+        }
     }
     
     public enum GradientDirection {
@@ -204,7 +204,7 @@ extension InteractiveViewProtocol {
             } else {
                 mouseExited(with: NSEvent())
             }
-        } 
+        }
     }
     
     func updateMouseEnterExitTrackingArea() {

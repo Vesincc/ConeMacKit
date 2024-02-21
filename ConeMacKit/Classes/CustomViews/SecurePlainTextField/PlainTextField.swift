@@ -9,7 +9,7 @@ import Cocoa
 
 open class PlainTextField: NSTextField {
     
-    @IBInspectable var insertionPointColor: NSColor? {
+    @IBInspectable public var insertionPointColor: NSColor? {
         get {
             insertionPointColorValue
         }
@@ -34,7 +34,7 @@ open class PlainTextField: NSTextField {
     }
     
     
-    override init(frame frameRect: NSRect) {
+    override public init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         configers()
     }

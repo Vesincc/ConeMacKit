@@ -48,6 +48,7 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
         }
         set {
             _isEnabled = newValue
+            isClicked = false
             fixState()
         }
     }
