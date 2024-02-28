@@ -49,7 +49,12 @@ open class PlainTextField: NSTextField {
     }
     
     
-    func selectText(_ range: NSRange) {
+    public func clearSelect() {
+        let str = self.cell?.stringValue ?? ""
+        selectText(NSRange(location: str.count, length: 0))
+    }
+    
+    public func selectText(_ range: NSRange) {
         if let textEditor = window?.fieldEditor(true, for: self) {
             let cell = selectedCell()
             cell?.select(withFrame: bounds, in: self, editor: textEditor, delegate: self, start: range.location, length: range.location)
