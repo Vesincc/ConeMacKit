@@ -1,12 +1,60 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/10.
 //
 
 import Foundation
 import Cocoa
+
+public extension NSTextField {
+    
+    func updateCell(oldCell: NSTextFieldCell, newCell: NSTextFieldCell) {
+        /// NSTextFieldCell
+        newCell.textColor = oldCell.textColor
+        newCell.bezelStyle = oldCell.bezelStyle
+        newCell.backgroundColor = oldCell.backgroundColor
+        newCell.drawsBackground = oldCell.drawsBackground
+        newCell.placeholderString = oldCell.placeholderString
+        newCell.placeholderAttributedString = oldCell.placeholderAttributedString
+        newCell.allowedInputSourceLocales = oldCell.allowedInputSourceLocales
+        
+        /// NSActionCell
+        newCell.action = oldCell.action
+        newCell.target = oldCell.target
+        newCell.tag = oldCell.tag
+        
+        /// NSCell
+        newCell.type = oldCell.type
+        newCell.isEnabled = oldCell.isEnabled
+        newCell.allowsUndo = oldCell.allowsUndo
+        newCell.isBezeled = oldCell.isBezeled
+        newCell.isBordered = oldCell.isBordered
+        newCell.backgroundStyle = oldCell.backgroundStyle
+        newCell.allowsMixedState = oldCell.allowsMixedState
+        newCell.isEditable = oldCell.isEditable
+        newCell.isSelectable = oldCell.isSelectable
+        newCell.isScrollable = oldCell.isScrollable
+        newCell.alignment = oldCell.alignment
+        newCell.font = oldCell.font
+        newCell.lineBreakMode = oldCell.lineBreakMode
+        newCell.truncatesLastVisibleLine = oldCell.truncatesLastVisibleLine
+        newCell.wraps = oldCell.wraps
+        newCell.baseWritingDirection = oldCell.baseWritingDirection
+        newCell.attributedStringValue = oldCell.attributedStringValue
+        newCell.allowsEditingTextAttributes = oldCell.allowsEditingTextAttributes
+        newCell.importsGraphics = oldCell.importsGraphics
+        newCell.title = oldCell.title
+        newCell.isContinuous = oldCell.isContinuous
+        newCell.focusRingType = oldCell.focusRingType
+        newCell.sendsActionOnEndEditing = oldCell.sendsActionOnEndEditing
+        newCell.usesSingleLineMode = oldCell.usesSingleLineMode
+        newCell.userInterfaceLayoutDirection = oldCell.userInterfaceLayoutDirection
+         
+        self.cell = newCell
+    }
+}
 
 open class SecurePlainTextField: NSSecureTextField {
      
@@ -60,54 +108,7 @@ open class SecurePlainTextField: NSSecureTextField {
         let newCell: NSTextFieldCell = CenterSecureTextFieldCell()
         updateCell(oldCell: oldCell, newCell: newCell)
     }
-    
-    func updateCell(oldCell: NSTextFieldCell, newCell: NSTextFieldCell) {
-        /// NSTextFieldCell
-        newCell.textColor = oldCell.textColor
-        newCell.bezelStyle = oldCell.bezelStyle
-        newCell.backgroundColor = oldCell.backgroundColor
-        newCell.drawsBackground = oldCell.drawsBackground
-        newCell.placeholderString = oldCell.placeholderString
-        newCell.placeholderAttributedString = oldCell.placeholderAttributedString
-        newCell.allowedInputSourceLocales = oldCell.allowedInputSourceLocales
-        
-        /// NSActionCell
-        newCell.action = oldCell.action
-        newCell.target = oldCell.target
-        newCell.tag = oldCell.tag
-        
-        /// NSCell
-        newCell.type = oldCell.type
-        newCell.isEnabled = oldCell.isEnabled
-        newCell.allowsUndo = oldCell.allowsUndo
-        newCell.isBezeled = oldCell.isBezeled
-        newCell.isBordered = oldCell.isBordered
-        newCell.backgroundStyle = oldCell.backgroundStyle
-        newCell.allowsMixedState = oldCell.allowsMixedState
-        newCell.isEditable = oldCell.isEditable
-        newCell.isSelectable = oldCell.isSelectable
-        newCell.isScrollable = oldCell.isScrollable
-        newCell.alignment = oldCell.alignment
-        newCell.font = oldCell.font
-        newCell.lineBreakMode = oldCell.lineBreakMode
-        newCell.truncatesLastVisibleLine = oldCell.truncatesLastVisibleLine
-        newCell.wraps = oldCell.wraps
-        newCell.baseWritingDirection = oldCell.baseWritingDirection
-        newCell.attributedStringValue = oldCell.attributedStringValue
-        newCell.allowsEditingTextAttributes = oldCell.allowsEditingTextAttributes
-        newCell.importsGraphics = oldCell.importsGraphics
-        newCell.title = oldCell.title
-        newCell.isContinuous = oldCell.isContinuous
-        newCell.focusRingType = oldCell.focusRingType
-        newCell.sendsActionOnEndEditing = oldCell.sendsActionOnEndEditing
-        newCell.usesSingleLineMode = oldCell.usesSingleLineMode
-        newCell.userInterfaceLayoutDirection = oldCell.userInterfaceLayoutDirection
-         
-        self.cell = newCell
-    }
-    
-    
-    
+     
     func updatePasswrodCell() {
         let str = self.cell?.stringValue ?? ""
         

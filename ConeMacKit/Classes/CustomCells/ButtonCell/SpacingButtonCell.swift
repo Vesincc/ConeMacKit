@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/6.
 //
@@ -12,10 +12,10 @@ import Cocoa
 public class SpacingButtonCell: NSButtonCell {
 
 
-    @IBInspectable var spacing: CGFloat = 0
+    @IBInspectable public var spacing: CGFloat = 0
      
 
-    @IBInspectable var leftEdgeInset: CGFloat {
+    @IBInspectable public var leftEdgeInset: CGFloat {
         get {
             contentEdgeInset.left
         }
@@ -24,7 +24,7 @@ public class SpacingButtonCell: NSButtonCell {
         }
     }
 
-    @IBInspectable var topEdgeInset: CGFloat {
+    @IBInspectable public var topEdgeInset: CGFloat {
         get {
             contentEdgeInset.top
         }
@@ -33,7 +33,7 @@ public class SpacingButtonCell: NSButtonCell {
         }
     }
 
-    @IBInspectable var rightEdgeInset: CGFloat {
+    @IBInspectable public var rightEdgeInset: CGFloat {
         get {
             contentEdgeInset.right
         }
@@ -42,7 +42,7 @@ public class SpacingButtonCell: NSButtonCell {
         }
     }
 
-    @IBInspectable var bottomEdgeInset: CGFloat {
+    @IBInspectable public var bottomEdgeInset: CGFloat {
         get {
             contentEdgeInset.bottom
         }
@@ -51,7 +51,7 @@ public class SpacingButtonCell: NSButtonCell {
         }
     }
 
-    var contentEdgeInset: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    public var contentEdgeInset: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
  
     public override var cellSize: NSSize {
         CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
@@ -118,7 +118,7 @@ public class SpacingButtonCell: NSButtonCell {
             return CGRect(
                 x: CGFloat(floor(contentEdgeInset.left + xSpacing + offset.titleOffset.x)),
                 y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.titleOffset.y)),
-                width: titleSize.width,
+                width: titleSize.width + 1,
                 height: titleSize.height
             )
         }
