@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by HanQi on 2023/12/20.
 //
@@ -69,7 +69,17 @@ public struct ViewBehaverWrapper<Base: NSView> {
     public let base: Base
     public init(_ base: Base) {
         self.base = base
+        var temp: Bool?
+        if let s = base.superview as? NSStackView {
+            temp = s.detachesHiddenViews
+            if temp == true {
+                s.detachesHiddenViews = false
+            }
+        }
         createNewClassIfNeed()
+        if let s = base.superview as? NSStackView, let temp = temp, s.detachesHiddenViews != temp {
+            s.detachesHiddenViews = temp
+        }
     }
      
     
@@ -89,15 +99,25 @@ public struct ViewBehaverWrapper<Base: NSView> {
             guard let newClass: AnyClass = objc_allocateClassPair(originalClass, newClassName, 0) else {
                 return
             }
-            
+            let sel = NSSelectorFromString("class")
+            if let originalMethod = class_getInstanceMethod(originalClass, sel) {
+                let type = method_getTypeEncoding(originalMethod)
+                let block: @convention(block) (NSObject) -> AnyClass? = { o in
+                    return class_getSuperclass(object_getClass(o))
+                }
+                let imp = imp_implementationWithBlock(block)
+                class_addMethod(newClass, sel, imp, type)
+            }
+             
             hockResetCursorRects(to: newClass, originalClass: originalClass)
             hockUpdateTrackingAreas(to: newClass, originalClass: originalClass)
             hockMouseEntered(to: newClass, originalClass: originalClass)
             hockMouseExited(to: newClass, originalClass: originalClass)
             hockHitTest(to: newClass, originalClass: originalClass)
-            
+             
             objc_registerClassPair(newClass)
             object_setClass(base, newClass)
+              
         }
     }
      

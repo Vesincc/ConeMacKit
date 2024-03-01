@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/3.
 //
@@ -56,6 +56,7 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
     
     public var isSelected: Bool = false {
         didSet {
+            isClicked = false
             fixState()
         }
     }

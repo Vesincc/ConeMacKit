@@ -1,6 +1,6 @@
 //
 //  InteractiveView.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/3.
 //
@@ -31,12 +31,14 @@ open class InteractiveView: NSView, InteractiveViewProtocol {
     
     public var isEnabled: Bool = true {
         didSet {
+            isClicked = false
             fixState()
         }
     }
     
     public var isSelected: Bool = false {
         didSet {
+            isClicked = false
             fixState()
         }
     }
@@ -87,7 +89,7 @@ open class InteractiveView: NSView, InteractiveViewProtocol {
             layer?.backgroundColor = backgroundColor.cgColor
         }
         layer?.borderColor = borderColor?.cgColor ?? layer?.borderColor
-        layer?.borderWidth = borderWidth ??  layer?.borderWidth ?? 0
+        layer?.borderWidth = borderWidth ?? layer?.borderWidth ?? 0
         block?()
         
     }
@@ -107,9 +109,9 @@ open class InteractiveView: NSView, InteractiveViewProtocol {
         }
     }
     
-    open override func mouseUp(with event: NSEvent) { 
+    open override func mouseUp(with event: NSEvent) {
         if isClicked {
-            interactiveMouseDownSuffix(with: event) 
+            interactiveMouseDownSuffix(with: event)
         }
     }
 }
