@@ -69,17 +69,7 @@ public struct ViewBehaverWrapper<Base: NSView> {
     public let base: Base
     public init(_ base: Base) {
         self.base = base
-        var temp: Bool?
-        if let s = base.superview as? NSStackView {
-            temp = s.detachesHiddenViews
-            if temp == true {
-                s.detachesHiddenViews = false
-            }
-        }
         createNewClassIfNeed()
-        if let s = base.superview as? NSStackView, let temp = temp, s.detachesHiddenViews != temp {
-            s.detachesHiddenViews = temp
-        }
     }
      
     
@@ -116,8 +106,18 @@ public struct ViewBehaverWrapper<Base: NSView> {
             hockHitTest(to: newClass, originalClass: originalClass)
              
             objc_registerClassPair(newClass)
+            
+            var temp: Bool?
+            if let s = base.superview as? NSStackView {
+                temp = s.detachesHiddenViews
+                if temp == true {
+                    s.detachesHiddenViews = false
+                }
+            }
             object_setClass(base, newClass)
-              
+            if let s = base.superview as? NSStackView, let temp = temp, s.detachesHiddenViews != temp {
+                s.detachesHiddenViews = temp
+            }
         }
     }
      
