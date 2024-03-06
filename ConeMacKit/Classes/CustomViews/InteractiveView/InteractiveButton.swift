@@ -106,8 +106,10 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
     }
     
     public func interactiveStateDidChanged(lastState: Interactive.State) {
-        window?.invalidateCursorRects(for: self)
         let priority = statePriority(for: interactiveState)
+        if let cursor = adapterValue(in: interactiveCursors, for: priority) {
+            window?.invalidateCursorRects(for: self)
+        }
         let backgroundColor = adapterValue(in: interactiveBackgroundColors, for: priority)
         let borderColor = adapterValue(in: interactiveBorderColors, for: priority)
         let borderWidth = adapterValue(in: interactiveBorderWidths, for: priority)
