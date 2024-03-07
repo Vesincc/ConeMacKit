@@ -56,6 +56,10 @@ public class SpacingButtonCell: NSButtonCell {
     public override var cellSize: NSSize {
         CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
     }
+    
+    public override func cellSize(forBounds rect: NSRect) -> NSSize {
+        CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
+    }
      
 
     public override func imageRect(forBounds rect: NSRect) -> NSRect {
@@ -162,7 +166,15 @@ fileprivate extension SpacingButtonCell {
     
     /// 全尺寸title大小
     var titleFullSize: CGSize {
-        let cellSize = CGSize(width: super.cellSize.width + contentEdgeInset.left + contentEdgeInset.right + spacing, height: super.cellSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
+        var stringSize: CGSize = .zero
+        if let font = font, !title.isEmpty {
+            stringSize = NSAttributedString(string: title, attributes: [
+                NSAttributedString.Key.font : font
+            ]).boundingRect(with: CGSize(width: 4000, height: 4000)).size
+        } else {
+            stringSize = attributedTitle.boundingRect(with: CGSize(width: 4000, height: 4000)).size
+        }
+        let cellSize = CGSize(width: stringSize.width + contentEdgeInset.left + contentEdgeInset.right, height: stringSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
         let width: CGFloat = cellSize.width
         let height = cellSize.height
         var txtSize: CGSize = .zero

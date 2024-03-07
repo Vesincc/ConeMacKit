@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/21.
 //
@@ -42,11 +42,14 @@ public class PopoverWindow: NSWindow {
     }
     
     func addLocalMonirorIgnoresParentMouseEvents() {
-        localMonitore = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown, .mouseEntered, .mouseExited, .mouseMoved]) { [weak self] event in
+        localMonitore = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown]) { [weak self] event in
             guard let self = self else {
                 return event
             }
             if event.window != self {
+                if let vc = contentViewController as? PopoverViewController, vc.configer.autoHidden {
+                    self.dismissPopover(completion: nil)
+                }
                 return nil
             }
             return event
@@ -149,7 +152,7 @@ extension PopoverWindow {
             break
         case .bottom:
             break
-        } 
+        }
         DispatchQueue.main.async {
             contentView.layer?.position = CGPoint(x: contentView.bounds.width / 2.0, y: contentView.bounds.height / 2.0)
             contentView.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)

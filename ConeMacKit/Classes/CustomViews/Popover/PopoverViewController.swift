@@ -1,6 +1,6 @@
 //
 //  PopoverViewController.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/17.
 //
@@ -8,7 +8,7 @@
 import Cocoa
 
 public struct PopoverConfiger {
-    public init(indicatorDirection: WindowPopoverDirection, autoIndicatorDirection: Bool = true, spacing: CGFloat = 10, indicatorHeight: CGFloat = 8, indicatorWidth: CGFloat = 10, indicatorOffset: CGPoint = .zero, cornerRadius: CGFloat = 0, backgroundView: NSView? = nil, backgroundPadding: CGFloat = 0, contentBackgroundView: NSView? = nil, contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)) {
+    public init(indicatorDirection: WindowPopoverDirection, autoIndicatorDirection: Bool = true, spacing: CGFloat = 10, indicatorHeight: CGFloat = 8, indicatorWidth: CGFloat = 10, indicatorOffset: CGPoint = .zero, cornerRadius: CGFloat = 0, backgroundView: NSView? = nil, backgroundPadding: CGFloat = 0, contentBackgroundView: NSView? = nil, contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), autoHidden: Bool = false) {
         self.indicatorDirection = indicatorDirection
         self.autoIndicatorDirection = autoIndicatorDirection
         self.spacing = spacing
@@ -20,6 +20,7 @@ public struct PopoverConfiger {
         self.backgroundPadding = backgroundPadding
         self.contentBackgroundView = contentBackgroundView
         self.contentEdgeInsets = contentEdgeInsets
+        self.autoHidden = autoHidden
     }
     
     
@@ -45,6 +46,8 @@ public struct PopoverConfiger {
     public var contentBackgroundView: NSView?
     
     public var contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    
+    public var autoHidden: Bool = false
     
 }
 
@@ -78,7 +81,7 @@ open class PopoverViewController: NSViewController {
         
         if backgroundView == nil {
             backgroundView = configer.backgroundView ?? NSView(frame: .zero)
-            backgroundView?.wantsLayer = true 
+            backgroundView?.wantsLayer = true
         }
         
         if contentBackgroundView == nil {

@@ -65,7 +65,7 @@ open class SecurePlainTextField: NSSecureTextField {
         }
     }
      
-    @IBInspectable var insertionPointColor: NSColor? {
+    @IBInspectable public var insertionPointColor: NSColor? {
         get {
             insertionPointColorValue
         }
@@ -75,11 +75,14 @@ open class SecurePlainTextField: NSSecureTextField {
     }
     
     fileprivate var insertionPointColorValue: NSColor?
+    
+    open var willBecomeFirstResponder: (() -> ())?
      
     open var didBecomeFirstResponder: (() -> ())?
     
     @discardableResult
     open override func becomeFirstResponder() -> Bool {
+        willBecomeFirstResponder?()
         let success = super.becomeFirstResponder()
         if success {
             if let color = insertionPointColorValue {
@@ -142,7 +145,7 @@ open class SecurePlainTextField: NSSecureTextField {
     public func clearSelect() {
         let str = self.cell?.stringValue ?? ""
         selectText(NSRange(location: str.count, length: 0))
-    } 
+    }
     
     public func selectText(_ range: NSRange) {
         if let textEditor = window?.fieldEditor(true, for: self) {

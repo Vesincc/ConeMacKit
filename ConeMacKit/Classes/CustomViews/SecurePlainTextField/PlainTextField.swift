@@ -19,10 +19,13 @@ open class PlainTextField: NSTextField {
     }
     
     fileprivate var insertionPointColorValue: NSColor?
+    
+    open var willBecomeFirstResponder: (() -> ())?
      
     open var didBecomeFirstResponder: (() -> ())?
     
     open override func becomeFirstResponder() -> Bool {
+        willBecomeFirstResponder?()
         let success = super.becomeFirstResponder()
         if success {
             if let color = insertionPointColorValue {

@@ -107,7 +107,7 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
     
     public func interactiveStateDidChanged(lastState: Interactive.State) {
         let priority = statePriority(for: interactiveState)
-        if let cursor = adapterValue(in: interactiveCursors, for: priority) {
+        if adapterValue(in: interactiveCursors, for: priority) != nil {
             window?.invalidateCursorRects(for: self)
         }
         let backgroundColor = adapterValue(in: interactiveBackgroundColors, for: priority)
