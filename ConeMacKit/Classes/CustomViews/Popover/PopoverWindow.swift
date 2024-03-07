@@ -47,7 +47,7 @@ public class PopoverWindow: NSWindow {
                 return event
             }
             if event.window != self {
-                if let vc = contentViewController as? PopoverViewController, vc.configer.autoHidden {
+                if let vc = self.contentViewController as? PopoverViewController, vc.configer.autoHidden {
                     self.dismissPopover(completion: nil)
                 }
                 return nil
