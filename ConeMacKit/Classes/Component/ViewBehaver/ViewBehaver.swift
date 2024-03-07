@@ -92,7 +92,7 @@ public struct ViewBehaverWrapper<Base: NSView> {
         if className.hasPrefix(classNamePrefix) {
             return
         }
-        let newClassName = "\(classNamePrefix)\(Base.self)"
+        let newClassName = "\(classNamePrefix)\(base.self)"
         if let newClass = NSClassFromString(newClassName) {
             object_setClass(base, newClass)
         } else {
