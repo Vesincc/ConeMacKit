@@ -248,9 +248,7 @@ extension PopoverViewController {
             box.topAnchor.constraint(equalTo: contentBackgroundView.topAnchor, constant: direction == .top ? configer.contentEdgeInsets.top + configer.indicatorHeight : configer.contentEdgeInsets.top),
             box.bottomAnchor.constraint(equalTo: contentBackgroundView.bottomAnchor, constant: direction == .bottom ? -(configer.contentEdgeInsets.bottom + configer.indicatorHeight) : -configer.contentEdgeInsets.bottom),
             box.leftAnchor.constraint(equalTo: contentBackgroundView.leftAnchor, constant: direction == .left ? configer.contentEdgeInsets.left + configer.indicatorHeight : configer.contentEdgeInsets.left),
-            box.rightAnchor.constraint(equalTo: contentBackgroundView.rightAnchor, constant: direction == .right ? -(configer.contentEdgeInsets.right + configer.indicatorHeight) : -configer.contentEdgeInsets.right),
-            box.widthAnchor.constraint(equalToConstant: contentViewController?.view.fittingSize.width ?? 0),
-            box.heightAnchor.constraint(equalToConstant: contentViewController?.view.fittingSize.height ?? 0)
+            box.rightAnchor.constraint(equalTo: contentBackgroundView.rightAnchor, constant: direction == .right ? -(configer.contentEdgeInsets.right + configer.indicatorHeight) : -configer.contentEdgeInsets.right)
         ])
          
     }
