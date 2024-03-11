@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/13.
 //
@@ -15,7 +15,7 @@ public enum WindowPresentStyle {
     /// 直接置顶
     case criticalSheet
     /// popup
-    case popup 
+    case popup
     /// 窗口中间
     case center
     
@@ -39,8 +39,8 @@ public extension NSWindow {
         completion?()
     }
     
-    func present(_ viewControllerToPresent: NSViewController, style: WindowPresentStyle, completion: (() -> ())? = nil) {
-        present(SheetWindow(contentViewController: viewControllerToPresent), style: style, completion: completion)
+    func present(_ viewControllerToPresent: NSViewController, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) {
+        present(SheetWindow(contentViewController: viewControllerToPresent, appearance: appearance), style: style, completion: completion)
     }
     
     func dismiss(completion: (() -> ())?) {

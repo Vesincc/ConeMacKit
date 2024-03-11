@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/13.
 //
@@ -81,12 +81,13 @@ public class SheetWindow: NSWindow {
     override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
         super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
         appearance = NSAppearance(named: .aqua)
-        backgroundColor = .clear 
+        backgroundColor = .clear
     }
      
-    public convenience init(contentViewController: NSViewController) {
+    public convenience init(contentViewController: NSViewController, appearance: NSAppearance? = nil) {
         self.init(contentRect: .zero, styleMask: [.closable, .borderless], backing: .buffered, defer: true)
         self.contentViewController = contentViewController
+        self.appearance = appearance ?? NSApplication.shared.mainWindow?.appearance
         var closeEnable = true
         var offset: CGPoint = .zero
         if let close = contentViewController as? SheetWindowCloseProtocol {
@@ -101,7 +102,7 @@ public class SheetWindow: NSWindow {
                 closeView.leftAnchor.constraint(equalTo: contentViewController.view.leftAnchor, constant: 8 + offset.y),
                 closeView.widthAnchor.constraint(equalToConstant: 14),
                 closeView.heightAnchor.constraint(equalToConstant: 16)
-            ]) 
+            ])
         }
         
         
@@ -128,7 +129,7 @@ public class SheetWindow: NSWindow {
     }
     
     func addLocalMonirorIgnoresParentMouseEvents() {
-        localMonitore = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown, .mouseEntered, .mouseExited, .mouseMoved]) { [weak self] event in
+        localMonitore = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown]) { [weak self] event in
             guard let self = self else {
                 return event
             }
@@ -205,7 +206,7 @@ public class SheetWindow: NSWindow {
     }
     
     
-    deinit { 
+    deinit {
         NotificationCenter.default.removeObserver(self)
         if let localMonitore = localMonitore {
             NSEvent.removeMonitor(localMonitore)
@@ -246,13 +247,17 @@ extension SheetWindow {
         guard let contentView = contentView else {
             return
         }
-        NSAnimationContext.runAnimationGroup { context in
-            context.allowsImplicitAnimation = true
-            context.duration = 0.2
-            contentView.animator().alphaValue = 0
-            contentView.animator().layer?.setAffineTransform(.init(scaleX: 0.9, y: 0.9))
-        } completionHandler: {
-            completion?()
+        DispatchQueue.main.async {
+            contentView.layer?.position = CGPoint(x: contentView.bounds.width / 2.0, y: contentView.bounds.height / 2.0)
+            contentView.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            NSAnimationContext.runAnimationGroup { context in
+                context.allowsImplicitAnimation = true
+                context.duration = 0.2
+                contentView.animator().alphaValue = 0
+                contentView.animator().layer?.setAffineTransform(.init(scaleX: 0.9, y: 0.9))
+            } completionHandler: {
+                completion?()
+            }
         }
     }
     

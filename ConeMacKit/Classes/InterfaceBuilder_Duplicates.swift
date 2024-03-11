@@ -36,14 +36,26 @@ import Cocoa
 //    /// 左上角 默认 true
 //    @IBInspectable var cornerTopLeftIB: Bool {
 //        get {
-//            layer?.maskedCorners.contains(.layerMinXMinYCorner) ?? true
+//            if isFlipped {
+//                return layer?.maskedCorners.contains(.layerMinXMinYCorner) ?? true
+//            } else {
+//                return layer?.maskedCorners.contains(.layerMinXMaxYCorner) ?? true
+//            }
 //        }
 //        set {
 //            wantsLayerIfNeed()
 //            if newValue {
-//                layer?.maskedCorners.insert(.layerMinXMinYCorner)
+//                if isFlipped {
+//                    layer?.maskedCorners.insert(.layerMinXMinYCorner)
+//                } else {
+//                    layer?.maskedCorners.insert(.layerMinXMaxYCorner)
+//                }
 //            } else {
-//                layer?.maskedCorners.remove(.layerMinXMinYCorner)
+//                if isFlipped {
+//                    layer?.maskedCorners.remove(.layerMinXMinYCorner)
+//                } else {
+//                    layer?.maskedCorners.remove(.layerMinXMaxYCorner)
+//                }
 //            }
 //        }
 //    }
@@ -52,14 +64,26 @@ import Cocoa
 //    /// 右上角 默认 true
 //    @IBInspectable var cornerTopRightIB: Bool {
 //        get {
-//            layer?.maskedCorners.contains(.layerMaxXMinYCorner) ?? true
+//            if isFlipped {
+//                return layer?.maskedCorners.contains(.layerMaxXMinYCorner) ?? true
+//            } else {
+//                return layer?.maskedCorners.contains(.layerMaxXMaxYCorner) ?? true
+//            }
 //        }
 //        set {
 //            wantsLayerIfNeed()
 //            if newValue {
-//                layer?.maskedCorners.insert(.layerMaxXMinYCorner)
+//                if isFlipped {
+//                    layer?.maskedCorners.insert(.layerMaxXMinYCorner)
+//                } else {
+//                    layer?.maskedCorners.insert(.layerMaxXMaxYCorner)
+//                }
 //            } else {
-//                layer?.maskedCorners.remove(.layerMaxXMinYCorner)
+//                if isFlipped {
+//                    layer?.maskedCorners.remove(.layerMaxXMinYCorner)
+//                } else {
+//                    layer?.maskedCorners.remove(.layerMaxXMaxYCorner)
+//                }
 //            }
 //        }
 //    }
@@ -67,14 +91,26 @@ import Cocoa
 //    /// 左下角 默认 true
 //    @IBInspectable var cornerBottomLeftIB: Bool {
 //        get {
-//            layer?.maskedCorners.contains(.layerMinXMaxYCorner) ?? true
+//            if isFlipped {
+//                return layer?.maskedCorners.contains(.layerMinXMaxYCorner) ?? true
+//            } else {
+//                return layer?.maskedCorners.contains(.layerMinXMinYCorner) ?? true
+//            }
 //        }
 //        set {
 //            wantsLayerIfNeed()
 //            if newValue {
-//                layer?.maskedCorners.insert(.layerMinXMaxYCorner)
+//                if isFlipped {
+//                    layer?.maskedCorners.insert(.layerMinXMaxYCorner)
+//                } else {
+//                    layer?.maskedCorners.insert(.layerMinXMinYCorner)
+//                }
 //            } else {
-//                layer?.maskedCorners.remove(.layerMinXMaxYCorner)
+//                if isFlipped {
+//                    layer?.maskedCorners.remove(.layerMinXMaxYCorner)
+//                } else {
+//                    layer?.maskedCorners.remove(.layerMinXMinYCorner)
+//                }
 //            }
 //        }
 //    }
@@ -84,18 +120,30 @@ import Cocoa
 //    @IBInspectable var cornerBottomRightIB: Bool {
 //        
 //        get {
-//            layer?.maskedCorners.contains(.layerMaxXMaxYCorner) ?? true
+//            if isFlipped {
+//                return layer?.maskedCorners.contains(.layerMaxXMaxYCorner) ?? true
+//            } else {
+//                return layer?.maskedCorners.contains(.layerMaxXMinYCorner) ?? true
+//            }
 //        }
 //        set {
 //            wantsLayerIfNeed()
 //            if newValue {
-//                layer?.maskedCorners.insert(.layerMaxXMaxYCorner)
+//                if isFlipped {
+//                    layer?.maskedCorners.insert(.layerMaxXMaxYCorner)
+//                } else {
+//                    layer?.maskedCorners.insert(.layerMaxXMinYCorner)
+//                }
 //            } else {
-//                layer?.maskedCorners.remove(.layerMaxXMaxYCorner)
+//                if isFlipped {
+//                    layer?.maskedCorners.remove(.layerMaxXMaxYCorner)
+//                } else {
+//                    layer?.maskedCorners.remove(.layerMaxXMinYCorner)
+//                }
 //            }
 //        }
 //    }
-//     
+//    
 //    
 //}
 //
@@ -258,7 +306,7 @@ import Cocoa
 //        }
 //        set {
 //            objc_setAssociatedObject(self, &NSTextField._placeholderColor, newValue, .OBJC_ASSOCIATION_COPY)
-//            if let color = newValue, let str = placeholderString, !str.isEmpty {
+//            if let color = newValue, let str = placeholderAttributedString?.string ?? placeholderString, !str.isEmpty {
 //                let aStr = NSAttributedString(string: NSLocalizedString(str, comment: ""), attributes: [
 //                    NSAttributedString.Key.foregroundColor : color,
 //                    NSAttributedString.Key.font : font ?? NSFont.systemFont(ofSize: 14)
@@ -313,7 +361,7 @@ import Cocoa
 //        }
 //    }
 //    
-//     
+//    
 //    // MARK: - hovered
 //    @IBInspectable var hoveredBackgroundColor: NSColor? {
 //        get {
@@ -415,18 +463,18 @@ import Cocoa
 //        }
 //    }
 //    
-//
+//    
 //    // MARK: - normal
 //    @IBInspectable var normalStartColor: NSColor? {
 //        get {
-//            colors(for: .normal)?.first
+//            colors(for: .normal)?[safe: 0]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .normal) ?? []
-//            colors.insert(newValue, at: 0)
+//            var colors = colors(for: .normal) ?? [newValue, newValue]
+//            colors[0] = newValue
 //            setColors(colors, for: .normal)
 //        }
 //    }
@@ -434,14 +482,14 @@ import Cocoa
 //    
 //    @IBInspectable var normalEndColor: NSColor? {
 //        get {
-//            colors(for: .normal)?.last
+//            colors(for: .normal)?[safe: 1]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .normal) ?? []
-//            colors.append(newValue)
+//            var colors = colors(for: .normal) ?? [newValue, newValue]
+//            colors[1] = newValue
 //            setColors(colors, for: .normal)
 //        }
 //    }
@@ -450,14 +498,14 @@ import Cocoa
 //    // MARK: - hoverd
 //    @IBInspectable var hoveredStartColor: NSColor? {
 //        get {
-//            colors(for: .hovered)?.first
+//            colors(for: .hovered)?[safe: 0]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .hovered) ?? []
-//            colors.insert(newValue, at: 0)
+//            var colors = colors(for: .hovered) ?? [newValue, newValue]
+//            colors[0] = newValue
 //            setColors(colors, for: .hovered)
 //        }
 //    }
@@ -465,14 +513,14 @@ import Cocoa
 //    
 //    @IBInspectable var hoveredEndColor: NSColor? {
 //        get {
-//            colors(for: .hovered)?.last
+//            colors(for: .hovered)?[safe: 1]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .hovered) ?? []
-//            colors.append(newValue)
+//            var colors = colors(for: .hovered) ?? [newValue, newValue]
+//            colors[1] = newValue
 //            setColors(colors, for: .hovered)
 //        }
 //    }
@@ -481,14 +529,14 @@ import Cocoa
 //    // MARK: - clicked
 //    @IBInspectable var clickedStartColor: NSColor? {
 //        get {
-//            colors(for: .clicked)?.first
+//            colors(for: .clicked)?[safe: 1]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .clicked) ?? []
-//            colors.insert(newValue, at: 0)
+//            var colors = colors(for: .clicked) ?? [newValue, newValue]
+//            colors[0] = newValue
 //            setColors(colors, for: .clicked)
 //        }
 //    }
@@ -496,14 +544,14 @@ import Cocoa
 //    
 //    @IBInspectable var clickedEndColor: NSColor? {
 //        get {
-//            colors(for: .clicked)?.last
+//            colors(for: .clicked)?[safe: 1]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .clicked) ?? []
-//            colors.append(newValue)
+//            var colors = colors(for: .clicked) ?? [newValue, newValue]
+//            colors[1] = newValue
 //            setColors(colors, for: .clicked)
 //        }
 //    }
@@ -523,14 +571,14 @@ import Cocoa
 //        }
 //    }
 //    
-////    @IBInspectable var nomalText: String? {
-////        get {
-////            text(for: .normal)
-////        }
-////        set {
-////            setText(newValue, for: .normal)
-////        }
-////    }
+//    //    @IBInspectable var nomalText: String? {
+//    //        get {
+//    //            text(for: .normal)
+//    //        }
+//    //        set {
+//    //            setText(newValue, for: .normal)
+//    //        }
+//    //    }
 //    
 //    @IBInspectable var normalTextColor: NSColor? {
 //        get {
@@ -590,15 +638,15 @@ import Cocoa
 //            setText(NSLocalizedString(newValue ?? "", comment: ""), for: .hovered)
 //        }
 //    }
-//
-////    @IBInspectable var hoverText: String {
-////        get {
-////            text(for: .hover)
-////        }
-////        set {
-////            setText(newValue, for: .hover)
-////        }
-////    }
+//    
+//    //    @IBInspectable var hoverText: String {
+//    //        get {
+//    //            text(for: .hover)
+//    //        }
+//    //        set {
+//    //            setText(newValue, for: .hover)
+//    //        }
+//    //    }
 //    
 //    @IBInspectable var hoveredTextColor: NSColor? {
 //        get {
@@ -659,14 +707,14 @@ import Cocoa
 //        }
 //    }
 //    
-////    @IBInspectable var clickText: String {
-////        get {
-////            text(for: .click)
-////        }
-////        set {
-////            setText(newValue, for: .click)
-////        }
-////    }
+//    //    @IBInspectable var clickText: String {
+//    //        get {
+//    //            text(for: .click)
+//    //        }
+//    //        set {
+//    //            setText(newValue, for: .click)
+//    //        }
+//    //    }
 //    
 //    @IBInspectable var clickedTextColor: NSColor? {
 //        get {
@@ -713,6 +761,75 @@ import Cocoa
 //                return
 //            }
 //            setBorderColor(newValue, for: .clicked)
+//        }
+//    }
+//    
+//    
+//    
+//    // MARK: - selected
+//    @IBInspectable var selectedLocalizedKey: String? {
+//        get {
+//            text(for: .selected)
+//        }
+//        set {
+//            setText(NSLocalizedString(newValue ?? "", comment: ""), for: .selected)
+//        }
+//    }
+//    
+//    //    @IBInspectable var selectedText: String {
+//    //        get {
+//    //            text(for: .selected)
+//    //        }
+//    //        set {
+//    //            setText(newValue, for: .selected)
+//    //        }
+//    //    }
+//    
+//    @IBInspectable var selectedTextColor: NSColor? {
+//        get {
+//            textColor(for: .selected)
+//        }
+//        set {
+//            guard let newValue = newValue else {
+//                return
+//            }
+//            setTextColor(newValue, for: .selected)
+//        }
+//    }
+//    
+//    @IBInspectable var selectedImage: NSImage? {
+//        get {
+//            image(for: .selected)
+//        }
+//        set {
+//            guard let newValue = newValue else {
+//                return
+//            }
+//            setImage(newValue, for: .selected)
+//        }
+//    }
+//    
+//    @IBInspectable var selectedBackgroundColor: NSColor? {
+//        get {
+//            backgroundColor(for: .selected)
+//        }
+//        set {
+//            guard let newValue = newValue else {
+//                return
+//            }
+//            setBackgroundColor(newValue, for: .selected)
+//        }
+//    }
+//    
+//    @IBInspectable var selectedBorderColor: NSColor? {
+//        get {
+//            borderColor(for: .selected)
+//        }
+//        set {
+//            guard let newValue = newValue else {
+//                return
+//            }
+//            setBorderColor(newValue, for: .selected)
 //        }
 //    }
 //}
@@ -766,18 +883,18 @@ import Cocoa
 //        }
 //    }
 //    
-//
+//    
 //    // MARK: - normal
 //    @IBInspectable var normalStartColor: NSColor? {
 //        get {
-//            colors(for: .normal)?.first
+//            colors(for: .normal)?[safe: 0]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .normal) ?? []
-//            colors.insert(newValue, at: 0)
+//            var colors = colors(for: .normal) ?? [newValue, newValue]
+//            colors[0] = newValue
 //            setColors(colors, for: .normal)
 //        }
 //    }
@@ -785,14 +902,14 @@ import Cocoa
 //    
 //    @IBInspectable var normalEndColor: NSColor? {
 //        get {
-//            colors(for: .normal)?.last
+//            colors(for: .normal)?[safe: 1]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .normal) ?? []
-//            colors.append(newValue)
+//            var colors = colors(for: .normal) ?? [newValue, newValue]
+//            colors[1] = newValue
 //            setColors(colors, for: .normal)
 //        }
 //    }
@@ -801,14 +918,14 @@ import Cocoa
 //    // MARK: - hoverd
 //    @IBInspectable var hoveredStartColor: NSColor? {
 //        get {
-//            colors(for: .hovered)?.first
+//            colors(for: .hovered)?[safe: 0]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .hovered) ?? []
-//            colors.insert(newValue, at: 0)
+//            var colors = colors(for: .hovered) ?? [newValue, newValue]
+//            colors[0] = newValue
 //            setColors(colors, for: .hovered)
 //        }
 //    }
@@ -816,14 +933,14 @@ import Cocoa
 //    
 //    @IBInspectable var hoveredEndColor: NSColor? {
 //        get {
-//            colors(for: .hovered)?.last
+//            colors(for: .hovered)?[safe: 1]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .hovered) ?? []
-//            colors.append(newValue)
+//            var colors = colors(for: .hovered) ?? [newValue, newValue]
+//            colors[1] = newValue
 //            setColors(colors, for: .hovered)
 //        }
 //    }
@@ -832,14 +949,14 @@ import Cocoa
 //    // MARK: - clicked
 //    @IBInspectable var clickedStartColor: NSColor? {
 //        get {
-//            colors(for: .clicked)?.first
+//            colors(for: .clicked)?[safe: 0]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .clicked) ?? []
-//            colors.insert(newValue, at: 0)
+//            var colors = colors(for: .clicked) ?? [newValue, newValue]
+//            colors[0] = newValue
 //            setColors(colors, for: .clicked)
 //        }
 //    }
@@ -847,14 +964,14 @@ import Cocoa
 //    
 //    @IBInspectable var clickedEndColor: NSColor? {
 //        get {
-//            colors(for: .clicked)?.last
+//            colors(for: .clicked)?[safe: 1]
 //        }
 //        set {
 //            guard let newValue = newValue else {
 //                return
 //            }
-//            var colors = colors(for: .clicked) ?? []
-//            colors.append(newValue)
+//            var colors = colors(for: .clicked) ?? [newValue, newValue]
+//            colors[1] = newValue
 //            setColors(colors, for: .clicked)
 //        }
 //    }

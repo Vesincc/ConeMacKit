@@ -8,7 +8,7 @@
 import Cocoa
 
 public struct PopoverConfiger {
-    public init(indicatorDirection: WindowPopoverDirection, autoIndicatorDirection: Bool = true, spacing: CGFloat = 10, indicatorHeight: CGFloat = 8, indicatorWidth: CGFloat = 10, indicatorOffset: CGPoint = .zero, cornerRadius: CGFloat = 0, backgroundView: NSView? = nil, backgroundPadding: CGFloat = 0, contentBackgroundView: NSView? = nil, contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), autoHidden: Bool = false) {
+    public init(indicatorDirection: WindowPopoverDirection, autoIndicatorDirection: Bool = true, spacing: CGFloat = 10, indicatorHeight: CGFloat = 8, indicatorWidth: CGFloat = 10, indicatorOffset: CGPoint = .zero, cornerRadius: CGFloat = 0, backgroundView: NSView? = nil, backgroundPadding: CGFloat = 0, contentBackgroundView: NSView? = nil, contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), autoHidden: Bool = false, appearance: NSAppearance? = nil) {
         self.indicatorDirection = indicatorDirection
         self.autoIndicatorDirection = autoIndicatorDirection
         self.spacing = spacing
@@ -21,6 +21,7 @@ public struct PopoverConfiger {
         self.contentBackgroundView = contentBackgroundView
         self.contentEdgeInsets = contentEdgeInsets
         self.autoHidden = autoHidden
+        self.appearance = appearance
     }
     
     
@@ -49,6 +50,7 @@ public struct PopoverConfiger {
     
     public var autoHidden: Bool = false
     
+    public var appearance: NSAppearance?
 }
 
 

@@ -24,10 +24,10 @@ public class PopoverWindow: NSWindow {
         backgroundColor = .clear
     }
     
-    public convenience init(contentViewController: PopoverViewController) {
+    public convenience init(contentViewController: PopoverViewController, appearance: NSAppearance? = nil) {
         self.init(contentRect: .zero, styleMask: [.closable, .borderless], backing: .buffered, defer: true)
         self.contentViewController = contentViewController
-        
+        self.appearance = appearance ?? NSApplication.shared.mainWindow?.appearance
     }
     
     public override var canBecomeKey: Bool {
@@ -121,14 +121,19 @@ extension PopoverWindow {
         guard let contentView = contentView else {
             return
         }
-        NSAnimationContext.runAnimationGroup { context in
-            context.allowsImplicitAnimation = true
-            context.duration = 0.2
-            contentView.animator().alphaValue = 0
-            contentView.animator().layer?.setAffineTransform(.init(scaleX: 0.9, y: 0.9))
-        } completionHandler: {
-            completion?()
+        DispatchQueue.main.async {
+            contentView.layer?.position = CGPoint(x: contentView.bounds.width / 2.0, y: contentView.bounds.height / 2.0)
+            contentView.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            NSAnimationContext.runAnimationGroup { context in
+                context.allowsImplicitAnimation = true
+                context.duration = 0.2
+                contentView.animator().alphaValue = 0
+                contentView.animator().layer?.setAffineTransform(.init(scaleX: 0.9, y: 0.9))
+            } completionHandler: {
+                completion?()
+            }
         }
+        
     }
     
 }
@@ -176,13 +181,17 @@ extension PopoverWindow {
         guard let contentView = contentView else {
             return
         }
-        NSAnimationContext.runAnimationGroup { context in
-            context.allowsImplicitAnimation = true
-            context.duration = 0.2
-            contentView.animator().alphaValue = 0
-            contentView.animator().layer?.setAffineTransform(.init(scaleX: 0.9, y: 0.9))
-        } completionHandler: {
-            completion?()
+        DispatchQueue.main.async {
+            contentView.layer?.position = CGPoint(x: contentView.bounds.width / 2.0, y: contentView.bounds.height / 2.0)
+            contentView.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            NSAnimationContext.runAnimationGroup { context in
+                context.allowsImplicitAnimation = true
+                context.duration = 0.2
+                contentView.animator().alphaValue = 0
+                contentView.animator().layer?.setAffineTransform(.init(scaleX: 0.9, y: 0.9))
+            } completionHandler: {
+                completion?()
+            }
         }
     }
     
