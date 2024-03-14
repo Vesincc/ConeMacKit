@@ -57,6 +57,9 @@
 		BBC4BDE02BA2D5ED007C4813 /* Data_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDDF2BA2D5ED007C4813 /* Data_Kit.swift */; };
 		BBC4BDE32BA2D637007C4813 /* CGPoint_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDE22BA2D637007C4813 /* CGPoint_Kit.swift */; };
 		BBC4BDE62BA2D69D007C4813 /* NSTableView_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDE52BA2D69D007C4813 /* NSTableView_Kit.swift */; };
+		BBC4BDE82BA2D94E007C4813 /* NSWindow_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDE72BA2D94E007C4813 /* NSWindow_Kit.swift */; };
+		BBC4BDEB2BA2DA47007C4813 /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDEA2BA2DA47007C4813 /* DisplayLink.swift */; };
+		BBC4BDED2BA2DA66007C4813 /* ProgressGenerate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDEC2BA2DA66007C4813 /* ProgressGenerate.swift */; };
 		BBEBCAA72B832E8000849088 /* String_Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEBCAA62B832E8000849088 /* String_Bundle.swift */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +115,9 @@
 		BBC4BDDF2BA2D5ED007C4813 /* Data_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data_Kit.swift; sourceTree = "<group>"; };
 		BBC4BDE22BA2D637007C4813 /* CGPoint_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint_Kit.swift; sourceTree = "<group>"; };
 		BBC4BDE52BA2D69D007C4813 /* NSTableView_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSTableView_Kit.swift; sourceTree = "<group>"; };
+		BBC4BDE72BA2D94E007C4813 /* NSWindow_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow_Kit.swift; sourceTree = "<group>"; };
+		BBC4BDEA2BA2DA47007C4813 /* DisplayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLink.swift; sourceTree = "<group>"; };
+		BBC4BDEC2BA2DA66007C4813 /* ProgressGenerate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressGenerate.swift; sourceTree = "<group>"; };
 		BBEBCAA62B832E8000849088 /* String_Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Bundle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +160,7 @@
 		BB5198CF2B82F06A00862CD2 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				BBC4BDE92BA2D9FE007C4813 /* ProgressGenerate */,
 				BB5198D02B82F06A00862CD2 /* Setter */,
 				BB5198D22B82F06A00862CD2 /* Pace */,
 				BB5198D52B82F06A00862CD2 /* ViewBehaver */,
@@ -439,6 +446,7 @@
 		BB5199182B82F06A00862CD2 /* NSWindow */ = {
 			isa = PBXGroup;
 			children = (
+				BBC4BDE72BA2D94E007C4813 /* NSWindow_Kit.swift */,
 			);
 			path = NSWindow;
 			sourceTree = "<group>";
@@ -488,6 +496,15 @@
 			path = NSTableView;
 			sourceTree = "<group>";
 		};
+		BBC4BDE92BA2D9FE007C4813 /* ProgressGenerate */ = {
+			isa = PBXGroup;
+			children = (
+				BBC4BDEA2BA2DA47007C4813 /* DisplayLink.swift */,
+				BBC4BDEC2BA2DA66007C4813 /* ProgressGenerate.swift */,
+			);
+			path = ProgressGenerate;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -527,7 +544,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					BB5198C32B82F01000862CD2 = {
 						CreatedOnToolsVersion = 15.2;
@@ -588,6 +605,7 @@
 				BB5199252B82F06B00862CD2 /* Weak.swift in Sources */,
 				BB51992F2B82F06B00862CD2 /* GradientButton.swift in Sources */,
 				BB51991D2B82F06A00862CD2 /* Cursorable.swift in Sources */,
+				BBC4BDEB2BA2DA47007C4813 /* DisplayLink.swift in Sources */,
 				BB5199422B82F06B00862CD2 /* NSLayoutConstraint_Kit.swift in Sources */,
 				BB1D95622B849BCE00BB1F22 /* PlainTextField.swift in Sources */,
 				BB5199242B82F06A00862CD2 /* Blocked.swift in Sources */,
@@ -609,6 +627,7 @@
 				BB51992C2B82F06B00862CD2 /* Interactive.swift in Sources */,
 				BB5199272B82F06B00862CD2 /* PopoverWindow.swift in Sources */,
 				BB5199392B82F06B00862CD2 /* Array_Kit.swift in Sources */,
+				BBC4BDE82BA2D94E007C4813 /* NSWindow_Kit.swift in Sources */,
 				BB5199372B82F06B00862CD2 /* CenterTextFieldCell.swift in Sources */,
 				BB51992B2B82F06B00862CD2 /* InteractiveLabel.swift in Sources */,
 				BB5199192B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift in Sources */,
@@ -617,6 +636,7 @@
 				BB51993E2B82F06B00862CD2 /* String_Kit.swift in Sources */,
 				BB5199442B82F06B00862CD2 /* NSButton_Kit.swift in Sources */,
 				BB5199232B82F06A00862CD2 /* UserDefaulted.swift in Sources */,
+				BBC4BDED2BA2DA66007C4813 /* ProgressGenerate.swift in Sources */,
 				BB5199332B82F06B00862CD2 /* SheetWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -659,6 +679,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -678,7 +699,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -725,6 +746,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -738,7 +760,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -752,9 +774,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DVC68VF78L;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -786,9 +810,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DVC68VF78L;
 				DYLIB_COMPATIBILITY_VERSION = 1;
