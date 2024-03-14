@@ -1,13 +1,13 @@
+////
+////  File.swift
+////  
+////
+////  Created by HanQi on 2023/11/6.
+////
 //
-//  File.swift
-//  
+//import Foundation
+//import Cocoa
 //
-//  Created by HanQi on 2023/11/6.
-//
-
-import Foundation
-import Cocoa
-
 //fileprivate extension NSView {
 //    
 //    func wantsLayerIfNeed() {
