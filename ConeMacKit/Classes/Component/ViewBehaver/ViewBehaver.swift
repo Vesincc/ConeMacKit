@@ -129,7 +129,7 @@ public struct ViewBehaverWrapper<Base: NSView> {
         }
         let type = method_getTypeEncoding(originalMethod)
         let block: @convention(block) (NSObject) -> Void = { o in
-            guard let v = o as? NSView else {
+            guard let v = o as? NSView, v.viewBehaver.isUserInteractionEnabled else {
                 return
             }
             let op = #selector(Base.updateTrackingAreas)
