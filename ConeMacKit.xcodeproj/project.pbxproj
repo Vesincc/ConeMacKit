@@ -53,6 +53,12 @@
 		BB5199422B82F06B00862CD2 /* NSLayoutConstraint_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5199122B82F06A00862CD2 /* NSLayoutConstraint_Kit.swift */; };
 		BB5199432B82F06B00862CD2 /* NSColor_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5199142B82F06A00862CD2 /* NSColor_Kit.swift */; };
 		BB5199442B82F06B00862CD2 /* NSButton_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5199162B82F06A00862CD2 /* NSButton_Kit.swift */; };
+		BB6F03042BC52D040048C5AE /* URL_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F03032BC52D040048C5AE /* URL_Kit.swift */; };
+		BB6F03072BC535390048C5AE /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F03062BC535390048C5AE /* CGSize.swift */; };
+		BB6F030A2BC537870048C5AE /* NSFont_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F03092BC537870048C5AE /* NSFont_Kit.swift */; };
+		BB6F030D2BC539170048C5AE /* ConeSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F030C2BC539170048C5AE /* ConeSwitch.swift */; };
+		BB6F03102BC539E60048C5AE /* ConeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F030F2BC539E60048C5AE /* ConeSlider.swift */; };
+		BB6F03332BC544990048C5AE /* LineProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F03322BC544990048C5AE /* LineProgressView.swift */; };
 		BBC4BDDD2BA2D59D007C4813 /* ListViewRegisterViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDDC2BA2D59D007C4813 /* ListViewRegisterViewProtocol.swift */; };
 		BBC4BDE02BA2D5ED007C4813 /* Data_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDDF2BA2D5ED007C4813 /* Data_Kit.swift */; };
 		BBC4BDE32BA2D637007C4813 /* CGPoint_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC4BDE22BA2D637007C4813 /* CGPoint_Kit.swift */; };
@@ -111,6 +117,12 @@
 		BB5199122B82F06A00862CD2 /* NSLayoutConstraint_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraint_Kit.swift; sourceTree = "<group>"; };
 		BB5199142B82F06A00862CD2 /* NSColor_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColor_Kit.swift; sourceTree = "<group>"; };
 		BB5199162B82F06A00862CD2 /* NSButton_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSButton_Kit.swift; sourceTree = "<group>"; };
+		BB6F03032BC52D040048C5AE /* URL_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL_Kit.swift; sourceTree = "<group>"; };
+		BB6F03062BC535390048C5AE /* CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
+		BB6F03092BC537870048C5AE /* NSFont_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFont_Kit.swift; sourceTree = "<group>"; };
+		BB6F030C2BC539170048C5AE /* ConeSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeSwitch.swift; sourceTree = "<group>"; };
+		BB6F030F2BC539E60048C5AE /* ConeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeSlider.swift; sourceTree = "<group>"; };
+		BB6F03322BC544990048C5AE /* LineProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineProgressView.swift; sourceTree = "<group>"; };
 		BBC4BDDC2BA2D59D007C4813 /* ListViewRegisterViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewRegisterViewProtocol.swift; sourceTree = "<group>"; };
 		BBC4BDDF2BA2D5ED007C4813 /* Data_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data_Kit.swift; sourceTree = "<group>"; };
 		BBC4BDE22BA2D637007C4813 /* CGPoint_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPoint_Kit.swift; sourceTree = "<group>"; };
@@ -212,6 +224,9 @@
 		BB5198E02B82F06A00862CD2 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				BB6F03312BC5448A0048C5AE /* ProgressView */,
+				BB6F030E2BC539B90048C5AE /* Slider */,
+				BB6F030B2BC538AB0048C5AE /* Switch */,
 				BB5198E12B82F06A00862CD2 /* SecurePlainTextField */,
 				BB5198E32B82F06A00862CD2 /* Popover */,
 				BB5198E82B82F06A00862CD2 /* InteractiveView */,
@@ -310,6 +325,7 @@
 		BB5198FC2B82F06A00862CD2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				BB6F03022BC52CEA0048C5AE /* URL */,
 				BBC4BDDE2BA2D5E3007C4813 /* Data */,
 				BB5198FD2B82F06A00862CD2 /* Collection */,
 				BB5198FF2B82F06A00862CD2 /* Array */,
@@ -318,6 +334,7 @@
 				BB5199052B82F06A00862CD2 /* Bool */,
 				BB5199072B82F06A00862CD2 /* CGRect */,
 				BBC4BDE12BA2D62D007C4813 /* CGPoint */,
+				BB6F03052BC535270048C5AE /* CGSize */,
 				BB5199092B82F06A00862CD2 /* String */,
 				BB51990C2B82F06A00862CD2 /* NSObject */,
 			);
@@ -393,6 +410,7 @@
 		BB51990E2B82F06A00862CD2 /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
+				BB6F03082BC537720048C5AE /* NSFont */,
 				BBC4BDE42BA2D690007C4813 /* NSTableView */,
 				BB51990F2B82F06A00862CD2 /* NSBezierPath */,
 				BB5199112B82F06A00862CD2 /* NSLayoutConstraint */,
@@ -462,6 +480,54 @@
 				BB5198CE2B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		BB6F03022BC52CEA0048C5AE /* URL */ = {
+			isa = PBXGroup;
+			children = (
+				BB6F03032BC52D040048C5AE /* URL_Kit.swift */,
+			);
+			path = URL;
+			sourceTree = "<group>";
+		};
+		BB6F03052BC535270048C5AE /* CGSize */ = {
+			isa = PBXGroup;
+			children = (
+				BB6F03062BC535390048C5AE /* CGSize.swift */,
+			);
+			path = CGSize;
+			sourceTree = "<group>";
+		};
+		BB6F03082BC537720048C5AE /* NSFont */ = {
+			isa = PBXGroup;
+			children = (
+				BB6F03092BC537870048C5AE /* NSFont_Kit.swift */,
+			);
+			path = NSFont;
+			sourceTree = "<group>";
+		};
+		BB6F030B2BC538AB0048C5AE /* Switch */ = {
+			isa = PBXGroup;
+			children = (
+				BB6F030C2BC539170048C5AE /* ConeSwitch.swift */,
+			);
+			path = Switch;
+			sourceTree = "<group>";
+		};
+		BB6F030E2BC539B90048C5AE /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				BB6F030F2BC539E60048C5AE /* ConeSlider.swift */,
+			);
+			path = Slider;
+			sourceTree = "<group>";
+		};
+		BB6F03312BC5448A0048C5AE /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				BB6F03322BC544990048C5AE /* LineProgressView.swift */,
+			);
+			path = ProgressView;
 			sourceTree = "<group>";
 		};
 		BBC4BDDB2BA2D58C007C4813 /* Protocols */ = {
@@ -594,6 +660,7 @@
 				BB51993B2B82F06B00862CD2 /* Dictionary_Kit.swift in Sources */,
 				BBC4BDE62BA2D69D007C4813 /* NSTableView_Kit.swift in Sources */,
 				BB51991E2B82F06A00862CD2 /* MouseTracker.swift in Sources */,
+				BB6F03332BC544990048C5AE /* LineProgressView.swift in Sources */,
 				BB5199212B82F06A00862CD2 /* Keychained.swift in Sources */,
 				BB5199362B82F06B00862CD2 /* CenterSecureTextFieldCell.swift in Sources */,
 				BBC4BDE02BA2D5ED007C4813 /* Data_Kit.swift in Sources */,
@@ -607,8 +674,10 @@
 				BB51991D2B82F06A00862CD2 /* Cursorable.swift in Sources */,
 				BBC4BDEB2BA2DA47007C4813 /* DisplayLink.swift in Sources */,
 				BB5199422B82F06B00862CD2 /* NSLayoutConstraint_Kit.swift in Sources */,
+				BB6F03072BC535390048C5AE /* CGSize.swift in Sources */,
 				BB1D95622B849BCE00BB1F22 /* PlainTextField.swift in Sources */,
 				BB5199242B82F06A00862CD2 /* Blocked.swift in Sources */,
+				BB6F03042BC52D040048C5AE /* URL_Kit.swift in Sources */,
 				BB51993D2B82F06B00862CD2 /* CGRect_Kit.swift in Sources */,
 				BB51991B2B82F06A00862CD2 /* Pace_Zip.swift in Sources */,
 				BB51992E2B82F06B00862CD2 /* InteractiveView.swift in Sources */,
@@ -625,13 +694,16 @@
 				BB5199342B82F06B00862CD2 /* NSViewController_Sheet.swift in Sources */,
 				BB5199432B82F06B00862CD2 /* NSColor_Kit.swift in Sources */,
 				BB51992C2B82F06B00862CD2 /* Interactive.swift in Sources */,
+				BB6F030A2BC537870048C5AE /* NSFont_Kit.swift in Sources */,
 				BB5199272B82F06B00862CD2 /* PopoverWindow.swift in Sources */,
 				BB5199392B82F06B00862CD2 /* Array_Kit.swift in Sources */,
 				BBC4BDE82BA2D94E007C4813 /* NSWindow_Kit.swift in Sources */,
 				BB5199372B82F06B00862CD2 /* CenterTextFieldCell.swift in Sources */,
+				BB6F030D2BC539170048C5AE /* ConeSwitch.swift in Sources */,
 				BB51992B2B82F06B00862CD2 /* InteractiveLabel.swift in Sources */,
 				BB5199192B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift in Sources */,
 				BB51992D2B82F06B00862CD2 /* InteractiveButton.swift in Sources */,
+				BB6F03102BC539E60048C5AE /* ConeSlider.swift in Sources */,
 				BB51992A2B82F06B00862CD2 /* PopoverViewController.swift in Sources */,
 				BB51993E2B82F06B00862CD2 /* String_Kit.swift in Sources */,
 				BB5199442B82F06B00862CD2 /* NSButton_Kit.swift in Sources */,

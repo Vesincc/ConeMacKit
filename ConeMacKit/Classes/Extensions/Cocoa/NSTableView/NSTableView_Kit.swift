@@ -9,6 +9,5 @@ import Cocoa
  
 public extension NSTableView {
     
-
-    
+ 
 }

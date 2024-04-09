@@ -67,9 +67,27 @@ public extension String {
     }
     
     
-    static var sysDocument : String? {
+    static var sysDocument: String? {
         let docPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path
         return docPath
+    }
+    
+    static var sysDocumentApp: String? {
+        let doc = sysDocument
+        guard let bundleName = bundleName else {
+            return nil
+        }
+        guard let docApp = (doc as NSString?)?.appendingPathComponent(bundleName) else {
+            return nil
+        }
+        if !FileManager.default.fileExists(atPath: docApp) {
+            do {
+                try FileManager.default.createDirectory(atPath: docApp, withIntermediateDirectories: true, attributes: nil)
+            }catch {
+                print("[DYDebug] create directory at:\(docApp) failed")
+            }
+        }
+        return docApp
     }
     
     static var sandboxTmp : String? {

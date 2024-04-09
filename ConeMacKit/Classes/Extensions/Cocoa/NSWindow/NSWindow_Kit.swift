@@ -30,6 +30,7 @@ public extension NSWindow {
             y: origin.y - ceil((currentSize.height - aligmentSize.height) / 2.0) + (offset?.y ?? 0),
             width: currentSize.width,
             height: currentSize.height), display: true)
+        
     }
     
 }
