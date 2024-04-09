@@ -36,6 +36,7 @@ public extension NSWindow {
             windowToPresent.makeKeyAndOrderFront(nil)
         }
         (windowToPresent as? SheetWindow)?.style = style
+        windowToPresent.preventsApplicationTerminationWhenModal = false
         completion?()
     }
     

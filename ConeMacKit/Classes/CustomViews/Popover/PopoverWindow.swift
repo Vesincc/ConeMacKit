@@ -8,17 +8,17 @@
 import Foundation
 import Cocoa
 
-public class PopoverWindow: NSWindow {
+open class PopoverWindow: NSWindow {
     
-    var style: WindowPopoverStyle = .none {
+    open var style: WindowPopoverStyle = .none {
         didSet {
             configerStyle()
         }
     }
     
-    var localMonitore: Any?
+    open var localMonitore: Any?
     
-    override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
+    public override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
         super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
         appearance = NSAppearance(named: .aqua)
         backgroundColor = .clear
@@ -33,7 +33,6 @@ public class PopoverWindow: NSWindow {
     public override var canBecomeKey: Bool {
         true
     }
-    
     
     deinit {
         if let localMonitore = localMonitore {

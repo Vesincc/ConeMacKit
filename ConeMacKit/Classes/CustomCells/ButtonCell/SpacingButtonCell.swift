@@ -10,6 +10,10 @@ import Cocoa
 
 
 public class SpacingButtonCell: NSButtonCell {
+    
+    @IBInspectable public var imageYOffset: CGFloat = 0
+    
+    @IBInspectable public var titleYOffset: CGFloat = 0
 
 
     @IBInspectable public var spacing: CGFloat = 0
@@ -69,7 +73,7 @@ public class SpacingButtonCell: NSButtonCell {
         let offset = resizeContentOffset(at: rect)
 
         let xSpacing = max(floor(targetSize.width - contentSize.width) / 2.0, 0)
-        let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0)
+        let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0) + imageYOffset
         switch alignment {
         case .left:
             return CGRect(
@@ -102,7 +106,7 @@ public class SpacingButtonCell: NSButtonCell {
         let offset = resizeContentOffset(at: rect)
         
         let xSpacing = max(floor(targetSize.width - contentSize.width) / 2.0, 0)
-        let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0)
+        let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0) + titleYOffset
         switch alignment {
         case .left:
             return CGRect(

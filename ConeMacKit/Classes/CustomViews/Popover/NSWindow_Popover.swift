@@ -30,6 +30,7 @@ public extension NSWindow {
         }
         windowToPresent.makeKeyAndOrderFront(nil)
         windowToPresent.style = style
+        windowToPresent.preventsApplicationTerminationWhenModal = false
         completion?()
     }
     
