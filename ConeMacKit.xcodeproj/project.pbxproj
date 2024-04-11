@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BB1D95622B849BCE00BB1F22 /* PlainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1D95612B849BCE00BB1F22 /* PlainTextField.swift */; };
+		BB3306CF2BC6382B008A5249 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3306CE2BC6382B008A5249 /* ProgressHUD.swift */; };
 		BB5198C82B82F01000862CD2 /* ConeMacKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BB5198C72B82F01000862CD2 /* ConeMacKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BB5199192B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5198CE2B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift */; };
 		BB51991A2B82F06A00862CD2 /* Setter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5198D12B82F06A00862CD2 /* Setter.swift */; };
@@ -71,6 +72,7 @@
 
 /* Begin PBXFileReference section */
 		BB1D95612B849BCE00BB1F22 /* PlainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainTextField.swift; sourceTree = "<group>"; };
+		BB3306CE2BC6382B008A5249 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		BB5198C42B82F01000862CD2 /* ConeMacKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ConeMacKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB5198C72B82F01000862CD2 /* ConeMacKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConeMacKit.h; sourceTree = "<group>"; };
 		BB5198CE2B82F06A00862CD2 /* InterfaceBuilder_Duplicates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceBuilder_Duplicates.swift; sourceTree = "<group>"; };
@@ -144,6 +146,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BB3306CD2BC636E7008A5249 /* ProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				BB3306CE2BC6382B008A5249 /* ProgressHUD.swift */,
+			);
+			path = ProgressHUD;
+			sourceTree = "<group>";
+		};
 		BB5198BA2B82F01000862CD2 = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +234,7 @@
 		BB5198E02B82F06A00862CD2 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				BB3306CD2BC636E7008A5249 /* ProgressHUD */,
 				BB6F03312BC5448A0048C5AE /* ProgressView */,
 				BB6F030E2BC539B90048C5AE /* Slider */,
 				BB6F030B2BC538AB0048C5AE /* Switch */,
@@ -689,6 +700,7 @@
 				BB5199322B82F06B00862CD2 /* NSWindow_Sheet.swift in Sources */,
 				BB5199412B82F06B00862CD2 /* NSBezierPath_Kit.swift in Sources */,
 				BB51991C2B82F06A00862CD2 /* Pace.swift in Sources */,
+				BB3306CF2BC6382B008A5249 /* ProgressHUD.swift in Sources */,
 				BB5199222B82F06A00862CD2 /* Notificated.swift in Sources */,
 				BBC4BDE32BA2D637007C4813 /* CGPoint_Kit.swift in Sources */,
 				BB5199342B82F06B00862CD2 /* NSViewController_Sheet.swift in Sources */,
