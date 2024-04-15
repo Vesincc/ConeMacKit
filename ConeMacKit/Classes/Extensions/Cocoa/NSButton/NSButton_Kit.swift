@@ -35,6 +35,7 @@ public extension NSButton {
         newCell.showsBorderOnlyWhileMouseInside = oldCell.showsBorderOnlyWhileMouseInside
         newCell.highlightsBy = oldCell.highlightsBy
         newCell.sound = oldCell.sound
+        newCell.image = oldCell.image
         
         /// nscell
         newCell.type = oldCell.type
