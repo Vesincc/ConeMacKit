@@ -105,7 +105,7 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
         }
     }
     
-    public func interactiveStateDidChanged(lastState: Interactive.State) {
+    open func interactiveStateDidChanged(lastState: Interactive.State) {
         let priority = statePriority(for: interactiveState)
         if adapterValue(in: interactiveCursors, for: priority) != nil {
             window?.invalidateCursorRects(for: self)
