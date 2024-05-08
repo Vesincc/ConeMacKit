@@ -50,9 +50,9 @@ public class Interactive {
             case .vertical:
                 return ((CGPoint(x: 0.5, y: 1), CGPoint(x: 0.5, y: 0)), [0, 1])
             case .obliqueUpward:
-                return ((CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 0)), [0, 1])
-            case .obliqueDescent:
                 return ((CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 1)), [0, 1])
+            case .obliqueDescent:
+                return ((CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 0)), [0, 1])
             }
         }
     }
