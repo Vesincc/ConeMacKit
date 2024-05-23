@@ -142,6 +142,16 @@ open class SecurePlainTextField: NSSecureTextField {
         }
     }
     
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        DispatchQueue.main.async {
+            // 取消第一响应者状态
+            if self.window?.firstResponder == self.currentEditor() {
+                self.window?.makeFirstResponder(nil)
+            }
+        }
+    }
+    
     public func clearSelect() {
         let str = self.cell?.stringValue ?? ""
         selectText(NSRange(location: str.count, length: 0))
