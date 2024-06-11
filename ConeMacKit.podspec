@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "ConeMacKit"
-  spec.version      = "1.0.9"
+  spec.version      = "1.0.10"
   spec.summary      = "Mac 开发基础组件"
 
   # This description is used to generate tags and improve search results.
