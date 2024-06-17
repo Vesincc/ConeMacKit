@@ -55,7 +55,7 @@
 		BB5199432B82F06B00862CD2 /* NSColor_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5199142B82F06A00862CD2 /* NSColor_Kit.swift */; };
 		BB5199442B82F06B00862CD2 /* NSButton_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5199162B82F06A00862CD2 /* NSButton_Kit.swift */; };
 		BB6F03042BC52D040048C5AE /* URL_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F03032BC52D040048C5AE /* URL_Kit.swift */; };
-		BB6F03072BC535390048C5AE /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F03062BC535390048C5AE /* CGSize.swift */; };
+		BB6F03072BC535390048C5AE /* CGSize_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F03062BC535390048C5AE /* CGSize_Kit.swift */; };
 		BB6F030A2BC537870048C5AE /* NSFont_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F03092BC537870048C5AE /* NSFont_Kit.swift */; };
 		BB6F030D2BC539170048C5AE /* ConeSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F030C2BC539170048C5AE /* ConeSwitch.swift */; };
 		BB6F03102BC539E60048C5AE /* ConeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F030F2BC539E60048C5AE /* ConeSlider.swift */; };
@@ -120,7 +120,7 @@
 		BB5199142B82F06A00862CD2 /* NSColor_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColor_Kit.swift; sourceTree = "<group>"; };
 		BB5199162B82F06A00862CD2 /* NSButton_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSButton_Kit.swift; sourceTree = "<group>"; };
 		BB6F03032BC52D040048C5AE /* URL_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL_Kit.swift; sourceTree = "<group>"; };
-		BB6F03062BC535390048C5AE /* CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
+		BB6F03062BC535390048C5AE /* CGSize_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSize_Kit.swift; sourceTree = "<group>"; };
 		BB6F03092BC537870048C5AE /* NSFont_Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFont_Kit.swift; sourceTree = "<group>"; };
 		BB6F030C2BC539170048C5AE /* ConeSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeSwitch.swift; sourceTree = "<group>"; };
 		BB6F030F2BC539E60048C5AE /* ConeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeSlider.swift; sourceTree = "<group>"; };
@@ -504,7 +504,7 @@
 		BB6F03052BC535270048C5AE /* CGSize */ = {
 			isa = PBXGroup;
 			children = (
-				BB6F03062BC535390048C5AE /* CGSize.swift */,
+				BB6F03062BC535390048C5AE /* CGSize_Kit.swift */,
 			);
 			path = CGSize;
 			sourceTree = "<group>";
@@ -685,7 +685,7 @@
 				BB51991D2B82F06A00862CD2 /* Cursorable.swift in Sources */,
 				BBC4BDEB2BA2DA47007C4813 /* DisplayLink.swift in Sources */,
 				BB5199422B82F06B00862CD2 /* NSLayoutConstraint_Kit.swift in Sources */,
-				BB6F03072BC535390048C5AE /* CGSize.swift in Sources */,
+				BB6F03072BC535390048C5AE /* CGSize_Kit.swift in Sources */,
 				BB1D95622B849BCE00BB1F22 /* PlainTextField.swift in Sources */,
 				BB5199242B82F06A00862CD2 /* Blocked.swift in Sources */,
 				BB6F03042BC52D040048C5AE /* URL_Kit.swift in Sources */,

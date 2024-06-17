@@ -18,10 +18,10 @@ public extension CGSize {
         let inViewRatio = rect.width / rect.height
         if inViewRatio > ratio {
             newSize = NSSize(width: ratio * rect.height, height: rect.height)
-        }else {
+        } else {
             newSize = NSSize(width: rect.width, height: rect.width / ratio)
         }
-        return center(in: CGRect(origin: .zero, size: newSize))
+        return newSize.center(in: CGRect(origin: .zero, size: rect.size))
     }
     
     /// 居中
