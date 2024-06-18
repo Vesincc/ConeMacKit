@@ -8,7 +8,7 @@
 import Foundation
 import QuartzCore
 
-protocol ProgressGenerateProtocol {
+public protocol ProgressGenerateProtocol {
     func progressForm(_ startValue: CGFloat, to endValue: CGFloat, with duration: TimeInterval)
     func progress(to endValue: CGFloat, with duration: TimeInterval)
     
@@ -28,11 +28,11 @@ public class ProgressGenerate: NSObject {
     
     private var timer: CADisplayLink?
     
-    var isProgressing: Bool {
+    public var isProgressing: Bool {
         timer != nil
     }
     
-    var progress: CGFloat {
+    public var progress: CGFloat {
         guard totalDuration != 0 else { return 1 }
         return CGFloat(currentDuration / totalDuration)
     }
@@ -85,7 +85,7 @@ public class ProgressGenerate: NSObject {
 }
 
 extension ProgressGenerate: ProgressGenerateProtocol {
-    func progressForm(_ startValue: CGFloat, to endValue: CGFloat, with duration: TimeInterval) {
+    public func progressForm(_ startValue: CGFloat, to endValue: CGFloat, with duration: TimeInterval) {
         fromValue = startValue
         toValue = endValue
         
@@ -109,21 +109,21 @@ extension ProgressGenerate: ProgressGenerateProtocol {
         self.timer = timer
     }
     
-    func progress(to endValue: CGFloat, with duration: TimeInterval) {
+    public func progress(to endValue: CGFloat, with duration: TimeInterval) {
         progressForm(currentValue, to: endValue, with: duration)
     }
     
-    func stopProgress() {
+    public func stopProgress() {
         invalidate()
         updateBlock?(currentValue)
     }
 }
 
-protocol ProgressGenerateHelper: AnyObject, ProgressGenerateProtocol {
+public protocol ProgressGenerateHelper: AnyObject, ProgressGenerateProtocol {
     var progresser: ProgressGenerate { get }
 }
 
-extension ProgressGenerateHelper {
+public extension ProgressGenerateHelper {
     func setUpdateBlock(_ block: ((_ value: CGFloat, _ sender: Self) -> Void)?) {
         if let block = block {
             progresser.updateBlock = { [weak self] value in

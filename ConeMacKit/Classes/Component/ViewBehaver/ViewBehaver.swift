@@ -76,28 +76,29 @@ public struct ViewBehaverWrapper<Base: NSView> {
                 s.detachesHiddenViews = false
             }
         }
-        createNewClassIfNeed()
-        if let s = base.superview as? NSStackView, let temp = temp, s.detachesHiddenViews != temp {
+        let isChangedClass = createNewClassIfNeed()
+        if isChangedClass, let s = base.superview as? NSStackView, let temp = temp, s.detachesHiddenViews != temp {
             s.detachesHiddenViews = temp
         }
     }
      
     
-    private func createNewClassIfNeed() {
+    private func createNewClassIfNeed() -> Bool {
         let classNamePrefix = "ViewBehaverWrapper.Class."
         guard let originalClass: AnyClass = object_getClass(base) else {
-            return
+            return false
         }
         let className = NSStringFromClass(originalClass)
         if className.hasPrefix(classNamePrefix) {
-            return
+            return false
         }
         let newClassName = "\(classNamePrefix)\(originalClass)"
         if let newClass = NSClassFromString(newClassName) {
             object_setClass(base, newClass)
+            return true
         } else {
             guard let newClass: AnyClass = objc_allocateClassPair(originalClass, newClassName, 0) else {
-                return
+                return false
             }
             let sel = NSSelectorFromString("class")
             if let originalMethod = class_getInstanceMethod(originalClass, sel) {
@@ -117,7 +118,7 @@ public struct ViewBehaverWrapper<Base: NSView> {
              
             objc_registerClassPair(newClass)
             object_setClass(base, newClass)
-              
+            return true
         }
     }
      
