@@ -8,8 +8,9 @@
 import Cocoa
 
 public struct PopoverConfiger {
-    public init(indicatorDirection: WindowPopoverDirection, autoIndicatorDirection: Bool = true, spacing: CGFloat = 10, indicatorHeight: CGFloat = 8, indicatorWidth: CGFloat = 10, indicatorOffset: CGPoint = .zero, cornerRadius: CGFloat = 0, backgroundView: NSView? = nil, backgroundPadding: CGFloat = 0, contentBackgroundView: NSView? = nil, contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), autoHidden: Bool = false, appearance: NSAppearance? = nil) {
+    public init(indicatorDirection: WindowPopoverDirection, indicatorAlignment: PopoverDirectionAlignment = .center, autoIndicatorDirection: Bool = true, spacing: CGFloat = 10, indicatorHeight: CGFloat = 8, indicatorWidth: CGFloat = 10, indicatorOffset: CGPoint = .zero, cornerRadius: CGFloat = 0, backgroundView: NSView? = nil, backgroundPadding: CGFloat = 0, contentBackgroundView: NSView? = nil, contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), autoHidden: Bool = false, appearance: NSAppearance? = nil) {
         self.indicatorDirection = indicatorDirection
+        self.indicatorAlignment = indicatorAlignment
         self.autoIndicatorDirection = autoIndicatorDirection
         self.spacing = spacing
         self.indicatorHeight = indicatorHeight
@@ -24,6 +25,7 @@ public struct PopoverConfiger {
         self.appearance = appearance
     }
     
+    public var indicatorAlignment: PopoverDirectionAlignment = .center
     
     public var indicatorDirection: WindowPopoverDirection = .bottom
     
@@ -141,11 +143,11 @@ open class PopoverViewController: NSViewController {
     open override func viewDidLayout() {
         super.viewDidLayout()
         
-        addIndicator(at: backgroundView, direction: direction, width: configer.indicatorWidth, height: configer.indicatorHeight, cornerRadius: configer.cornerRadius, offset: configer.indicatorOffset)
-        addIndicator(at: contentBackgroundView, direction: direction, width: configer.indicatorWidth, height: configer.indicatorHeight, cornerRadius: configer.cornerRadius, offset: configer.indicatorOffset)
+        addIndicator(at: backgroundView, direction: direction, width: configer.indicatorWidth, height: configer.indicatorHeight, cornerRadius: configer.cornerRadius, offset: configer.indicatorOffset, aligment: configer.indicatorAlignment)
+        addIndicator(at: contentBackgroundView, direction: direction, width: configer.indicatorWidth, height: configer.indicatorHeight, cornerRadius: configer.cornerRadius, offset: configer.indicatorOffset, aligment: configer.indicatorAlignment)
     }
     
-    func addIndicator(at view: NSView?, direction: WindowPopoverDirection, width: CGFloat, height: CGFloat, cornerRadius: CGFloat, offset: CGPoint) {
+    func addIndicator(at view: NSView?, direction: WindowPopoverDirection, width: CGFloat, height: CGFloat, cornerRadius: CGFloat, offset: CGPoint, aligment: PopoverDirectionAlignment) {
         guard let view = view else {
             return
         }
@@ -268,7 +270,15 @@ extension PopoverViewController {
         let topDirection = { [unowned self] in
             let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right, height: contentViewSize.height + configer.spacing + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom + configer.indicatorHeight * 2)
             targetFrame.size = size
-            let sizeOffset = CGSize(width: (sourceFrameInWindow.width - size.width) / 2.0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+            var sizeOffset: CGSize = .zero
+            switch configer.indicatorAlignment {
+            case .center:
+                sizeOffset = CGSize(width: (sourceFrameInWindow.width - size.width) / 2.0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+            case .leading:
+                sizeOffset = CGSize(width: 0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+            case .trailing:
+                sizeOffset = CGSize(width: sourceFrameInWindow.width - size.width, height: (sourceFrameInWindow.height - size.height) / 2.0)
+            }
             targetFrame.origin = CGPoint(x: sourceFrameInWindow.origin.x + sizeOffset.width - configer.indicatorOffset.x, y: sourceFrameInWindow.minY - size.height)
             direction = .top
         }
@@ -289,7 +299,15 @@ extension PopoverViewController {
         let bottomDirection = { [unowned self] in
             let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right, height: contentViewSize.height + configer.spacing + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom + configer.indicatorHeight * 2)
             targetFrame.size = size
-            let sizeOffset = CGSize(width: (sourceFrameInWindow.width - size.width) / 2.0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+            var sizeOffset: CGSize = .zero
+            switch configer.indicatorAlignment {
+            case .center:
+                sizeOffset = CGSize(width: (sourceFrameInWindow.width - size.width) / 2.0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+            case .leading:
+                sizeOffset = CGSize(width: 0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+            case .trailing:
+                sizeOffset = CGSize(width: sourceFrameInWindow.width - size.width, height: (sourceFrameInWindow.height - size.height) / 2.0)
+            }
             targetFrame.origin = CGPoint(x: sourceFrameInWindow.origin.x + sizeOffset.width - configer.indicatorOffset.x, y: sourceFrameInWindow.maxY)
             direction = .bottom
         }

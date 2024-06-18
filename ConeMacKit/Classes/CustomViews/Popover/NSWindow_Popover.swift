@@ -15,6 +15,12 @@ public enum WindowPopoverDirection {
     case bottom
 }
 
+public enum PopoverDirectionAlignment {
+    case center
+    case leading
+    case trailing
+}
+
 public enum WindowPopoverStyle {
     case none
     case popup
