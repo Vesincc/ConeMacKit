@@ -10,8 +10,8 @@ import Cocoa
 
 public extension NSViewController {
      
-    func present(_ viewControllerToPresent: NSViewController, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) {
-        view.window?.present(viewControllerToPresent, style: style, appearance: appearance, completion: completion)
+    func present(_ viewControllerToPresent: NSViewController, isEnableStandardButton: Bool = true, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) {
+        view.window?.present(viewControllerToPresent, isEnableStandardButton: isEnableStandardButton, style: style, appearance: appearance, completion: completion)
     }
     
     func dismiss(completion: (() -> ())?) {

@@ -76,13 +76,13 @@ public struct ViewBehaverWrapper<Base: NSView> {
                 s.detachesHiddenViews = false
             }
         }
-        let isChangedClass = createNewClassIfNeed()
-        if isChangedClass, let s = base.superview as? NSStackView, let temp = temp, s.detachesHiddenViews != temp {
+        createNewClassIfNeed()
+        if let s = base.superview as? NSStackView, let temp = temp, s.detachesHiddenViews != temp {
             s.detachesHiddenViews = temp
         }
     }
      
-    
+    @discardableResult
     private func createNewClassIfNeed() -> Bool {
         let classNamePrefix = "ViewBehaverWrapper.Class."
         guard let originalClass: AnyClass = object_getClass(base) else {

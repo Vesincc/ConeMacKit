@@ -21,9 +21,25 @@ public enum WindowPresentStyle {
     
 }
 
+
+public extension NSWindow {
+    
+    private static var _standardButtonEnableTemp = 1
+    fileprivate var standardButtonEnableTemp: [String : Any]? {
+        get {
+            objc_getAssociatedObject(self, &NSWindow._standardButtonEnableTemp) as? [String : Any]
+        }
+        set {
+            objc_setAssociatedObject(self, &NSWindow._standardButtonEnableTemp, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+    
+}
+
+
 public extension NSWindow {
      
-    func present(_ windowToPresent: NSWindow, style: WindowPresentStyle, completion: (() -> ())? = nil) {
+    func present(_ windowToPresent: NSWindow, isEnableStandardButton: Bool = true, style: WindowPresentStyle, completion: (() -> ())? = nil) {
         switch style {
         case .sheet:
             beginSheet(windowToPresent)
@@ -35,16 +51,51 @@ public extension NSWindow {
             windowToPresent.setFrame(CGRect(origin: CGPoint(x: frame.origin.x + sizeOffset.width, y: frame.origin.y + sizeOffset.height), size: windowToPresent.frame.size), display: true)
             windowToPresent.makeKeyAndOrderFront(nil)
         }
+        if !isEnableStandardButton {
+            var temp: [String : Any] = [:]
+            if let button = standardWindowButton(.zoomButton) {
+                temp["zoomButton"] = button.isEnabled
+                standardWindowButton(.zoomButton)?.isEnabled = false
+            }
+            if let button = standardWindowButton(.closeButton) {
+                temp["closeButton"] = button.isEnabled
+                standardWindowButton(.closeButton)?.isEnabled = false
+            }
+            if let button = standardWindowButton(.miniaturizeButton) {
+                temp["miniaturizeButton"] = button.isEnabled
+                standardWindowButton(.miniaturizeButton)?.isEnabled = false
+            }
+            if styleMask.contains(.resizable) {
+                temp["styleMask.resizable"] = true
+                styleMask.remove(.resizable)
+            }
+            standardButtonEnableTemp = temp
+        }
         (windowToPresent as? SheetWindow)?.style = style
         windowToPresent.preventsApplicationTerminationWhenModal = false
         completion?()
     }
     
-    func present(_ viewControllerToPresent: NSViewController, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) {
-        present(SheetWindow(contentViewController: viewControllerToPresent, appearance: appearance), style: style, completion: completion)
+    func present(_ viewControllerToPresent: NSViewController, isEnableStandardButton: Bool = true, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) {
+        present(SheetWindow(contentViewController: viewControllerToPresent, appearance: appearance), isEnableStandardButton: isEnableStandardButton, style: style, completion: completion)
     }
     
     func dismiss(completion: (() -> ())?) {
+        if let temp = standardButtonEnableTemp {
+            if let zoomButton = temp["zoomButton"] as? Bool {
+                standardWindowButton(.zoomButton)?.isEnabled = zoomButton
+            }
+            if let closeButton = temp["closeButton"] as? Bool {
+                standardWindowButton(.closeButton)?.isEnabled = closeButton
+            }
+            if let miniaturizeButton = temp["miniaturizeButton"] as? Bool {
+                standardWindowButton(.miniaturizeButton)?.isEnabled = miniaturizeButton
+            }
+            if let resizable = temp["styleMask.resizable"] as? Bool, resizable == true {
+                styleMask.insert(.resizable)
+            }
+            standardButtonEnableTemp = nil
+        }
         if let sheetWindow = self as? SheetWindow {
             sheetWindow.closeWindow(completion: completion)
         } else if let sheetParent = sheetParent {

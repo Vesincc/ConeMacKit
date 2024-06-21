@@ -28,6 +28,10 @@ public extension SheetWindowCloseProtocol {
         .zero
     }
     
+    func closeAction(sender: NSButton) {
+        dismiss(completion: nil)
+    }
+    
 }
 
 public class SheetWindow: NSWindow {
