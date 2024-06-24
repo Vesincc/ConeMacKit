@@ -183,21 +183,7 @@ public class SheetWindow: NSWindow {
     }
     
     func closeWindow(completion: (() -> ())?) {
-        if let p = sheetParent ?? parent, let temp = p.standardButtonEnableTemp ?? p.standardButtonEnableTemp {
-            if let zoomButton = temp["zoomButton"] as? Bool {
-                p.standardWindowButton(.zoomButton)?.isEnabled = zoomButton
-            }
-            if let closeButton = temp["closeButton"] as? Bool {
-                p.standardWindowButton(.closeButton)?.isEnabled = closeButton
-            }
-            if let miniaturizeButton = temp["miniaturizeButton"] as? Bool {
-                p.standardWindowButton(.miniaturizeButton)?.isEnabled = miniaturizeButton
-            }
-            if let resizable = temp["styleMask.resizable"] as? Bool, resizable == true {
-                p.styleMask.insert(.resizable)
-            }
-            p.standardButtonEnableTemp = nil
-        }
+        (sheetParent ?? parent)?.restoreDisableStandardButtonState()
         if let style = style {
             switch style {
             case .sheet, .criticalSheet:
