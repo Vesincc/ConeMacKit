@@ -22,15 +22,15 @@ public enum WindowPresentStyle {
 }
 
 
-public extension NSWindow {
+extension NSWindow {
     
     private static var _standardButtonEnableTemp = 1
-    fileprivate var standardButtonEnableTemp: [String : Any]? {
+    var standardButtonEnableTemp: [String : Any]? {
         get {
             objc_getAssociatedObject(self, &NSWindow._standardButtonEnableTemp) as? [String : Any]
         }
         set {
-            objc_setAssociatedObject(self, &NSWindow._standardButtonEnableTemp, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &NSWindow._standardButtonEnableTemp, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
     
@@ -81,31 +81,36 @@ public extension NSWindow {
     }
     
     func dismiss(completion: (() -> ())?) {
-        if let temp = standardButtonEnableTemp {
-            if let zoomButton = temp["zoomButton"] as? Bool {
-                standardWindowButton(.zoomButton)?.isEnabled = zoomButton
+        let restoreStandardButton = { [weak self] in
+            if let p = self?.sheetParent ?? self?.parent, let temp = p.standardButtonEnableTemp ?? p.standardButtonEnableTemp {
+                if let zoomButton = temp["zoomButton"] as? Bool {
+                    p.standardWindowButton(.zoomButton)?.isEnabled = zoomButton
+                }
+                if let closeButton = temp["closeButton"] as? Bool {
+                    p.standardWindowButton(.closeButton)?.isEnabled = closeButton
+                }
+                if let miniaturizeButton = temp["miniaturizeButton"] as? Bool {
+                    p.standardWindowButton(.miniaturizeButton)?.isEnabled = miniaturizeButton
+                }
+                if let resizable = temp["styleMask.resizable"] as? Bool, resizable == true {
+                    p.styleMask.insert(.resizable)
+                }
+                p.standardButtonEnableTemp = nil
             }
-            if let closeButton = temp["closeButton"] as? Bool {
-                standardWindowButton(.closeButton)?.isEnabled = closeButton
-            }
-            if let miniaturizeButton = temp["miniaturizeButton"] as? Bool {
-                standardWindowButton(.miniaturizeButton)?.isEnabled = miniaturizeButton
-            }
-            if let resizable = temp["styleMask.resizable"] as? Bool, resizable == true {
-                styleMask.insert(.resizable)
-            }
-            standardButtonEnableTemp = nil
         }
         if let sheetWindow = self as? SheetWindow {
             sheetWindow.closeWindow(completion: completion)
         } else if let sheetParent = sheetParent {
+            restoreStandardButton()
             sheetParent.endSheet(self)
             completion?()
         } else if let parent = parent {
+            restoreStandardButton()
             parent.removeChildWindow(self)
             orderOut(nil)
             completion?()
         } else {
+            restoreStandardButton()
             orderOut(nil)
             completion?()
         }
