@@ -18,10 +18,6 @@ open class ConeSlider : NSControl {
     private let animationHighlightedKey = "animation.slider.highlighted"
     private let animationDeHighlightedKey = "animation.slider.dehighlighted"
 
-    open override var undoManager: UndoManager? {
-        return window?.nextResponder?.undoManager
-    }
-    
     enum TouchLocation {
         case out
         case knob
