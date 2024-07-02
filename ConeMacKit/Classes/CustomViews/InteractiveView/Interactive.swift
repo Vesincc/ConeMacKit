@@ -10,7 +10,7 @@ import Cocoa
  
 public class Interactive {
      
-    public struct State: OptionSet, Hashable {
+    public struct State: OptionSet, Hashable, CustomDebugStringConvertible {
         public init(rawValue: UInt) {
             self.rawValue = rawValue
         }
@@ -34,6 +34,26 @@ public class Interactive {
         
         public static var hovered: Interactive.State {
             Interactive.State(rawValue: 1 << 4)
+        }
+        
+        public var debugDescription: String {
+            var des: [String] = []
+            if contains(.disabled) {
+                des.append("disabled")
+            }
+            if contains(.selected) {
+                des.append("selected")
+            }
+            if contains(.clicked) {
+                des.append("clicked")
+            }
+            if contains(.hovered) {
+                des.append("hovered")
+            }
+            if contains(.normal) {
+                des.append("normal")
+            }
+            return "\(des)"
         }
     }
     
