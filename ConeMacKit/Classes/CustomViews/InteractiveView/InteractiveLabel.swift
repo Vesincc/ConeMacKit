@@ -126,7 +126,7 @@ open class InteractiveLabel: NSTextField {
                 return
             }
             isNeedApply = false
-            guard range.location > 0 && (range.location + range.length) <= str.length else {
+            guard range.location >= 0 && (range.location + range.length) <= str.length else {
                 return
             }
             if let attributes = adapterValue(in: interactiveAttributes, for: statePriority(for: interactiveState)) {

@@ -9,7 +9,7 @@ import Foundation
 import Cocoa
 
 
-public class SpacingButtonCell: NSButtonCell {
+open class SpacingButtonCell: NSButtonCell {
     
     @IBInspectable public var imageYOffset: CGFloat = 0
     
@@ -58,13 +58,22 @@ public class SpacingButtonCell: NSButtonCell {
     public var contentEdgeInset: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
  
     public override var cellSize: NSSize {
-        CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
+        return CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
     }
     
     public override func cellSize(forBounds rect: NSRect) -> NSSize {
-        CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
+        return CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
     }
      
+    
+    private var imagePositionFixed: NSControl.ImagePosition {
+        if imagePosition == .imageLeft {
+            return .imageLeading
+        } else if imagePosition == .imageRight {
+            return .imageTrailing
+        }
+        return imagePosition
+    }
 
     public override func imageRect(forBounds rect: NSRect) -> NSRect {
         let targetSize = CGSize(width: rect.size.width - leftEdgeInset - rightEdgeInset, height: rect.size.height - topEdgeInset - bottomEdgeInset)
@@ -152,7 +161,7 @@ fileprivate extension SpacingButtonCell {
         if imageFullSize.isZero {
             return titleFullSize
         }
-        switch imagePosition {
+        switch imagePositionFixed {
         case .noImage:
             return titleFullSize
         case .imageOnly:
@@ -212,7 +221,7 @@ fileprivate extension SpacingButtonCell {
     func resizeContentSize(at rect: CGRect) -> CGSize {
         var size = resizeImageAndTitleSize(at: rect)
         size = (size.imageSize.alignment, size.titleSize.alignment)
-        switch imagePosition {
+        switch imagePositionFixed {
         case .noImage:
             return size.titleSize
         case .imageOnly:
@@ -252,7 +261,7 @@ fileprivate extension SpacingButtonCell {
         if imageFullSize.isZero {
             return (.zero, CGSize(width: min(targetSize.width, titleFullSize.width), height: min(targetSize.height, titleFullSize.height)))
         }
-        switch imagePosition {
+        switch imagePositionFixed {
         case .noImage:
             return (.zero, CGSize(width: min(targetSize.width, fullSize.width), height: min(targetSize.height, fullSize.height)))
         case .imageOnly:
@@ -307,7 +316,7 @@ fileprivate extension SpacingButtonCell {
         
         let imageRight: (CGPoint, CGPoint) = (CGPoint(x: titleSize.width + spacing, y: imageSize.height > titleSize.height ? 0 : (titleSize.height - imageSize.height) / 2.0), CGPoint(x: 0, y: titleSize.height > imageSize.height ? 0 : (imageSize.height - titleSize.height) / 2.0))
         
-        switch imagePosition {
+        switch imagePositionFixed {
         case .noImage:
             return (.zero, .zero)
         case .imageOnly:
