@@ -159,6 +159,9 @@ open class InteractiveLabel: NSTextField {
         }
         
         func mouseUp(at item: InteractiveItem?) {
+            guard isClicked else {
+                return
+            }
             isClicked = false
             isEntered = item == self
             if isEntered {
