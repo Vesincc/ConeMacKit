@@ -99,7 +99,7 @@ public class SheetWindow: NSWindow {
             contentViewController.view.addSubview(closeView)
             NSLayoutConstraint.activate([
                 closeView.topAnchor.constraint(equalTo: contentViewController.view.topAnchor, constant: 8 + offset.x),
-                closeView.leftAnchor.constraint(equalTo: contentViewController.view.leftAnchor, constant: 8 + offset.y),
+                closeView.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor, constant: 8 + offset.y),
                 closeView.widthAnchor.constraint(equalToConstant: 14),
                 closeView.heightAnchor.constraint(equalToConstant: 16)
             ])
