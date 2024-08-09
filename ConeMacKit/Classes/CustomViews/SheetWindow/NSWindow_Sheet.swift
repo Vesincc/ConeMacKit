@@ -33,8 +33,6 @@ extension NSWindow {
             objc_setAssociatedObject(self, &NSWindow._standardButtonEnableTemp, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
-    
-    
     public func disableStandardButtonState() {
         var temp: [String : Any] = [:]
         if let button = standardWindowButton(.zoomButton) {
@@ -55,17 +53,23 @@ extension NSWindow {
         }
         standardButtonEnableTemp = temp
     }
-     
+    
     public func restoreDisableStandardButtonState() {
         if let temp = standardButtonEnableTemp {
-            if let zoomButton = temp["zoomButton"] as? Bool {
-                standardWindowButton(.zoomButton)?.isEnabled = zoomButton
+            if let zoomButtonEnable = temp["zoomButton"] as? Bool {
+                if zoomButtonEnable {
+                    standardWindowButton(.zoomButton)?.isEnabled = zoomButtonEnable
+                }
             }
-            if let closeButton = temp["closeButton"] as? Bool {
-                standardWindowButton(.closeButton)?.isEnabled = closeButton
+            if let closeButtonEnable = temp["closeButton"] as? Bool {
+                if closeButtonEnable {
+                    standardWindowButton(.closeButton)?.isEnabled = closeButtonEnable
+                }
             }
-            if let miniaturizeButton = temp["miniaturizeButton"] as? Bool {
-                standardWindowButton(.miniaturizeButton)?.isEnabled = miniaturizeButton
+            if let miniaturizeButtonEnable = temp["miniaturizeButton"] as? Bool {
+                if miniaturizeButtonEnable {
+                    standardWindowButton(.miniaturizeButton)?.isEnabled = miniaturizeButtonEnable
+                }
             }
             if let resizable = temp["styleMask.resizable"] as? Bool, resizable == true {
                 styleMask.insert(.resizable)
@@ -73,6 +77,7 @@ extension NSWindow {
             standardButtonEnableTemp = nil
         }
     }
+    
     
 }
 

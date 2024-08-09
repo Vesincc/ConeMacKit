@@ -14,10 +14,16 @@ typealias CADisplayLink = DisplayLink
 /// Analog to the CADisplayLink in iOS.
 class DisplayLink: NSObject {
     
+    var fps: CGFloat = 60 {
+        didSet {
+            preferDuration = 1 / fps
+        }
+    }
+    
     // This is the value of CADisplayLink.
-    private static let duration = 0.016666667
-    private static let frameInterval = 1
-    private static let timestamp = 0.0 // 该值随时会变，就取个开始值吧!
+    private var preferDuration = 0.016666667
+    private let preferFrameInterval = 1
+    private let preferTimestamp = 0.0 // 该值随时会变，就取个开始值吧!
     
     private let target: Any
     private let selector: Selector
@@ -31,21 +37,21 @@ class DisplayLink: NSObject {
     
     /// The refresh rate of 60HZ is 60 times per second, each refresh takes 1/60 of a second about 16.7 milliseconds.
     var duration: CFTimeInterval {
-        guard let timer = timer else { return DisplayLink.duration }
+        guard let timer = timer else { return preferDuration }
         CVDisplayLinkGetCurrentTime(timer, &timeStampRef)
         return CFTimeInterval(timeStampRef.videoRefreshPeriod) / CFTimeInterval(timeStampRef.videoTimeScale)
     }
     
     /// Returns the time between each frame, that is, the time interval between each screen refresh.
     var timestamp: CFTimeInterval {
-        guard let timer = timer else { return DisplayLink.timestamp }
+        guard let timer = timer else { return preferTimestamp }
         CVDisplayLinkGetCurrentTime(timer, &timeStampRef)
         return CFTimeInterval(timeStampRef.videoTime) / CFTimeInterval(timeStampRef.videoTimeScale)
     }
     
     /// Sets how many frames between calls to the selector method, defult 1
     var frameInterval: Int {
-        guard let timer = timer else { return DisplayLink.frameInterval }
+        guard let timer = timer else { return preferFrameInterval }
         CVDisplayLinkGetCurrentTime(timer, &timeStampRef)
         return Int(timeStampRef.rateScalar)
     }

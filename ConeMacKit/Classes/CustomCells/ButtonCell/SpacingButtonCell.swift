@@ -10,7 +10,7 @@ import Cocoa
 
 
 open class SpacingButtonCell: NSButtonCell {
-    
+     
     @IBInspectable public var imageYOffset: CGFloat = 0
     
     @IBInspectable public var titleYOffset: CGFloat = 0
@@ -85,19 +85,38 @@ open class SpacingButtonCell: NSButtonCell {
         let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0) + imageYOffset
         switch alignment {
         case .left:
-            return CGRect(
-                x: CGFloat(floor(contentEdgeInset.left + offset.imageOffset.x)),
-                y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.imageOffset.y)),
-                width: imageSize.width,
-                height: imageSize.height
-            )
+            if userInterfaceLayoutDirection == .leftToRight {
+                return CGRect(
+                    x: CGFloat(floor(contentEdgeInset.left + offset.imageOffset.x)),
+                    y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.imageOffset.y)),
+                    width: imageSize.width,
+                    height: imageSize.height
+                )
+            } else {
+                return CGRect(
+                    x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.imageOffset.x)),
+                    y: CGFloat(floor(contentEdgeInset.top + offset.imageOffset.y)),
+                    width: imageSize.width,
+                    height: imageSize.height
+                )
+            }
         case .right:
-            return CGRect(
-                x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.imageOffset.x)),
-                y: CGFloat(floor(contentEdgeInset.top + offset.imageOffset.y)),
-                width: imageSize.width,
-                height: imageSize.height
-            )
+            if userInterfaceLayoutDirection == .leftToRight {
+                return CGRect(
+                    x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.imageOffset.x)),
+                    y: CGFloat(floor(contentEdgeInset.top + offset.imageOffset.y)),
+                    width: imageSize.width,
+                    height: imageSize.height
+                )
+            } else {
+                return CGRect(
+                    x: CGFloat(floor(contentEdgeInset.left + offset.imageOffset.x)),
+                    y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.imageOffset.y)),
+                    width: imageSize.width,
+                    height: imageSize.height
+                )
+            }
+            
         default:
             return CGRect(
                 x: CGFloat(floor(contentEdgeInset.left + xSpacing + offset.imageOffset.x)),
@@ -118,19 +137,39 @@ open class SpacingButtonCell: NSButtonCell {
         let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0) + titleYOffset
         switch alignment {
         case .left:
-            return CGRect(
-                x: CGFloat(floor(contentEdgeInset.left + offset.titleOffset.x)),
-                y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.titleOffset.y)),
-                width: titleSize.width,
-                height: titleSize.height
-            )
+            if userInterfaceLayoutDirection == .leftToRight {
+                return CGRect(
+                    x: CGFloat(floor(contentEdgeInset.left + offset.titleOffset.x)),
+                    y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.titleOffset.y)),
+                    width: titleSize.width,
+                    height: titleSize.height
+                )
+            } else {
+                return CGRect(
+                    x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.titleOffset.x)),
+                    y: CGFloat(floor(contentEdgeInset.top + offset.titleOffset.y)),
+                    width: titleSize.width,
+                    height: titleSize.height
+                )
+            }
+            
         case .right:
-            return CGRect(
-                x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.titleOffset.x)),
-                y: CGFloat(floor(contentEdgeInset.top + offset.titleOffset.y)),
-                width: titleSize.width,
-                height: titleSize.height
-            )
+            if userInterfaceLayoutDirection == .leftToRight {
+                return CGRect(
+                    x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.titleOffset.x)),
+                    y: CGFloat(floor(contentEdgeInset.top + offset.titleOffset.y)),
+                    width: titleSize.width,
+                    height: titleSize.height
+                )
+            } else {
+                return CGRect(
+                    x: CGFloat(floor(contentEdgeInset.left + offset.titleOffset.x)),
+                    y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.titleOffset.y)),
+                    width: titleSize.width,
+                    height: titleSize.height
+                )
+            }
+            
         default:
             return CGRect(
                 x: CGFloat(floor(contentEdgeInset.left + xSpacing + offset.titleOffset.x)),
@@ -280,9 +319,9 @@ fileprivate extension SpacingButtonCell {
             if targetSize.height >= fullSize.height {
                 return (CGSize(width: min(targetSize.width, imageFullSize.width), height: imageFullSize.height), CGSize(width: min(targetSize.width, titleFullSize.width), height: titleFullSize.height))
             } else if targetSize.height >= imageAndSpacing {
-                return (CGSize(width: min(targetSize.width, imageFullSize.width), height: imageFullSize.width), CGSize(width: min(targetSize.width, titleFullSize.width), height: targetSize.height - imageAndSpacing))
+                return (CGSize(width: min(targetSize.width, imageFullSize.width), height: imageFullSize.height), CGSize(width: min(targetSize.width, titleFullSize.width), height: targetSize.height - imageAndSpacing))
             } else {
-                return (CGSize(width: min(targetSize.width, imageFullSize.width), height: targetSize.width), .zero)
+                return (CGSize(width: min(targetSize.width, imageFullSize.width), height: targetSize.height), .zero)
             }
         case .imageOverlaps:
             return (CGSize(width: min(targetSize.width, imageFullSize.width), height: min(targetSize.height, imageFullSize.height)), CGSize(width: min(targetSize.width, titleFullSize.width), height: min(targetSize.height, titleFullSize.height)))
@@ -344,7 +383,7 @@ fileprivate extension SpacingButtonCell {
         case .imageRight:
             return imageRight
         case .imageLeading:
-            switch NSApplication.shared.userInterfaceLayoutDirection {
+            switch userInterfaceLayoutDirection {
             case .leftToRight:
                 return imageLeft
             case .rightToLeft:
@@ -353,7 +392,7 @@ fileprivate extension SpacingButtonCell {
                 fatalError()
             }
         case .imageTrailing:
-            switch NSApplication.shared.userInterfaceLayoutDirection {
+            switch userInterfaceLayoutDirection {
             case .leftToRight:
                 return imageRight
             case .rightToLeft:

@@ -275,9 +275,18 @@ extension PopoverViewController {
             case .center:
                 sizeOffset = CGSize(width: (sourceFrameInWindow.width - size.width) / 2.0, height: (sourceFrameInWindow.height - size.height) / 2.0)
             case .leading:
-                sizeOffset = CGSize(width: 0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+                if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
+                    sizeOffset = CGSize(width: 0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+                } else {
+                    sizeOffset = CGSize(width: sourceFrameInWindow.width - size.width, height: (sourceFrameInWindow.height - size.height) / 2.0)
+                }
             case .trailing:
-                sizeOffset = CGSize(width: sourceFrameInWindow.width - size.width, height: (sourceFrameInWindow.height - size.height) / 2.0)
+                if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
+                    sizeOffset = CGSize(width: sourceFrameInWindow.width - size.width, height: (sourceFrameInWindow.height - size.height) / 2.0)
+                } else {
+                    sizeOffset = CGSize(width: 0, height: (sourceFrameInWindow.height - size.height) / 2.0)
+                }
+                
             }
             targetFrame.origin = CGPoint(x: sourceFrameInWindow.origin.x + sizeOffset.width - configer.indicatorOffset.x, y: sourceFrameInWindow.minY - size.height)
             direction = .top

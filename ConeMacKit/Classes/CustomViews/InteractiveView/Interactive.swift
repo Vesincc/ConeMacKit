@@ -211,9 +211,9 @@ public protocol InteractiveViewProtocol: NSView, InteractiveStateable {
     
 }
 
-extension InteractiveViewProtocol {
+public extension InteractiveViewProtocol {
+    
     func configerTrackingArea() {
-        
         mouseTrackingArea = NSTrackingArea.init(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil)
         addTrackingArea(mouseTrackingArea)
         

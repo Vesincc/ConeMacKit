@@ -17,6 +17,12 @@ public protocol ProgressGenerateProtocol {
 
 public class ProgressGenerate: NSObject {
     
+    public var fps: CGFloat
+    
+    public init(fps: CGFloat = 60) {
+        self.fps = fps
+    }
+    
     public var updateBlock: ((CGFloat) -> Void)?
     public var completionBlock: (() -> Void)?
     
@@ -104,6 +110,7 @@ extension ProgressGenerate: ProgressGenerateProtocol {
         lastUpdate = CACurrentMediaTime()
         
         let timer = CADisplayLink(target: self, selector: #selector(updateValue(_:)))
+        timer.fps = self.fps
         timer.add(to: .main, forMode: .default)
         timer.isPaused = false
         self.timer = timer
