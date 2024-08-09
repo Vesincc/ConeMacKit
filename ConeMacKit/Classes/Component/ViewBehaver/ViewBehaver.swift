@@ -79,6 +79,13 @@ public struct ViewBehaverWrapper<Base: NSView> {
         }
         if !isNeedToChangeClass() {
             superStackView = nil
+        } else {
+            if let s = superStackView {
+                temp = s.detachesHiddenViews
+                if temp == true {
+                    s.detachesHiddenViews = false
+                }
+            }
         }
         changeObjectClassIfNeed()
         if let s = superStackView, let temp = temp, s.detachesHiddenViews != temp {
