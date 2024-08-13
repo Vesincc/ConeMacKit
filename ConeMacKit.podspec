@@ -93,7 +93,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source_files  = "Sources/ConeMacKit", "**/*.{h,m,swift}"
-  spec.exclude_files = "Sources/ConeMacKit/Exclude"
+  spec.exclude_files = "Package.swift"
   spec.swift_version = '5.0'
 
   # spec.public_header_files = "Classes/**/*.h"
