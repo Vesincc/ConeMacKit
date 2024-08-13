@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "ConeMacKit"
-  spec.version      = "1.0.14"
+  spec.version      = "1.1.0"
   spec.summary      = "Mac 开发基础组件"
 
   # This description is used to generate tags and improve search results.
@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   spec.description  = <<-DESC
-  Mac 开发基础组件 1.0.0
+  Mac 开发基础组件 1.1.0
                    DESC
 
   spec.homepage     = "https://github.com/Vesincc/ConeMacKit"
@@ -92,8 +92,8 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "Classes", "**/*.{h,m,swift}"
-  spec.exclude_files = "Classes/Exclude"
+  spec.source_files  = "Sources/ConeMacKit", "**/*.{h,m,swift}"
+  spec.exclude_files = "Sources/ConeMacKit/Exclude"
   spec.swift_version = '5.0'
 
   # spec.public_header_files = "Classes/**/*.h"
