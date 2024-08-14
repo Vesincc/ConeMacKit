@@ -73,7 +73,7 @@ extension ViewBehaverWrapper: UserInteractionable where Base: NSView {
     }
     
     public func setUserInteractionEnable(_ isEnable: Bool, color: NSColor? = .clear) {
-        var disableView = base.subviews.first(where: { $0 is ViewBehaverDisableUserInteractionView })
+        let disableView = base.subviews.first(where: { $0 is ViewBehaverDisableUserInteractionView })
         if !isEnable {
             if let disableView = disableView {
                 disableView.layer?.backgroundColor = color?.cgColor
