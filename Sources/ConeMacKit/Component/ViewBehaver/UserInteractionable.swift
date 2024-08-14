@@ -8,69 +8,89 @@
 import Foundation
 import AppKit
 
-public protocol UserInteractionable {
-    var isUserInteractionEnabled: Bool { get set }
+open class ViewBehaverDisableUserInteractionView: NSView {
+    var localMonitor: Any?
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        configerViews()
+    }
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configerViews()
+    }
+    deinit {
+        if let localMonitor = localMonitor {
+            NSEvent.removeMonitor(localMonitor)
+        }
+        localMonitor = nil
+    }
+    func configerViews() {
+        wantsLayer = true
+        
+        NSEvent.addLocalMonitorForEvents(matching: [.mouseEntered, .mouseExited]) { [weak self] event in
+            guard let self = self else {
+                return event
+            }
+            var collections: [NSView] = [self]
+            if let superView = self.superview {
+                collections.append(superView)
+                collections.append(contentsOf: superView.subviews)
+            }
+            if event.type == .mouseEntered || event.type == .mouseExited {
+                if let view = event.trackingArea?.owner as? NSView, collections.contains(view) {
+                    return nil
+                }
+            } 
+            return event
+        }
+    }
+    open override func mouseDown(with event: NSEvent) {
+    }
+    open override func mouseUp(with event: NSEvent) {
+    }
+    open override func hitTest(_ point: NSPoint) -> NSView? {
+        let location = convert(point, from: superview)
+        if bounds.contains(location) {
+            return self
+        } else {
+            return super.hitTest(point)
+        }
+    }
 }
 
-fileprivate extension NSView {
-    
-    static var _isUserInteractionEnabled = 0
-    var isUserInteractionEnabled: Bool {
-        get {
-            objc_getAssociatedObject(self, &NSView._isUserInteractionEnabled) as? Bool ?? true
-        }
-        set {
-            objc_setAssociatedObject(self, &NSView._isUserInteractionEnabled, newValue, .OBJC_ASSOCIATION_ASSIGN)
-        }
-    }
-    
-    static var _trackingAreasTemp = 0
-    var trackingAreasTemp: [NSTrackingArea] {
-        get {
-            objc_getAssociatedObject(self, &NSView._trackingAreasTemp) as? [NSTrackingArea] ?? []
-        }
-        set {
-            objc_setAssociatedObject(self, &NSView._trackingAreasTemp, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-    
-    static var _updateTrackingAreaAssociatedTemp = 0
-    var updateTrackingAreaAssociatedTemp: [(() -> ())?] {
-        get {
-            objc_getAssociatedObject(self, &NSView._updateTrackingAreaAssociatedTemp) as? [(() -> ())?] ?? []
-        }
-        set {
-            objc_setAssociatedObject(self, &NSView._updateTrackingAreaAssociatedTemp, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-    
-}
+public protocol UserInteractionable {
+    var isUserInteractionEnabled: Bool { get set }
+} 
 
 extension ViewBehaverWrapper: UserInteractionable where Base: NSView {
     public var isUserInteractionEnabled: Bool {
         get {
-            base.isUserInteractionEnabled
+            !base.subviews.contains(where: { $0 is ViewBehaverDisableUserInteractionView })
         }
         set {
-            base.isUserInteractionEnabled = newValue
-            if newValue {
-                base.hitTestAssociated = nil
-                base.trackingAreasTemp.forEach { t in
-                    base.addTrackingArea(t)
-                }
-                base.updateTrackingAreaAssociated = base.updateTrackingAreaAssociatedTemp
+            setUserInteractionEnable(newValue)
+        }
+    }
+    
+    public func setUserInteractionEnable(_ isEnable: Bool, color: NSColor? = .clear) {
+        var disableView = base.subviews.first(where: { $0 is ViewBehaverDisableUserInteractionView })
+        if !isEnable {
+            if let disableView = disableView {
+                disableView.layer?.backgroundColor = color?.cgColor
             } else {
-                base.updateTrackingAreaAssociatedTemp = base.updateTrackingAreaAssociated
-                base.trackingAreasTemp = base.trackingAreas
-                
-                base.hitTestAssociated = { p in
-                    return nil
-                }
-                base.updateTrackingAreaAssociated.removeAll()
-                base.trackingAreas.forEach { t in
-                    base.removeTrackingArea(t)
-                }
+                let new = ViewBehaverDisableUserInteractionView()
+                new.translatesAutoresizingMaskIntoConstraints = false
+                new.layer?.backgroundColor = color?.cgColor
+                base.addSubview(new)
+                NSLayoutConstraint.activate([
+                    new.topAnchor.constraint(equalTo: base.topAnchor),
+                    new.bottomAnchor.constraint(equalTo: base.bottomAnchor),
+                    new.leftAnchor.constraint(equalTo: base.leftAnchor),
+                    new.rightAnchor.constraint(equalTo: base.rightAnchor)
+                ])
             }
+        } else {
+            disableView?.removeFromSuperview()
         }
     }
     

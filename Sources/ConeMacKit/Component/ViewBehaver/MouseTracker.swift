@@ -7,42 +7,12 @@
 
 import Foundation
 import AppKit
-
-
-// MARK: - 自定义view
-public protocol MouseTrackingProtocol: NSView {
-    var mouseTrackingArea: NSTrackingArea! { get set }
-}
-
-public extension MouseTrackingProtocol {
-    func configerTrackingArea() {
-        mouseTrackingArea = NSTrackingArea.init(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil)
-        addTrackingArea(mouseTrackingArea)
-        
-        if var mouseLocation = window?.mouseLocationOutsideOfEventStream {
-            mouseLocation = convert(mouseLocation, from: nil)
-            if bounds.contains(mouseLocation) {
-                mouseEntered(with: NSEvent())
-            } else {
-                mouseExited(with: NSEvent())
-            }
-        } 
-    }
-    
-    func updateMouseEnterExitTrackingArea() {
-        if let mouseTrackingArea = mouseTrackingArea {
-            removeTrackingArea(mouseTrackingArea)
-        }
-        configerTrackingArea()
-    }
-}
-
-
+  
 // MARK: - NSView直接track
 
 public enum MouseTrackEvent {
     case entered
-    case exited
+    case exited 
 }
 
 public protocol MouseTrackable {
@@ -50,7 +20,7 @@ public protocol MouseTrackable {
 }
 
 public class MouseTracker: MouseTrackable {
-    
+     
     var _trackingArea: NSTrackingArea?
     func updateTrackingArea(_ view: NSView) {
         if let _trackingArea = _trackingArea {
@@ -91,29 +61,91 @@ public class MouseTracker: MouseTrackable {
 public protocol MouseTrackerProvider {
     var mouseTracker: MouseTrackable { get }
 }
-
-fileprivate var t_mouseTracker: Int = 0
-extension ViewBehaverWrapper: MouseTrackerProvider where Base : NSView {
-    
-    public var mouseTracker: MouseTrackable {
-        guard let tracker = objc_getAssociatedObject(base, &t_mouseTracker) as? MouseTrackable else {
-            let tracker = MouseTracker()
-            objc_setAssociatedObject(base, &t_mouseTracker, tracker, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            base.updateTrackingAreaAssociated.append { [weak base] in
-                guard let base = base else {
-                    return
-                }
-                tracker.updateTrackingArea(base)
-            }
-            base.mouseEnteredAssociated.append { _ in
-                tracker.recive(.entered)
-            }
-            base.mouseExitedAssociated.append { _ in
-                tracker.recive(.exited)
-            }
-            return tracker
-        }
-        return tracker
+ 
+open class ViewBehaverMouseTrackerView: NSView, MouseTrackerProvider {
+    public var mouseTracker: MouseTrackable = MouseTracker()
+    public override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        configerViews()
     }
-     
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configerViews()
+    }
+    func configerViews() {
+        if let tracker = mouseTracker as? MouseTracker {
+            tracker.updateTrackingArea(self)
+        }
+    }
+    open override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        guard let tracker = mouseTracker as? MouseTracker else {
+            return
+        }
+        tracker.updateTrackingArea(self)
+    }
+    open override func mouseEntered(with event: NSEvent) {
+        if let tracker = mouseTracker as? MouseTracker {
+            tracker.recive(.entered)
+        }
+    }
+    open override func mouseExited(with event: NSEvent) {
+        if let tracker = mouseTracker as? MouseTracker {
+            tracker.recive(.exited)
+        }
+    }
+    open override func hitTest(_ point: NSPoint) -> NSView? {
+        return nil
+    }
+}
+ 
+public extension ViewBehaverWrapper where Base : NSView {
+    
+    var mouseTracker: MouseTrackable {
+        if let trackerView = base.subviews.first(where: { $0 is ViewBehaverMouseTrackerView }) as? ViewBehaverMouseTrackerView {
+            return trackerView.mouseTracker
+        }
+        let new = ViewBehaverMouseTrackerView()
+        new.translatesAutoresizingMaskIntoConstraints = false
+        base.addSubview(new)
+        NSLayoutConstraint.activate([
+            new.topAnchor.constraint(equalTo: base.topAnchor),
+            new.bottomAnchor.constraint(equalTo: base.bottomAnchor),
+            new.leftAnchor.constraint(equalTo: base.leftAnchor),
+            new.rightAnchor.constraint(equalTo: base.rightAnchor)
+        ])
+        return new.mouseTracker
+    }
+    
+    
+}
+
+
+fileprivate var _trackingAreasTemporary = 0
+public extension NSView {
+    private var trackingAreasTemporary: [NSTrackingArea] {
+        get {
+            objc_getAssociatedObject(self, &_trackingAreasTemporary) as? [NSTrackingArea] ?? []
+        }
+        set {
+            objc_setAssociatedObject(self, &_trackingAreasTemporary, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func removeTrackingAreasTemporary() {
+        var temp = trackingAreasTemporary
+        temp.append(contentsOf: trackingAreas)
+        trackingAreasTemporary = temp
+        trackingAreas.forEach({ removeTrackingArea($0) })
+        
+        subviews.forEach({ $0.removeTrackingAreasTemporary() } )
+    }
+    
+    func restoreTrackingAreas() {
+        let temp = trackingAreasTemporary
+        trackingAreasTemporary = []
+        temp.forEach({ addTrackingArea($0) })
+        
+        subviews.forEach({ $0.restoreTrackingAreas() } )
+    }
 }

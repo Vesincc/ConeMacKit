@@ -37,15 +37,21 @@ extension NSWindow {
         var temp: [String : Any] = [:]
         if let button = standardWindowButton(.zoomButton) {
             temp["zoomButton"] = button.isEnabled
-            standardWindowButton(.zoomButton)?.isEnabled = false
+            if button.isEnabled {
+                standardWindowButton(.zoomButton)?.isEnabled = false
+            }
         }
         if let button = standardWindowButton(.closeButton) {
             temp["closeButton"] = button.isEnabled
-            standardWindowButton(.closeButton)?.isEnabled = false
+            if button.isEnabled {
+                standardWindowButton(.closeButton)?.isEnabled = false
+            }
         }
         if let button = standardWindowButton(.miniaturizeButton) {
             temp["miniaturizeButton"] = button.isEnabled
-            standardWindowButton(.miniaturizeButton)?.isEnabled = false
+            if button.isEnabled {
+                standardWindowButton(.miniaturizeButton)?.isEnabled = false
+            }
         }
         if styleMask.contains(.resizable) {
             temp["styleMask.resizable"] = true
@@ -53,7 +59,6 @@ extension NSWindow {
         }
         standardButtonEnableTemp = temp
     }
-    
     public func restoreDisableStandardButtonState() {
         if let temp = standardButtonEnableTemp {
             if let zoomButtonEnable = temp["zoomButton"] as? Bool {
@@ -80,7 +85,6 @@ extension NSWindow {
     
     
 }
-
 
 public extension NSWindow {
      
