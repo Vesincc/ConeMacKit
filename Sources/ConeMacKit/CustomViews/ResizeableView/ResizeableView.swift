@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import Carbon
 
 public struct DirectionOption : OptionSet {
     
@@ -38,6 +39,9 @@ open class ResizeableView: NSView {
     /// 是否可以交互
     open var isInteractive : Bool = true
     
+    /// 键盘事件是否可以调整frame。
+    open var acceptKeydownControl : Bool = false
+    
     /// 是否展示边控制点.
     open var displaySideControl : Bool = true {
         didSet {
@@ -62,6 +66,8 @@ open class ResizeableView: NSView {
             seperatorLayer.strokeColor = controlColor.cgColor
         }
     }
+    private var mouseMoveDirection : DirectionOption = []
+
     private let cornerControl = CAShapeLayer()
     
     private let sideControl = CAShapeLayer()
@@ -128,33 +134,6 @@ open class ResizeableView: NSView {
             return
         }
         super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-    }  
-    /// 根据传入event判断当前的鼠标所在的方向
-    @discardableResult
-    open func mouseDirectionOfEvent(_ event : NSEvent) -> DirectionOption {
-        if !isInteractive {
-            return []
-        }
-        let point = convert(event.locationInWindow, from: nil)
-        
-        let resizeDir = directionOfLocationRect(rect: bounds, location: point)
-        
-        if resizeDir == [] {
-            NSCursor.arrow.set()
-            return resizeDir
-        }
-        if resizeDir == [.top,.left] || resizeDir == [.bottom,.right] {
-            NSCursor.nwse.set()
-        }else if resizeDir == [.top,.right]  || resizeDir == [.bottom,.left]  {
-            NSCursor.nesw.set()
-        }else if ratio == nil && (resizeDir == .left || resizeDir == .right) {
-            NSCursor.resizeLeftRight.set()
-        }else if ratio == nil && (resizeDir == .top || resizeDir == .bottom) {
-            NSCursor.resizeUpDown.set()
-        }else {
-            NSCursor.openHand.set()
-        }
-        return resizeDir
     }
 }
 // MARK: Undo
@@ -241,7 +220,6 @@ extension ResizeableView {
         undoFrame(preValue!)
         preValue = nil
     }
-   
 }
 // MARK: 私有方法
 extension ResizeableView {
@@ -284,8 +262,12 @@ extension ResizeableView {
         addLocalMonitor()
     }
     private func addLocalMonitor() {
-        localMonitor = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved, handler: { [weak self] eve in
-            self?.mouseDirectionOfEvent(eve)
+        localMonitor = NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved,.keyDown], handler: { [weak self] eve in
+            if eve.type == .keyDown {
+                self?.keyDown(with: eve)
+            }else {
+                self?.mouseDirectionOfEvent(eve)
+            }
             return eve
         })
     }
@@ -298,7 +280,74 @@ extension ResizeableView {
     private func updateSubTree() {
         updateResizeAnchor()
     }
-
+    open override func keyDown(with event: NSEvent) {
+        if !acceptKeydownControl {
+            return
+        }
+        if mouseMoveDirection == [] {
+            super.keyDown(with: event)
+            return
+        }
+        var toframe = frame
+        
+        if ratio == nil && mouseMoveDirection == .left {
+            if event.keyCode == kVK_LeftArrow {
+                toframe.origin.x -= 1
+                toframe.size.width += 1
+            }else if event.keyCode == kVK_RightArrow {
+                toframe.origin.x += 1
+                toframe.size.width -= 1
+            }
+        }else if ratio == nil && mouseMoveDirection == .right {
+            if event.keyCode == kVK_LeftArrow {
+                toframe.size.width -= 1
+            }else if event.keyCode == kVK_RightArrow {
+                toframe.size.width += 1
+            }
+        }else if ratio == nil && mouseMoveDirection == .top {
+            if event.keyCode == kVK_UpArrow {
+                toframe.size.height += 1
+            }else if event.keyCode == kVK_DownArrow {
+                toframe.size.height -= 1
+            }
+        }else if ratio == nil && mouseMoveDirection == .bottom {
+            if event.keyCode == kVK_UpArrow {
+                toframe.origin.y += 1
+                toframe.size.height -= 1
+            }else if event.keyCode == kVK_DownArrow {
+                toframe.origin.y -= 1
+                toframe.size.height += 1
+            }
+        }else {
+            if event.keyCode == kVK_UpArrow {
+                toframe.origin.y += 1
+            }else if event.keyCode == kVK_DownArrow {
+                toframe.origin.y -= 1
+            }else if event.keyCode == kVK_LeftArrow {
+                toframe.origin.x -= 1
+            }else if event.keyCode == kVK_RightArrow {
+                toframe.origin.x += 1
+            }
+        }
+        toframe.origin.x = max(toframe.origin.x, 0)
+        toframe.origin.x = min(toframe.origin.x, superview!.bounds.width - toframe.width)
+        toframe.origin.y = max(toframe.origin.y, 0)
+        toframe.origin.y = min(toframe.origin.y, superview!.bounds.height - toframe.height)
+        frame = toframe
+        
+        // 移动鼠标
+        var mousePoint = CGEvent(source: nil)?.location ?? NSEvent.mouseLocation
+        if event.keyCode == kVK_LeftArrow {
+            mousePoint.x -= 1
+        }else if event.keyCode == kVK_RightArrow {
+            mousePoint.x += 1
+        }else if event.keyCode == kVK_DownArrow {
+            mousePoint.y += 1
+        }else if event.keyCode == kVK_UpArrow {
+            mousePoint.y -= 1
+        }
+        CGWarpMouseCursorPosition(mousePoint)
+    }
     func dragResize(event : NSEvent) {
         // 缩放
         if (direction == .left || direction == .right || direction == .top || direction == .bottom) && ratio != nil {
@@ -390,7 +439,30 @@ extension ResizeableView {
         frame = toframe
         delegate?.resizeableViewDidUpdateFrame?()
     }
-   
+    /// 根据传入event判断当前的鼠标所在的方向
+    func mouseDirectionOfEvent(_ event : NSEvent) {
+        if !isInteractive {
+            mouseMoveDirection = []
+        }
+        let point = convert(event.locationInWindow, from: nil)
+        
+        mouseMoveDirection = directionOfLocationRect(rect: bounds, location: point)
+        
+        if mouseMoveDirection == [] {
+            NSCursor.arrow.set()
+        }
+        if mouseMoveDirection == [.top,.left] || mouseMoveDirection == [.bottom,.right] {
+            NSCursor.nwse.set()
+        }else if mouseMoveDirection == [.top,.right]  || mouseMoveDirection == [.bottom,.left]  {
+            NSCursor.nesw.set()
+        }else if ratio == nil && (mouseMoveDirection == .left || mouseMoveDirection == .right) {
+            NSCursor.resizeLeftRight.set()
+        }else if ratio == nil && (mouseMoveDirection == .top || mouseMoveDirection == .bottom) {
+            NSCursor.resizeUpDown.set()
+        }else {
+            NSCursor.openHand.set()
+        }
+    }
     func directionOfLocationRect(rect : NSRect,location : NSPoint) -> DirectionOption {
         // 1.判断是否点击拖拽resize 区域.
         if location.distance(to: NSPoint(x: rect.minX , y: rect.maxY)) <= _controlSize.width {
