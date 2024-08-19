@@ -16,6 +16,7 @@ open class ConeSlider : NSControl {
     }
     
     private let animationHighlightedKey = "animation.slider.highlighted"
+    
     private let animationDeHighlightedKey = "animation.slider.dehighlighted"
 
     enum TouchLocation {
@@ -55,6 +56,7 @@ open class ConeSlider : NSControl {
     }
     // 用于记录鼠标按下时的值.
     private var preValue : Double?
+    
     var valueState : ValueState = .begin
     
     private let knobLayer = CALayer()
@@ -98,7 +100,11 @@ open class ConeSlider : NSControl {
         }
     }
     
-    @IBInspectable open var acceptUndoWhenChanged : Bool = true
+    // 是否在值变化的时候允许撤销
+    @IBInspectable var allowUndoWhenValueChanged : Bool = true
+        
+    /// 是否在mousedown的时候接收事件。如果接收则会在鼠标按下的时候回调action。
+    @IBInspectable var recieveActionInMouseDown : Bool = false
      
     open var totalWidth : CGFloat {
         return max(bounds.width, bounds.height) - knobWidth
@@ -107,6 +113,7 @@ open class ConeSlider : NSControl {
     open var knobWidth : CGFloat {
         return min(bounds.width, bounds.height)
     }
+    
     open var trackHeight : CGFloat = 6
     
     open var dotBorderWidth : CGFloat = 3
@@ -216,6 +223,12 @@ open class ConeSlider : NSControl {
             touchLocation = .out
         }
         preValue = value
+        
+        valueState = .begin
+        
+        if recieveActionInMouseDown {
+            sendAction(action, to: target)
+        }
     }
     open override func mouseDragged(with event: NSEvent) {
         super.mouseDragged(with: event)
@@ -258,7 +271,7 @@ open class ConeSlider : NSControl {
         if preValue == nil || preValue == value {
             return
         }
-        if acceptUndoWhenChanged {
+        if allowUndoWhenValueChanged {
             undoValue(preValue!)
         }
         preValue = nil

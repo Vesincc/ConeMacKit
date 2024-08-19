@@ -44,13 +44,6 @@
 		BB0753202C6B3E6800842062 /* SheetWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752C82C6B3E6800842062 /* SheetWindow.swift */; };
 		BB0753212C6B3E6800842062 /* ConeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752CA2C6B3E6800842062 /* ConeSlider.swift */; };
 		BB0753222C6B3E6800842062 /* ConeSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752CC2C6B3E6800842062 /* ConeSwitch.swift */; };
-		BB0753232C6B3E6800842062 /* NSBezierPath_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752CF2C6B3E6800842062 /* NSBezierPath_Kit.swift */; };
-		BB0753242C6B3E6800842062 /* NSButton_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752D12C6B3E6800842062 /* NSButton_Kit.swift */; };
-		BB0753252C6B3E6800842062 /* NSColor_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752D32C6B3E6800842062 /* NSColor_Kit.swift */; };
-		BB0753262C6B3E6800842062 /* NSFont_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752D52C6B3E6800842062 /* NSFont_Kit.swift */; };
-		BB0753272C6B3E6800842062 /* NSLayoutConstraint_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752D72C6B3E6800842062 /* NSLayoutConstraint_Kit.swift */; };
-		BB0753282C6B3E6800842062 /* NSTableView_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752D92C6B3E6800842062 /* NSTableView_Kit.swift */; };
-		BB0753292C6B3E6800842062 /* NSWindow_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752DB2C6B3E6800842062 /* NSWindow_Kit.swift */; };
 		BB07532A2C6B3E6800842062 /* Array_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752DE2C6B3E6800842062 /* Array_Kit.swift */; };
 		BB07532B2C6B3E6800842062 /* Bool_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752E02C6B3E6800842062 /* Bool_Kit.swift */; };
 		BB07532C2C6B3E6800842062 /* CGPoint_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752E22C6B3E6800842062 /* CGPoint_Kit.swift */; };
@@ -67,6 +60,13 @@
 		BB0753372C6B3E6800842062 /* URL_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752F62C6B3E6800842062 /* URL_Kit.swift */; };
 		BB0753382C6B3E6800842062 /* ListViewRegisterViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752FA2C6B3E6800842062 /* ListViewRegisterViewProtocol.swift */; };
 		BB0753392C6B3E6800842062 /* InterfaceBuilder_Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0752FC2C6B3E6800842062 /* InterfaceBuilder_Duplicates.swift */; };
+		BB07536D2C6EF2D000842062 /* NSBezierPath_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB07535E2C6EF2D000842062 /* NSBezierPath_Kit.swift */; };
+		BB07536E2C6EF2D000842062 /* NSButton_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0753602C6EF2D000842062 /* NSButton_Kit.swift */; };
+		BB07536F2C6EF2D000842062 /* NSColor_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0753622C6EF2D000842062 /* NSColor_Kit.swift */; };
+		BB0753702C6EF2D000842062 /* NSFont_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0753642C6EF2D000842062 /* NSFont_Kit.swift */; };
+		BB0753712C6EF2D000842062 /* NSLayoutConstraint_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0753662C6EF2D000842062 /* NSLayoutConstraint_Kit.swift */; };
+		BB0753722C6EF2D000842062 /* NSTableView_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0753682C6EF2D000842062 /* NSTableView_Kit.swift */; };
+		BB0753732C6EF2D000842062 /* NSWindow_Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB07536A2C6EF2D000842062 /* NSWindow_Kit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,13 +107,6 @@
 		BB0752C82C6B3E6800842062 /* SheetWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetWindow.swift; sourceTree = "<group>"; };
 		BB0752CA2C6B3E6800842062 /* ConeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConeSlider.swift; sourceTree = "<group>"; };
 		BB0752CC2C6B3E6800842062 /* ConeSwitch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConeSwitch.swift; sourceTree = "<group>"; };
-		BB0752CF2C6B3E6800842062 /* NSBezierPath_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSBezierPath_Kit.swift; sourceTree = "<group>"; };
-		BB0752D12C6B3E6800842062 /* NSButton_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSButton_Kit.swift; sourceTree = "<group>"; };
-		BB0752D32C6B3E6800842062 /* NSColor_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColor_Kit.swift; sourceTree = "<group>"; };
-		BB0752D52C6B3E6800842062 /* NSFont_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFont_Kit.swift; sourceTree = "<group>"; };
-		BB0752D72C6B3E6800842062 /* NSLayoutConstraint_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraint_Kit.swift; sourceTree = "<group>"; };
-		BB0752D92C6B3E6800842062 /* NSTableView_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTableView_Kit.swift; sourceTree = "<group>"; };
-		BB0752DB2C6B3E6800842062 /* NSWindow_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSWindow_Kit.swift; sourceTree = "<group>"; };
 		BB0752DE2C6B3E6800842062 /* Array_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array_Kit.swift; sourceTree = "<group>"; };
 		BB0752E02C6B3E6800842062 /* Bool_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bool_Kit.swift; sourceTree = "<group>"; };
 		BB0752E22C6B3E6800842062 /* CGPoint_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint_Kit.swift; sourceTree = "<group>"; };
@@ -130,6 +123,13 @@
 		BB0752F62C6B3E6800842062 /* URL_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL_Kit.swift; sourceTree = "<group>"; };
 		BB0752FA2C6B3E6800842062 /* ListViewRegisterViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewRegisterViewProtocol.swift; sourceTree = "<group>"; };
 		BB0752FC2C6B3E6800842062 /* InterfaceBuilder_Duplicates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceBuilder_Duplicates.swift; sourceTree = "<group>"; };
+		BB07535E2C6EF2D000842062 /* NSBezierPath_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSBezierPath_Kit.swift; sourceTree = "<group>"; };
+		BB0753602C6EF2D000842062 /* NSButton_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSButton_Kit.swift; sourceTree = "<group>"; };
+		BB0753622C6EF2D000842062 /* NSColor_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColor_Kit.swift; sourceTree = "<group>"; };
+		BB0753642C6EF2D000842062 /* NSFont_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFont_Kit.swift; sourceTree = "<group>"; };
+		BB0753662C6EF2D000842062 /* NSLayoutConstraint_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraint_Kit.swift; sourceTree = "<group>"; };
+		BB0753682C6EF2D000842062 /* NSTableView_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTableView_Kit.swift; sourceTree = "<group>"; };
+		BB07536A2C6EF2D000842062 /* NSWindow_Kit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSWindow_Kit.swift; sourceTree = "<group>"; };
 		BB5198C42B82F01000862CD2 /* ConeMacKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ConeMacKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -330,76 +330,6 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
-		BB0752D02C6B3E6800842062 /* NSBezierPath */ = {
-			isa = PBXGroup;
-			children = (
-				BB0752CF2C6B3E6800842062 /* NSBezierPath_Kit.swift */,
-			);
-			path = NSBezierPath;
-			sourceTree = "<group>";
-		};
-		BB0752D22C6B3E6800842062 /* NSButton */ = {
-			isa = PBXGroup;
-			children = (
-				BB0752D12C6B3E6800842062 /* NSButton_Kit.swift */,
-			);
-			path = NSButton;
-			sourceTree = "<group>";
-		};
-		BB0752D42C6B3E6800842062 /* NSColor */ = {
-			isa = PBXGroup;
-			children = (
-				BB0752D32C6B3E6800842062 /* NSColor_Kit.swift */,
-			);
-			path = NSColor;
-			sourceTree = "<group>";
-		};
-		BB0752D62C6B3E6800842062 /* NSFont */ = {
-			isa = PBXGroup;
-			children = (
-				BB0752D52C6B3E6800842062 /* NSFont_Kit.swift */,
-			);
-			path = NSFont;
-			sourceTree = "<group>";
-		};
-		BB0752D82C6B3E6800842062 /* NSLayoutConstraint */ = {
-			isa = PBXGroup;
-			children = (
-				BB0752D72C6B3E6800842062 /* NSLayoutConstraint_Kit.swift */,
-			);
-			path = NSLayoutConstraint;
-			sourceTree = "<group>";
-		};
-		BB0752DA2C6B3E6800842062 /* NSTableView */ = {
-			isa = PBXGroup;
-			children = (
-				BB0752D92C6B3E6800842062 /* NSTableView_Kit.swift */,
-			);
-			path = NSTableView;
-			sourceTree = "<group>";
-		};
-		BB0752DC2C6B3E6800842062 /* NSWindow */ = {
-			isa = PBXGroup;
-			children = (
-				BB0752DB2C6B3E6800842062 /* NSWindow_Kit.swift */,
-			);
-			path = NSWindow;
-			sourceTree = "<group>";
-		};
-		BB0752DD2C6B3E6800842062 /* Cocoa */ = {
-			isa = PBXGroup;
-			children = (
-				BB0752D02C6B3E6800842062 /* NSBezierPath */,
-				BB0752D22C6B3E6800842062 /* NSButton */,
-				BB0752D42C6B3E6800842062 /* NSColor */,
-				BB0752D62C6B3E6800842062 /* NSFont */,
-				BB0752D82C6B3E6800842062 /* NSLayoutConstraint */,
-				BB0752DA2C6B3E6800842062 /* NSTableView */,
-				BB0752DC2C6B3E6800842062 /* NSWindow */,
-			);
-			path = Cocoa;
-			sourceTree = "<group>";
-		};
 		BB0752DF2C6B3E6800842062 /* Array */ = {
 			isa = PBXGroup;
 			children = (
@@ -520,7 +450,7 @@
 		BB0752F92C6B3E6800842062 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BB0752DD2C6B3E6800842062 /* Cocoa */,
+				BB07536C2C6EF2D000842062 /* AppKit */,
 				BB0752F82C6B3E6800842062 /* Foundation */,
 			);
 			path = Extensions;
@@ -546,6 +476,76 @@
 			);
 			name = ConeMacKit;
 			path = Sources/ConeMacKit;
+			sourceTree = "<group>";
+		};
+		BB07535F2C6EF2D000842062 /* NSBezierPath */ = {
+			isa = PBXGroup;
+			children = (
+				BB07535E2C6EF2D000842062 /* NSBezierPath_Kit.swift */,
+			);
+			path = NSBezierPath;
+			sourceTree = "<group>";
+		};
+		BB0753612C6EF2D000842062 /* NSButton */ = {
+			isa = PBXGroup;
+			children = (
+				BB0753602C6EF2D000842062 /* NSButton_Kit.swift */,
+			);
+			path = NSButton;
+			sourceTree = "<group>";
+		};
+		BB0753632C6EF2D000842062 /* NSColor */ = {
+			isa = PBXGroup;
+			children = (
+				BB0753622C6EF2D000842062 /* NSColor_Kit.swift */,
+			);
+			path = NSColor;
+			sourceTree = "<group>";
+		};
+		BB0753652C6EF2D000842062 /* NSFont */ = {
+			isa = PBXGroup;
+			children = (
+				BB0753642C6EF2D000842062 /* NSFont_Kit.swift */,
+			);
+			path = NSFont;
+			sourceTree = "<group>";
+		};
+		BB0753672C6EF2D000842062 /* NSLayoutConstraint */ = {
+			isa = PBXGroup;
+			children = (
+				BB0753662C6EF2D000842062 /* NSLayoutConstraint_Kit.swift */,
+			);
+			path = NSLayoutConstraint;
+			sourceTree = "<group>";
+		};
+		BB0753692C6EF2D000842062 /* NSTableView */ = {
+			isa = PBXGroup;
+			children = (
+				BB0753682C6EF2D000842062 /* NSTableView_Kit.swift */,
+			);
+			path = NSTableView;
+			sourceTree = "<group>";
+		};
+		BB07536B2C6EF2D000842062 /* NSWindow */ = {
+			isa = PBXGroup;
+			children = (
+				BB07536A2C6EF2D000842062 /* NSWindow_Kit.swift */,
+			);
+			path = NSWindow;
+			sourceTree = "<group>";
+		};
+		BB07536C2C6EF2D000842062 /* AppKit */ = {
+			isa = PBXGroup;
+			children = (
+				BB07535F2C6EF2D000842062 /* NSBezierPath */,
+				BB0753612C6EF2D000842062 /* NSButton */,
+				BB0753632C6EF2D000842062 /* NSColor */,
+				BB0753652C6EF2D000842062 /* NSFont */,
+				BB0753672C6EF2D000842062 /* NSLayoutConstraint */,
+				BB0753692C6EF2D000842062 /* NSTableView */,
+				BB07536B2C6EF2D000842062 /* NSWindow */,
+			);
+			path = AppKit;
 			sourceTree = "<group>";
 		};
 		BB5198BA2B82F01000862CD2 = {
@@ -646,12 +646,11 @@
 				BB07531F2C6B3E6800842062 /* NSWindow_Sheet.swift in Sources */,
 				BB0753102C6B3E6800842062 /* GradientView.swift in Sources */,
 				BB0753062C6B3E6800842062 /* ViewBehaver.swift in Sources */,
+				BB07536F2C6EF2D000842062 /* NSColor_Kit.swift in Sources */,
 				BB0753392C6B3E6800842062 /* InterfaceBuilder_Duplicates.swift in Sources */,
-				BB0753242C6B3E6800842062 /* NSButton_Kit.swift in Sources */,
 				BB0753362C6B3E6800842062 /* String_MD5.swift in Sources */,
 				BB07532B2C6B3E6800842062 /* Bool_Kit.swift in Sources */,
 				BB07531A2C6B3E6800842062 /* ProgressHUD.swift in Sources */,
-				BB0753292C6B3E6800842062 /* NSWindow_Kit.swift in Sources */,
 				BB0753372C6B3E6800842062 /* URL_Kit.swift in Sources */,
 				BB0753172C6B3E6800842062 /* NSWindow_Popover.swift in Sources */,
 				BB0752FF2C6B3E6800842062 /* Pace.swift in Sources */,
@@ -660,14 +659,13 @@
 				BB0753042C6B3E6800842062 /* MouseTracker.swift in Sources */,
 				BB0753132C6B3E6800842062 /* InteractiveLabel.swift in Sources */,
 				BB0753012C6B3E6800842062 /* ProgressGenerate.swift in Sources */,
-				BB0753252C6B3E6800842062 /* NSColor_Kit.swift in Sources */,
-				BB0753262C6B3E6800842062 /* NSFont_Kit.swift in Sources */,
 				BB0753202C6B3E6800842062 /* SheetWindow.swift in Sources */,
 				BB0753222C6B3E6800842062 /* ConeSwitch.swift in Sources */,
 				BB0753082C6B3E6800842062 /* Keychained.swift in Sources */,
-				BB0753272C6B3E6800842062 /* NSLayoutConstraint_Kit.swift in Sources */,
 				BB0753092C6B3E6800842062 /* Notificated.swift in Sources */,
+				BB0753712C6EF2D000842062 /* NSLayoutConstraint_Kit.swift in Sources */,
 				BB0753022C6B3E6800842062 /* Setter.swift in Sources */,
+				BB0753702C6EF2D000842062 /* NSFont_Kit.swift in Sources */,
 				BB0753002C6B3E6800842062 /* DisplayLink.swift in Sources */,
 				BB07531B2C6B3E6800842062 /* LineProgressView.swift in Sources */,
 				BB07530A2C6B3E6800842062 /* UserDefaulted.swift in Sources */,
@@ -678,14 +676,17 @@
 				BB0753382C6B3E6800842062 /* ListViewRegisterViewProtocol.swift in Sources */,
 				BB0753032C6B3E6800842062 /* Cursorable.swift in Sources */,
 				BB0753182C6B3E6800842062 /* PopoverViewController.swift in Sources */,
+				BB07536E2C6EF2D000842062 /* NSButton_Kit.swift in Sources */,
 				BB0753112C6B3E6800842062 /* Interactive.swift in Sources */,
 				BB07530F2C6B3E6800842062 /* GradientButton.swift in Sources */,
 				BB0753332C6B3E6800842062 /* NSObject_Kit.swift in Sources */,
 				BB07532C2C6B3E6800842062 /* CGPoint_Kit.swift in Sources */,
+				BB0753722C6EF2D000842062 /* NSTableView_Kit.swift in Sources */,
 				BB07531C2C6B3E6800842062 /* PlainTextField.swift in Sources */,
+				BB07536D2C6EF2D000842062 /* NSBezierPath_Kit.swift in Sources */,
+				BB0753732C6EF2D000842062 /* NSWindow_Kit.swift in Sources */,
 				BB0753312C6B3E6800842062 /* Date_Kit.swift in Sources */,
 				BB07530E2C6B3E6800842062 /* CenterTextFieldCell.swift in Sources */,
-				BB0753232C6B3E6800842062 /* NSBezierPath_Kit.swift in Sources */,
 				BB07530C2C6B3E6800842062 /* SpacingButtonCell.swift in Sources */,
 				BB07532A2C6B3E6800842062 /* Array_Kit.swift in Sources */,
 				BB07531D2C6B3E6800842062 /* SecurePlainTextField.swift in Sources */,
@@ -694,7 +695,6 @@
 				BB0753052C6B3E6800842062 /* UserInteractionable.swift in Sources */,
 				BB0753212C6B3E6800842062 /* ConeSlider.swift in Sources */,
 				BB0753302C6B3E6800842062 /* Data_Kit.swift in Sources */,
-				BB0753282C6B3E6800842062 /* NSTableView_Kit.swift in Sources */,
 				BB07531E2C6B3E6800842062 /* NSViewController_Sheet.swift in Sources */,
 				BB07532E2C6B3E6800842062 /* CGSize_Kit.swift in Sources */,
 				BB0753322C6B3E6800842062 /* Dictionary_Kit.swift in Sources */,

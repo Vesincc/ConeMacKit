@@ -56,7 +56,7 @@ open class ViewBehaverCursorRectView: NSView, CursorRectProvider {
     func configerViews() {
         cursorRect.cursorDidChanged = { [weak self] in
             if let self = self {
-                window?.invalidateCursorRects(for: self)
+                self.window?.invalidateCursorRects(for: self)
             }
         }
     }

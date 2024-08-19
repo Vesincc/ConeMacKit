@@ -48,14 +48,6 @@ open class ViewBehaverDisableUserInteractionView: NSView {
     }
     open override func mouseUp(with event: NSEvent) {
     }
-    open override func hitTest(_ point: NSPoint) -> NSView? {
-        let location = convert(point, from: superview)
-        if bounds.contains(location) {
-            return self
-        } else {
-            return super.hitTest(point)
-        }
-    }
 }
 
 public protocol UserInteractionable {
@@ -63,6 +55,9 @@ public protocol UserInteractionable {
 } 
 
 extension ViewBehaverWrapper: UserInteractionable where Base: NSView {
+    
+    
+    /// When the value is equal to true, the event will be prohibited from being passed down
     public var isUserInteractionEnabled: Bool {
         get {
             !base.subviews.contains(where: { $0 is ViewBehaverDisableUserInteractionView })
@@ -72,11 +67,13 @@ extension ViewBehaverWrapper: UserInteractionable where Base: NSView {
         }
     }
     
-    public func setUserInteractionEnable(_ isEnable: Bool, color: NSColor? = .clear) {
+    @discardableResult
+    public func setUserInteractionEnable(_ isEnable: Bool, color: NSColor? = .clear) -> ViewBehaverDisableUserInteractionView? {
         let disableView = base.subviews.first(where: { $0 is ViewBehaverDisableUserInteractionView })
         if !isEnable {
             if let disableView = disableView {
                 disableView.layer?.backgroundColor = color?.cgColor
+                return disableView as? ViewBehaverDisableUserInteractionView
             } else {
                 let new = ViewBehaverDisableUserInteractionView()
                 new.translatesAutoresizingMaskIntoConstraints = false
@@ -88,9 +85,11 @@ extension ViewBehaverWrapper: UserInteractionable where Base: NSView {
                     new.leftAnchor.constraint(equalTo: base.leftAnchor),
                     new.rightAnchor.constraint(equalTo: base.rightAnchor)
                 ])
+                return new
             }
         } else {
             disableView?.removeFromSuperview()
+            return nil
         }
     }
     
