@@ -221,7 +221,7 @@ public extension ProgressHUD {
         
     }
     
-    open override func viewDidMoveToWindow() {
+    override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
         if window != nil {
             showAnimation()
@@ -351,7 +351,9 @@ open class ProgressHUD: NSView {
         contentView.layer?.backgroundColor = contentColor.cgColor
         contentView.layer?.cornerRadius = contentCornerRadius
         contentView.constraints.forEach({
-            ($0.secondItem as? NSView) != contentView && ($0.firstItem as? NSView) != contentView
+            if ($0.secondItem as? NSView) != contentView && ($0.firstItem as? NSView) != contentView {
+                contentView.removeConstraint($0)
+            }
         })
         switch alignment {
         case .top:
@@ -504,7 +506,7 @@ extension ProgressHUD {
 
 public extension ProgressHUD {
     
-    open var font: NSFont? {
+    var font: NSFont? {
         get {
             (indicatorView as? IndicatorView)?.label.font
         }
@@ -513,7 +515,7 @@ public extension ProgressHUD {
         }
     }
     
-    open var text: String? {
+    var text: String? {
         get {
             (indicatorView as? IndicatorView)?.label.stringValue
         }
@@ -523,7 +525,7 @@ public extension ProgressHUD {
         }
     }
     
-    open var textColor: NSColor? {
+    var textColor: NSColor? {
         get {
             (indicatorView as? IndicatorView)?.label.textColor
         }
@@ -532,7 +534,7 @@ public extension ProgressHUD {
         }
     }
     
-    open var image: NSImage? {
+    var image: NSImage? {
         get {
             (indicatorView as? IndicatorView)?.imageView.image
         }
@@ -541,7 +543,7 @@ public extension ProgressHUD {
         }
     }
     
-    open var textAligment: NSTextAlignment? {
+    var textAligment: NSTextAlignment? {
         get {
             (indicatorView as? IndicatorView)?.label.alignment
         }
@@ -550,13 +552,13 @@ public extension ProgressHUD {
         }
     }
     
-    open var indicator: NSProgressIndicator? {
+    var indicator: NSProgressIndicator? {
         get {
             (indicatorView as? IndicatorView)?.indicator
         }
     }
     
-    open var isHideIndicator: Bool {
+    var isHideIndicator: Bool {
         get {
             (indicatorView as? IndicatorView)?.indicator.isHidden ?? true
         }
@@ -565,7 +567,7 @@ public extension ProgressHUD {
         }
     }
     
-    open var isHideImage: Bool {
+    var isHideImage: Bool {
         get {
             (indicatorView as? IndicatorView)?.imageView.isHidden ?? true
         }
@@ -574,19 +576,19 @@ public extension ProgressHUD {
         }
     }
     
-    open var contentStackView: NSStackView? {
+    var contentStackView: NSStackView? {
         get {
             (indicatorView as? IndicatorView)?.stackView
         }
     }
     
-    open var contentIndicatorView: IndicatorView? {
+    var contentIndicatorView: IndicatorView? {
         get {
             indicatorView as? IndicatorView
         }
     }
     
-    open class IndicatorView: NSView {
+    class IndicatorView: NSView {
         
         public let indicator = NSProgressIndicator()
         

@@ -225,6 +225,7 @@ extension SheetWindow {
         guard let contentView = contentView else {
             return
         }
+        
         DispatchQueue.main.async {
             contentView.layer?.position = CGPoint(x: contentView.bounds.width / 2.0, y: contentView.bounds.height / 2.0)
             contentView.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
