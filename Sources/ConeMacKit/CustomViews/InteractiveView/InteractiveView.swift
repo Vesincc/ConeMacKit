@@ -114,5 +114,11 @@ open class InteractiveView: NSView, InteractiveViewProtocol {
             interactiveMouseDownSuffix(with: event)
         }
     }
+    
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        isClicked = false
+        updateMouseEnterExitTrackingArea()
+    }
 }
  

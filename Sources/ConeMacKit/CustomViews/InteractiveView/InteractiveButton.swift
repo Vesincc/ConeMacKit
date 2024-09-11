@@ -170,4 +170,9 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
     open override func mouseUp(with event: NSEvent) {
     }
     
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        isClicked = false
+        updateMouseEnterExitTrackingArea()
+    }
 }

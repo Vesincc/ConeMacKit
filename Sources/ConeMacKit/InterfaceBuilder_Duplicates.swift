@@ -562,7 +562,7 @@
 //public extension InteractiveButton {
 //    
 //    // MARK: - normal
-//    @IBInspectable var nomalLocalizedKey: String? {
+//    @IBInspectable var normalLocalizedKey: String? {
 //        get {
 //            text(for: .normal)
 //        }
@@ -571,7 +571,7 @@
 //        }
 //    }
 //    
-//    //    @IBInspectable var nomalText: String? {
+//    //    @IBInspectable var normalText: String? {
 //    //        get {
 //    //            text(for: .normal)
 //    //        }

@@ -52,5 +52,9 @@ open class GradientView: InteractiveView, InteractiveGradientViewProtocol {
         
     } 
     
-    
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        isClicked = false
+        updateMouseEnterExitTrackingArea()
+    }
 }

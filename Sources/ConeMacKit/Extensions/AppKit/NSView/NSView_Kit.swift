@@ -23,6 +23,8 @@ public extension NSView {
             layer?.anchorPoint = newPoint
             let oldPosition = layer?.position ?? .zero
             layer?.position = CGPoint(x: oldPosition.x + offset.x, y: oldPosition.y + offset.y)
+            layer?.setNeedsDisplay()
+            layer?.displayIfNeeded()
         }
     }
     

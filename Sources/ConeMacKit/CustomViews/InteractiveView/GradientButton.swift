@@ -52,4 +52,10 @@ open class GradientButton: InteractiveButton, InteractiveGradientButtonProtocol 
         
     }
     
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        isClicked = false
+        updateMouseEnterExitTrackingArea()
+    }
+    
 }

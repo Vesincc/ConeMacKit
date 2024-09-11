@@ -265,7 +265,7 @@ open class ProgressHUD: NSView {
     /// content offset
     open var offset: CGPoint = .zero
     
-    open var contentEdgeInset: NSEdgeInsets = NSEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    open var contentEdgeInset: NSEdgeInsets = NSEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     
     public enum Animation {
         case none
@@ -540,6 +540,13 @@ public extension ProgressHUD {
         }
         set {
             (indicatorView as? IndicatorView)?.imageView.image = newValue
+            if newValue != nil {
+                isHideIndicator = true
+                isHideImage = false
+            } else {
+                isHideIndicator = false
+                isHideImage = true
+            }
         }
     }
     
@@ -633,12 +640,15 @@ public extension ProgressHUD {
                 stackView.leftAnchor.constraint(equalTo: leftAnchor),
                 stackView.rightAnchor.constraint(equalTo: rightAnchor)
             ])
-            stackView.spacing = 8
-            indicator.style = .spinning
-            indicator.startAnimation(nil)
+            stackView.spacing = 2
             stackView.addArrangedSubview(indicator)
             stackView.addArrangedSubview(imageView)
             stackView.addArrangedSubview(label)
+            
+            indicator.style = .spinning
+            indicator.controlSize = .small
+            indicator.startAnimation(nil)
+            
         }
         
     }

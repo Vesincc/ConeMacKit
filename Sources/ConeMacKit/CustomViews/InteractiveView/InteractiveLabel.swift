@@ -321,6 +321,12 @@ open class InteractiveLabel: NSTextField {
         updateItemsRects(drawEnable: drawTextBorder)
     }
     
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        items.forEach({ $0.isClicked = false })
+        updateMouseEnterExitTrackingArea()
+    }
+    
 }
 
 private extension InteractiveLabel {
