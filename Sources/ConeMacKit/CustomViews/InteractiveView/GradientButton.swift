@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by HanQi on 2023/11/3.
 //
@@ -24,15 +24,21 @@ open class GradientButton: InteractiveButton, InteractiveGradientButtonProtocol 
     
     open override func makeBackingLayer() -> CALayer {
         let backingLayer = super.makeBackingLayer()
-        let gradientLayer = CAGradientLayer()
+ 
         gradientLayer.contentsScale = backingLayer.contentsScale
         gradientLayer.needsDisplayOnBoundsChange = true
-        return gradientLayer
+         
+        if #available(macOS 10.14, *) {
+            return gradientLayer
+        } else {
+            backingLayer.addSublayer(gradientLayer)
+            gradientLayer.frame = backingLayer.bounds
+            gradientLayer.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
+            return backingLayer
+        }
     }
     
-    var gradientLayer: CAGradientLayer? {
-        layer as? CAGradientLayer
-    }
+    let gradientLayer: CAGradientLayer = CAGradientLayer()
     
     public override func interactiveStateDidChanged(lastState: Interactive.State) {
         super.interactiveStateDidChanged(lastState: lastState)
@@ -45,10 +51,10 @@ open class GradientButton: InteractiveButton, InteractiveGradientButtonProtocol 
         guard let colors = colors else {
             return
         }
-        gradientLayer?.colors = colors.map({ $0.cgColor })
-        gradientLayer?.startPoint = points.start
-        gradientLayer?.endPoint = points.end
-        gradientLayer?.locations = locations
+        gradientLayer.colors = colors.map({ $0.cgColor })
+        gradientLayer.startPoint = points.start
+        gradientLayer.endPoint = points.end
+        gradientLayer.locations = locations
         
     }
     
