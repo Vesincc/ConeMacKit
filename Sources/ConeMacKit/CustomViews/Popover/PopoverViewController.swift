@@ -8,7 +8,7 @@
 import AppKit
 
 public struct PopoverConfiger {
-    public init(indicatorDirection: WindowPopoverDirection, indicatorAlignment: PopoverDirectionAlignment = .center, autoIndicatorDirection: Bool = true, spacing: CGFloat = 10, indicatorHeight: CGFloat = 8, indicatorWidth: CGFloat = 10, indicatorOffset: CGPoint = .zero, cornerRadius: CGFloat = 0, backgroundView: NSView? = nil, backgroundPadding: CGFloat = 0, contentBackgroundView: NSView? = nil, contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), autoHidden: Bool = false, appearance: NSAppearance? = nil) {
+    public init(indicatorDirection: WindowPopoverDirection, indicatorAlignment: PopoverDirectionAlignment = .center, autoIndicatorDirection: Bool = true, spacing: CGFloat = 10, indicatorHeight: CGFloat = 8, indicatorWidth: CGFloat = 10, indicatorOffset: CGPoint = .zero, cornerRadius: CGFloat = 0, backgroundView: NSView? = nil, backgroundPadding: CGFloat = 0, contentBackgroundView: NSView? = nil, contentEdgeInsets: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), autoHidden: Bool = false, appearance: NSAppearance? = nil, windowCanBecomeKey: Bool = true) {
         self.indicatorDirection = indicatorDirection
         self.indicatorAlignment = indicatorAlignment
         self.autoIndicatorDirection = autoIndicatorDirection
@@ -23,6 +23,7 @@ public struct PopoverConfiger {
         self.contentEdgeInsets = contentEdgeInsets
         self.autoHidden = autoHidden
         self.appearance = appearance
+        self.windowCanBecomeKey = windowCanBecomeKey
     }
     
     public var indicatorAlignment: PopoverDirectionAlignment = .center
@@ -53,6 +54,8 @@ public struct PopoverConfiger {
     public var autoHidden: Bool = false
     
     public var appearance: NSAppearance?
+    
+    public var windowCanBecomeKey: Bool = true
 }
 
 
@@ -268,7 +271,7 @@ extension PopoverViewController {
         var targetFrame: CGRect = .zero
         
         let topDirection = { [unowned self] in
-            let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right, height: contentViewSize.height + configer.spacing + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom + configer.indicatorHeight * 2)
+            let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right, height: contentViewSize.height + configer.spacing + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom + configer.indicatorHeight)
             targetFrame.size = size
             var sizeOffset: CGSize = .zero
             switch configer.indicatorAlignment {
@@ -292,21 +295,21 @@ extension PopoverViewController {
             direction = .top
         }
         let leftDirection = { [unowned self] in
-            let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right + configer.spacing + configer.indicatorHeight * 2, height: contentViewSize.height + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom)
+            let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right + configer.spacing + configer.indicatorHeight, height: contentViewSize.height + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom)
             targetFrame.size = size
             let sizeOffset = CGSize(width: (sourceFrameInWindow.width - size.width) / 2.0, height: (sourceFrameInWindow.height - size.height) / 2.0)
             targetFrame.origin = CGPoint(x: sourceFrameInWindow.maxX, y: sourceFrameInWindow.minY + sizeOffset.height - configer.indicatorOffset.y)
             direction = .left
         }
         let rightDirection = { [unowned self] in
-            let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right + configer.spacing + configer.indicatorHeight * 2, height: contentViewSize.height + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom)
+            let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right + configer.spacing + configer.indicatorHeight, height: contentViewSize.height + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom)
             targetFrame.size = size
             let sizeOffset = CGSize(width: (sourceFrameInWindow.width - size.width) / 2.0, height: (sourceFrameInWindow.height - size.height) / 2.0)
             targetFrame.origin = CGPoint(x: sourceFrameInWindow.minX - size.width, y: sourceFrameInWindow.minY + sizeOffset.height - configer.indicatorOffset.y)
             direction = .right
         }
         let bottomDirection = { [unowned self] in
-            let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right, height: contentViewSize.height + configer.spacing + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom + configer.indicatorHeight * 2)
+            let size = CGSize(width: contentViewSize.width + configer.contentEdgeInsets.left + configer.contentEdgeInsets.right, height: contentViewSize.height + configer.spacing + configer.contentEdgeInsets.top + configer.contentEdgeInsets.bottom + configer.indicatorHeight)
             targetFrame.size = size
             var sizeOffset: CGSize = .zero
             switch configer.indicatorAlignment {

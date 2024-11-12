@@ -31,7 +31,10 @@ open class PopoverWindow: NSWindow {
     }
     
     public override var canBecomeKey: Bool {
-        true
+        if let vc = self.contentViewController as? PopoverViewController {
+            return vc.configer.windowCanBecomeKey
+        }
+        return true
     }
     
     deinit {
