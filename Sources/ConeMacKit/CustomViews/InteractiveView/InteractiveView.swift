@@ -9,6 +9,8 @@ import AppKit
 
 open class InteractiveView: NSView, InteractiveViewProtocol {
  
+    /// 是否向superview转发事件
+    public var shouldForwardEventToSuperview: Bool = true
      
     public var backgroundColorEnable: Bool {
         true
@@ -103,15 +105,26 @@ open class InteractiveView: NSView, InteractiveViewProtocol {
     }
     
     open override func mouseDown(with event: NSEvent) {
+        let local = convert(event.locationInWindow, from: nil)
+        guard bounds.contains(local) else {
+            return
+        }
         interactiveMouseDownPrefix(with: event)
-        if isEnabled {
+        if shouldForwardEventToSuperview {
             super.mouseDown(with: event)
         }
     }
     
     open override func mouseUp(with event: NSEvent) {
+        let local = convert(event.locationInWindow, from: nil)
+        guard bounds.contains(local) else {
+            return
+        }
         if isClicked {
             interactiveMouseDownSuffix(with: event)
+        }
+        if shouldForwardEventToSuperview {
+            super.mouseUp(with: event)
         }
     }
     

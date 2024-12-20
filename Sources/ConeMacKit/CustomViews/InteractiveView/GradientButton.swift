@@ -23,19 +23,7 @@ open class GradientButton: InteractiveButton, InteractiveGradientButtonProtocol 
     public var interactiveLocations: [Interactive.State : [NSNumber]] = [:]
     
     open override func makeBackingLayer() -> CALayer {
-        let backingLayer = super.makeBackingLayer()
- 
-        gradientLayer.contentsScale = backingLayer.contentsScale
-        gradientLayer.needsDisplayOnBoundsChange = true
-         
-        if #available(macOS 10.14, *) {
-            return gradientLayer
-        } else {
-            backingLayer.addSublayer(gradientLayer)
-            gradientLayer.frame = backingLayer.bounds
-            gradientLayer.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
-            return backingLayer
-        }
+        gradientLayer
     }
     
     let gradientLayer: CAGradientLayer = CAGradientLayer()
@@ -55,7 +43,6 @@ open class GradientButton: InteractiveButton, InteractiveGradientButtonProtocol 
         gradientLayer.startPoint = points.start
         gradientLayer.endPoint = points.end
         gradientLayer.locations = locations
-        
     }
     
     open override func viewDidMoveToWindow() {

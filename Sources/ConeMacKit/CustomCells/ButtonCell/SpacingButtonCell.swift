@@ -85,7 +85,7 @@ open class SpacingButtonCell: NSButtonCell {
         let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0) + imageYOffset
         switch alignment {
         case .left:
-            if userInterfaceLayoutDirection == .leftToRight {
+            if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
                 return CGRect(
                     x: CGFloat(floor(contentEdgeInset.left + offset.imageOffset.x)),
                     y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.imageOffset.y)),
@@ -101,7 +101,7 @@ open class SpacingButtonCell: NSButtonCell {
                 )
             }
         case .right:
-            if userInterfaceLayoutDirection == .leftToRight {
+            if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
                 return CGRect(
                     x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.imageOffset.x)),
                     y: CGFloat(floor(contentEdgeInset.top + offset.imageOffset.y)),
@@ -137,7 +137,7 @@ open class SpacingButtonCell: NSButtonCell {
         let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0) + titleYOffset
         switch alignment {
         case .left:
-            if userInterfaceLayoutDirection == .leftToRight {
+            if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
                 return CGRect(
                     x: CGFloat(floor(contentEdgeInset.left + offset.titleOffset.x)),
                     y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.titleOffset.y)),
@@ -154,7 +154,7 @@ open class SpacingButtonCell: NSButtonCell {
             }
             
         case .right:
-            if userInterfaceLayoutDirection == .leftToRight {
+            if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
                 return CGRect(
                     x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.titleOffset.x)),
                     y: CGFloat(floor(contentEdgeInset.top + offset.titleOffset.y)),
@@ -383,7 +383,7 @@ fileprivate extension SpacingButtonCell {
         case .imageRight:
             return imageRight
         case .imageLeading:
-            switch userInterfaceLayoutDirection {
+            switch NSApplication.shared.userInterfaceLayoutDirection {
             case .leftToRight:
                 return imageLeft
             case .rightToLeft:
@@ -392,7 +392,7 @@ fileprivate extension SpacingButtonCell {
                 fatalError()
             }
         case .imageTrailing:
-            switch userInterfaceLayoutDirection {
+            switch NSApplication.shared.userInterfaceLayoutDirection {
             case .leftToRight:
                 return imageRight
             case .rightToLeft:

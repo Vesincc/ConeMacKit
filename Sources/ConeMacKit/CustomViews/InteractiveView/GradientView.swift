@@ -23,16 +23,10 @@ open class GradientView: InteractiveView, InteractiveGradientViewProtocol {
     public var interactiveLocations: [Interactive.State : [NSNumber]] = [:]
     
     open override func makeBackingLayer() -> CALayer {
-        let backingLayer = super.makeBackingLayer()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.contentsScale = backingLayer.contentsScale
-        gradientLayer.needsDisplayOnBoundsChange = true
-        return gradientLayer
+        gradientLayer
     }
     
-    var gradientLayer: CAGradientLayer? {
-        layer as? CAGradientLayer
-    }
+    let gradientLayer: CAGradientLayer = CAGradientLayer()
     
     public override func interactiveStateDidChanged(lastState: Interactive.State) {
         super.interactiveStateDidChanged(lastState: lastState)
@@ -45,10 +39,10 @@ open class GradientView: InteractiveView, InteractiveGradientViewProtocol {
         guard let colors = colors else {
             return
         }
-        gradientLayer?.colors = colors.map({ $0.cgColor })
-        gradientLayer?.startPoint = points.start
-        gradientLayer?.endPoint = points.end
-        gradientLayer?.locations = locations
+        gradientLayer.colors = colors.map({ $0.cgColor })
+        gradientLayer.startPoint = points.start
+        gradientLayer.endPoint = points.end
+        gradientLayer.locations = locations
         
     } 
     

@@ -28,6 +28,10 @@ public extension SheetWindowCloseProtocol {
         .zero
     }
     
+    func closeAction(sender: NSButton) {
+        dismiss(completion: nil)
+    }
+    
 }
 
 public class SheetWindow: NSWindow {
@@ -226,41 +230,66 @@ extension SheetWindow {
             return
         }
         
+        contentView.wantsLayer = true
         DispatchQueue.main.async {
-            contentView.layer?.position = CGPoint(x: contentView.bounds.width / 2.0, y: contentView.bounds.height / 2.0)
-            contentView.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            contentView.alphaValue = 0.7
-            contentView.layer?.setAffineTransform(.init(scaleX: 0.9, y: 0.9))
-             
-            DispatchQueue.main.async {
-                NSAnimationContext.runAnimationGroup { context in
-                    context.allowsImplicitAnimation = true
-                    context.duration = 0.2
-                    contentView.animator().alphaValue = 1
-                    contentView.animator().layer?.setAffineTransform(.identity)
-                } completionHandler: {
-                    completion?()
-                }
-            }
+            contentView.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         }
+         
+        let fade = CABasicAnimation(keyPath: "opacity")
+        fade.fromValue = 0.7
+        fade.toValue = 1
+        
+        let scale = CABasicAnimation(keyPath: "transform")
+        scale.fromValue = NSValue(caTransform3D: CATransform3DMakeScale(0.9, 0.9, 1))
+        scale.toValue = NSValue(caTransform3D: CATransform3DIdentity)
+        
+        let animation = CAAnimationGroup()
+        animation.animations = [fade, scale]
+        animation.duration = 0.2
+        animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock {
+            completion?()
+        }
+        contentView.layer?.add(animation, forKey: "popupOpenAnimation")
+        CATransaction.commit()
     }
     
     func popupCloseAnimation(completion: (() -> ())? = nil) {
         guard let contentView = contentView else {
             return
         }
+        
+        contentView.wantsLayer = true // 确保视图有layer支持
+        
         DispatchQueue.main.async {
-            contentView.layer?.position = CGPoint(x: contentView.bounds.width / 2.0, y: contentView.bounds.height / 2.0)
-            contentView.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            NSAnimationContext.runAnimationGroup { context in
-                context.allowsImplicitAnimation = true
-                context.duration = 0.2
-                contentView.animator().alphaValue = 0
-                contentView.animator().layer?.setAffineTransform(.init(scaleX: 0.9, y: 0.9))
-            } completionHandler: {
-                completion?()
-            }
+            contentView.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         }
+         
+        let fadeOut = CABasicAnimation(keyPath: "opacity")
+        fadeOut.fromValue = contentView.layer?.opacity
+        fadeOut.toValue = 0
+         
+        let scaleDown = CABasicAnimation(keyPath: "transform")
+        scaleDown.fromValue = contentView.layer?.transform
+        scaleDown.toValue = CATransform3DMakeScale(0.9, 0.9, 1)
+         
+        let animationGroup = CAAnimationGroup()
+        animationGroup.animations = [fadeOut, scaleDown]
+        animationGroup.duration = 0.2
+        animationGroup.timingFunction = CAMediaTimingFunction(name: .easeIn)
+        animationGroup.fillMode = .backwards
+         
+        CATransaction.begin()
+        CATransaction.setCompletionBlock {
+            completion?()
+        }
+         
+        contentView.layer?.add(animationGroup, forKey: "popupCloseAnimation")
+        
+        CATransaction.commit()
+        
     }
     
 }

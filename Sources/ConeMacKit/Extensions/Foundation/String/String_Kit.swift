@@ -100,6 +100,14 @@ public extension String {
         return false
     }
      
+    func regular(regex: String) -> [NSTextCheckingResult] {
+        do {
+            let expression = try NSRegularExpression(pattern: regex, options: [])
+            return expression.matches(in: self, options: [], range: .init(location: 0, length: count))
+        } catch {
+            return []
+        }
+    }
 }
   
 public extension Array where Element == String {

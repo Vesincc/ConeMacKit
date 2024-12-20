@@ -83,6 +83,7 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
         }
         initConfiger()
     }
+     
     
     private func initConfiger() {
         wantsLayer = true
