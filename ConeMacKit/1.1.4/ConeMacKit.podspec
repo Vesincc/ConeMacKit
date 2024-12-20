@@ -28,7 +28,7 @@ Pod::Spec.new do |spec|
   Mac 开发基础组件 1.1.4
                    DESC
 
-  spec.homepage     = "git@github.com:Vesincc/ConeMacKit.git"
+  spec.homepage     = "https://github.com/Vesincc/ConeMacKit"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -81,7 +81,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :git => "https://github.com/Vesincc/ConeMacKit.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "git@github.com:Vesincc/ConeMacKit.git", :tag => "#{spec.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
