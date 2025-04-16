@@ -14,6 +14,7 @@ public enum PaceResult<T> {
     case failure(Error)
 }
 
+
 public extension PaceResult {
     static private func unit(x: T) -> PaceResult<T> {
         .success(x)

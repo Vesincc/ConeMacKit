@@ -64,7 +64,7 @@ open class LineProgressView: NSView {
     
     open var colors: [NSColor] = [NSColor(rgb: 0x3FE8A1), NSColor(rgb: 0x3FE8A1)] {
         didSet {
-            progressLayer.colors = colors
+            progressLayer.colors = colors.map({ $0.cgColor })
         }
     }
     

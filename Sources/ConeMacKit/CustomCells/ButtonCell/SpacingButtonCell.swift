@@ -7,18 +7,21 @@
 
 import Foundation
 import AppKit
-
-
+ 
+/// 支持图片/标题自定义布局的 NSButtonCell 子类。
+/// 可自定义间距、内边距、图片/文字垂直偏移，并支持标题压缩适应宽度。
 open class SpacingButtonCell: NSButtonCell {
      
+    /// 图片在垂直方向上的偏移量（+向下，-向上）
     @IBInspectable public var imageYOffset: CGFloat = 0
     
+    /// 标题在垂直方向上的偏移量（+向下，-向上）
     @IBInspectable public var titleYOffset: CGFloat = 0
-
-
+ 
+    /// 图片与标题之间的间距
     @IBInspectable public var spacing: CGFloat = 0
-     
 
+    /// 内容区域左边距
     @IBInspectable public var leftEdgeInset: CGFloat {
         get {
             contentEdgeInset.left
@@ -28,6 +31,7 @@ open class SpacingButtonCell: NSButtonCell {
         }
     }
 
+    /// 内容区域上边距
     @IBInspectable public var topEdgeInset: CGFloat {
         get {
             contentEdgeInset.top
@@ -37,6 +41,7 @@ open class SpacingButtonCell: NSButtonCell {
         }
     }
 
+    /// 内容区域右边距
     @IBInspectable public var rightEdgeInset: CGFloat {
         get {
             contentEdgeInset.right
@@ -46,6 +51,7 @@ open class SpacingButtonCell: NSButtonCell {
         }
     }
 
+    /// 内容区域下边距
     @IBInspectable public var bottomEdgeInset: CGFloat {
         get {
             contentEdgeInset.bottom
@@ -54,372 +60,342 @@ open class SpacingButtonCell: NSButtonCell {
             contentEdgeInset.bottom = newValue
         }
     }
-
+     
+    /// 是否允许标题根据填充满可用宽度
+    /// - 默认为 false，表示标题将使用其原始宽度，不会填充。
+    /// - 设置为 true 时 title填满剩余位置 可以通过调整 aligment 调整文本对齐
+    @IBInspectable public var titleFlexibleSize: Bool = false
+    
+    /// 内容区域内边距（对应上/左/下/右）
     public var contentEdgeInset: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
- 
+    
+    
     public override var cellSize: NSSize {
-        return CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
+        CGSize(width: contentFullLayout().contentSize.width + contentEdgeInset.left + contentEdgeInset.right,
+               height: contentFullLayout().contentSize.height + contentEdgeInset.top + contentEdgeInset.bottom).ceilSize
     }
     
     public override func cellSize(forBounds rect: NSRect) -> NSSize {
-        return CGSize(width: contentFullSize.width + contentEdgeInset.left + contentEdgeInset.right, height: contentFullSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
+        CGSize(width: contentFullLayout().contentSize.width + contentEdgeInset.left + contentEdgeInset.right,
+               height: contentFullLayout().contentSize.height + contentEdgeInset.top + contentEdgeInset.bottom).ceilSize
     }
-     
     
-    private var imagePositionFixed: NSControl.ImagePosition {
-        if imagePosition == .imageLeft {
-            return .imageLeading
-        } else if imagePosition == .imageRight {
-            return .imageTrailing
-        }
-        return imagePosition
-    }
-
+    
+    
     public override func imageRect(forBounds rect: NSRect) -> NSRect {
-        let targetSize = CGSize(width: rect.size.width - leftEdgeInset - rightEdgeInset, height: rect.size.height - topEdgeInset - bottomEdgeInset)
-        let contentSize = resizeContentSize(at: rect)
-        let imageSize = resizeImageAndTitleSize(at: rect).imageSize
-        let offset = resizeContentOffset(at: rect)
-
-        let xSpacing = max(floor(targetSize.width - contentSize.width) / 2.0, 0)
-        let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0) + imageYOffset
-        switch alignment {
-        case .left:
-            if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
-                return CGRect(
-                    x: CGFloat(floor(contentEdgeInset.left + offset.imageOffset.x)),
-                    y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.imageOffset.y)),
-                    width: imageSize.width,
-                    height: imageSize.height
-                )
-            } else {
-                return CGRect(
-                    x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.imageOffset.x)),
-                    y: CGFloat(floor(contentEdgeInset.top + offset.imageOffset.y)),
-                    width: imageSize.width,
-                    height: imageSize.height
-                )
-            }
-        case .right:
-            if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
-                return CGRect(
-                    x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.imageOffset.x)),
-                    y: CGFloat(floor(contentEdgeInset.top + offset.imageOffset.y)),
-                    width: imageSize.width,
-                    height: imageSize.height
-                )
-            } else {
-                return CGRect(
-                    x: CGFloat(floor(contentEdgeInset.left + offset.imageOffset.x)),
-                    y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.imageOffset.y)),
-                    width: imageSize.width,
-                    height: imageSize.height
-                )
-            }
-            
-        default:
-            return CGRect(
-                x: CGFloat(floor(contentEdgeInset.left + xSpacing + offset.imageOffset.x)),
-                y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.imageOffset.y)),
-                width: imageSize.width,
-                height: imageSize.height
-            )
-        }
+        fittingLayout(in: rect).image.pixelAlignment.offsetBy(dx: 0, dy: imageYOffset)
     }
 
     public override func titleRect(forBounds rect: NSRect) -> NSRect {
-        let targetSize = CGSize(width: rect.size.width - leftEdgeInset - rightEdgeInset, height: rect.size.height - topEdgeInset - bottomEdgeInset)
-        let contentSize = resizeContentSize(at: rect)
-        let titleSize = resizeImageAndTitleSize(at: rect).titleSize
-        let offset = resizeContentOffset(at: rect)
+        fittingLayout(in: rect).title.pixelAlignment.offsetBy(dx: 0, dy: titleYOffset)
+    }
+    
+    
+}
+
+
+// MARK: - 位置辅助
+fileprivate extension SpacingButtonCell {
+    
+    private enum ImagePosition {
+        case noImage
+        case imageOnly
+        case left
+        case right
+        /// 上
+        case above
+        /// 下
+        case below
+        case overlaps
+    }
+    
+    private var imagePositionWithUserInterfaceLayoutDirection: ImagePosition {
+        if image == nil || imageFullSize.isZero {
+            return .noImage
+        }
+        switch imagePosition {
+        case .noImage:
+            return .noImage
+        case .imageOnly:
+            return .imageOnly
+        case .imageLeft:
+            return .left
+        case .imageRight:
+            return .right
+        case .imageBelow:
+            return .below
+        case .imageAbove:
+            return .above
+        case .imageOverlaps:
+            return .overlaps
+        case .imageLeading:
+            return userInterfaceLayoutDirection == .leftToRight ? .left : .right
+        case .imageTrailing:
+            return userInterfaceLayoutDirection == .leftToRight ? .right : .left
+        @unknown default:
+            return .overlaps
+        }
+    }
+}
+
+
+// MARK: - 计算全尺寸
+fileprivate extension SpacingButtonCell {
+    
+    /// 全尺寸内容布局
+    func contentFullLayout() -> (contentSize: CGSize, imageRect: CGRect, titleRect: CGRect) {
+        let imageSize = imageFullSize
+        let titleSize = titleFullSize
         
-        let xSpacing = max(floor(targetSize.width - contentSize.width) / 2.0, 0)
-        let ySpacing = max(floor(targetSize.height - contentSize.height) / 2.0, 0) + titleYOffset
-        switch alignment {
+        switch imagePositionWithUserInterfaceLayoutDirection {
+        case .noImage:
+            return (
+                titleSize,
+                .zero,
+                CGRect(origin: .zero, size: titleSize)
+            )
+            
+        case .imageOnly:
+            return (
+                imageSize,
+                CGRect(origin: .zero, size: imageSize),
+                .zero
+            )
+            
         case .left:
-            if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
-                return CGRect(
-                    x: CGFloat(floor(contentEdgeInset.left + offset.titleOffset.x)),
-                    y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.titleOffset.y)),
-                    width: titleSize.width,
-                    height: titleSize.height
-                )
-            } else {
-                return CGRect(
-                    x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.titleOffset.x)),
-                    y: CGFloat(floor(contentEdgeInset.top + offset.titleOffset.y)),
-                    width: titleSize.width,
-                    height: titleSize.height
-                )
-            }
+            let totalWidth = imageSize.width + spacing + titleSize.width
+            let height = max(imageSize.height, titleSize.height)
+            
+            let imageOrigin = CGPoint(
+                x: 0,
+                y: (height - imageSize.height) / 2
+            )
+            let titleOrigin = CGPoint(
+                x: imageSize.width + spacing,
+                y: (height - titleSize.height) / 2
+            )
+            
+            return (
+                CGSize(width: totalWidth, height: height),
+                CGRect(origin: imageOrigin, size: imageSize),
+                CGRect(origin: titleOrigin, size: titleSize)
+            )
             
         case .right:
-            if NSApplication.shared.userInterfaceLayoutDirection == .leftToRight {
-                return CGRect(
-                    x: CGFloat(floor(contentEdgeInset.left + 2 * xSpacing + offset.titleOffset.x)),
-                    y: CGFloat(floor(contentEdgeInset.top + offset.titleOffset.y)),
-                    width: titleSize.width,
-                    height: titleSize.height
-                )
-            } else {
-                return CGRect(
-                    x: CGFloat(floor(contentEdgeInset.left + offset.titleOffset.x)),
-                    y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.titleOffset.y)),
-                    width: titleSize.width,
-                    height: titleSize.height
-                )
-            }
+            let totalWidth = titleSize.width + spacing + imageSize.width
+            let height = max(imageSize.height, titleSize.height)
             
-        default:
-            return CGRect(
-                x: CGFloat(floor(contentEdgeInset.left + xSpacing + offset.titleOffset.x)),
-                y: CGFloat(floor(contentEdgeInset.top + ySpacing + offset.titleOffset.y)),
-                width: titleSize.width + 1,
-                height: titleSize.height
+            let titleOrigin = CGPoint(
+                x: 0,
+                y: (height - titleSize.height) / 2
+            )
+            let imageOrigin = CGPoint(
+                x: titleSize.width + spacing,
+                y: (height - imageSize.height) / 2
+            )
+            
+            return (
+                CGSize(width: totalWidth, height: height),
+                CGRect(origin: imageOrigin, size: imageSize),
+                CGRect(origin: titleOrigin, size: titleSize)
+            )
+            
+        case .above:
+            let totalHeight = imageSize.height + spacing + titleSize.height
+            let width = max(imageSize.width, titleSize.width)
+            
+            let imageOrigin = CGPoint(
+                x: (width - imageSize.width) / 2,
+                y: 0
+            )
+            let titleOrigin = CGPoint(
+                x: (width - titleSize.width) / 2,
+                y: imageSize.height + spacing
+            )
+            
+            return (
+                CGSize(width: width, height: totalHeight),
+                CGRect(origin: imageOrigin, size: imageSize),
+                CGRect(origin: titleOrigin, size: titleSize)
+            )
+            
+        case .below:
+            let totalHeight = titleSize.height + spacing + imageSize.height
+            let width = max(imageSize.width, titleSize.width)
+            
+            let titleOrigin = CGPoint(
+                x: (width - titleSize.width) / 2,
+                y: 0
+            )
+            let imageOrigin = CGPoint(
+                x: (width - imageSize.width) / 2,
+                y: titleSize.height + spacing
+            )
+            
+            return (
+                CGSize(width: width, height: totalHeight),
+                CGRect(origin: imageOrigin, size: imageSize),
+                CGRect(origin: titleOrigin, size: titleSize)
+            )
+            
+        case .overlaps:
+            let width = max(imageSize.width, titleSize.width)
+            let height = max(imageSize.height, titleSize.height)
+            
+            let imageOrigin = CGPoint(
+                x: (width - imageSize.width) / 2,
+                y: (height - imageSize.height) / 2
+            )
+            let titleOrigin = CGPoint(
+                x: (width - titleSize.width) / 2,
+                y: (height - titleSize.height) / 2
+            )
+            
+            return (
+                CGSize(width: width, height: height),
+                CGRect(origin: imageOrigin, size: imageSize),
+                CGRect(origin: titleOrigin, size: titleSize)
             )
         }
-        
-        
-    }
- 
-
-}
-
-
-/// 全尺寸
-fileprivate extension SpacingButtonCell {
-     
-    /// 全尺寸总大小
-    var contentFullSize: CGSize {
-        if titleFullSize.isZero, imageFullSize.isZero {
-            return .zero
-        }
-        if titleFullSize.isZero {
-            return imageFullSize
-        }
-        if imageFullSize.isZero {
-            return titleFullSize
-        }
-        switch imagePositionFixed {
-        case .noImage:
-            return titleFullSize
-        case .imageOnly:
-            return imageFullSize
-        case .imageLeft, .imageRight, .imageLeading, .imageTrailing:
-            return CGSize(width: titleFullSize.width + imageFullSize.width + spacing, height: max(imageFullSize.height, titleFullSize.height))
-        case .imageBelow, .imageAbove:
-            return CGSize(width: max(imageFullSize.width, titleFullSize.width), height: imageFullSize.height + titleFullSize.height + spacing)
-        case .imageOverlaps:
-            return CGSize(width: max(titleFullSize.width, imageFullSize.width), height: max(titleFullSize.height, imageFullSize.height))
-        @unknown default:
-            return CGSize(width: max(titleFullSize.width, imageFullSize.width), height: max(titleFullSize.height, imageFullSize.height))
-        }
     }
     
-    /// 全尺寸title大小
+    /// 标题全尺寸（单行）
     var titleFullSize: CGSize {
-        var stringSize: CGSize = .zero
-        if let font = font, !title.isEmpty {
-            stringSize = NSAttributedString(string: title, attributes: [
-                NSAttributedString.Key.font : font
-            ]).boundingRect(with: CGSize(width: 4000, height: 4000)).size
-        } else {
-            stringSize = attributedTitle.boundingRect(with: CGSize(width: 4000, height: 4000)).size
-        }
-        let cellSize = CGSize(width: stringSize.width + contentEdgeInset.left + contentEdgeInset.right, height: stringSize.height + contentEdgeInset.top + contentEdgeInset.bottom)
-        let width: CGFloat = cellSize.width
-        let height = cellSize.height
-        var txtSize: CGSize = .zero
-        if let font = font, !title.isEmpty {
-            txtSize = NSAttributedString(string: title, attributes: [
-                NSAttributedString.Key.font : font
-            ]).boundingRect(with: CGSize(width: width - contentEdgeInset.left - contentEdgeInset.right, height: height - contentEdgeInset.top - contentEdgeInset.bottom)).size
-        } else {
-            txtSize = attributedTitle.boundingRect(with: CGSize(width: width - contentEdgeInset.left - contentEdgeInset.right, height: height - contentEdgeInset.top - contentEdgeInset.bottom)).size
-        }
-        return CGSize(width: ceil(txtSize.width), height: ceil(txtSize.height))
+        let attributed: NSAttributedString = {
+            if let font = font, !title.isEmpty {
+                return NSAttributedString(string: title, attributes: [.font: font])
+            } else {
+                return attributedTitle
+            }
+        }()
+        let size = attributed.size()
+        return CGSize(width: size.width, height: size.height)
     }
-
-    /// 全尺寸图片大小
+    
+    /// 图片全尺寸
     var imageFullSize: CGSize {
-        guard let imageSize = image?.size else {
-            return .zero
-        }
-        return CGSize(width: ceil(imageSize.width), height: ceil(imageSize.height))
+        guard let size = image?.size else { return .zero }
+        return CGSize(width: size.width, height: size.height)
     }
     
 }
 
-/// 调整尺寸
+// MARK: - 重新布局
 fileprivate extension SpacingButtonCell {
     
     
-    /// 调整后内容尺寸
-    /// - Parameter rect: rect
-    /// - Returns: res
-    func resizeContentSize(at rect: CGRect) -> CGSize {
-        var size = resizeImageAndTitleSize(at: rect)
-        size = (size.imageSize.alignment, size.titleSize.alignment)
-        switch imagePositionFixed {
+    func fittingLayout(in rect: CGRect) -> (image: CGRect, title: CGRect) {
+        let fullLayout = contentFullLayout()
+        let imageSize = imageFullSize
+        let titleSize = titleFullSize
+        
+        let targetRect = CGRect(x: contentEdgeInset.left,
+                                y: contentEdgeInset.top,
+                                width: rect.width - contentEdgeInset.left - contentEdgeInset.right,
+                                height: rect.height - contentEdgeInset.top - contentEdgeInset.bottom)
+         
+        let imagePosition = imagePositionWithUserInterfaceLayoutDirection
+        
+        var fittingSize = targetRect.size
+        if !titleFlexibleSize {
+            fittingSize = CGSize(width: min(targetRect.width, fullLayout.contentSize.width), height: min(targetRect.height, fullLayout.contentSize.height))
+        }
+        
+        var fittingImageSize: CGSize = .zero
+        var fittingTitleSize: CGSize = .zero
+        
+        var fittingImageOrigin: CGPoint = .zero
+        var fittingTitleOrigin: CGPoint = .zero
+         
+        switch imagePosition {
         case .noImage:
-            return size.titleSize
+            fittingImageSize = .zero
+            fittingTitleSize = fittingSize
+            
+            fittingImageOrigin = .zero
+            fittingTitleOrigin = .zero
+            
         case .imageOnly:
-            return size.imageSize
-        case .imageLeft, .imageRight, .imageLeading, .imageTrailing:
-            return CGSize(width: size.titleSize.width + size.imageSize.width + spacing, height: max(size.titleSize.height, size.imageSize.height))
-        case .imageBelow, .imageAbove:
-            return CGSize(width: max(size.titleSize.width, size.imageSize.width), height: size.imageSize.height + size.titleSize.height + spacing)
-        case .imageOverlaps:
-            return CGSize(width: max(size.imageSize.width, size.titleSize.width), height: max(size.imageSize.height, size.titleSize.height))
-        @unknown default:
-            return CGSize(width: max(size.imageSize.width, size.titleSize.width), height: max(size.imageSize.height, size.titleSize.height))
-        }
-    }
-    
-    
-    /// 调整尺寸后image和title尺寸
-    /// - Parameter rect: rect
-    /// - Returns: res
-    func resizeImageAndTitleSize(at rect: CGRect) -> (imageSize: CGSize, titleSize: CGSize) {
-        let targetSize = CGSize(width: rect.size.width - contentEdgeInset.left - contentEdgeInset.right, height: rect.size.height - contentEdgeInset.top - contentEdgeInset.bottom)
-        guard !targetSize.isZero else {
-            return (.zero, .zero)
-        }
-        let fullSize = contentFullSize
-        let imageFullSize = self.imageFullSize
-        let titleFullSize = self.titleFullSize
-        if targetSize >= fullSize {
-            return (imageFullSize, titleFullSize)
-        }
-        if titleFullSize.isZero, imageFullSize.isZero {
-            return (.zero, .zero)
-        }
-        if titleFullSize.isZero {
-            return (CGSize(width: min(targetSize.width, imageFullSize.width), height: min(targetSize.height, imageFullSize.height)), .zero)
-        }
-        if imageFullSize.isZero {
-            return (.zero, CGSize(width: min(targetSize.width, titleFullSize.width), height: min(targetSize.height, titleFullSize.height)))
-        }
-        switch imagePositionFixed {
-        case .noImage:
-            return (.zero, CGSize(width: min(targetSize.width, fullSize.width), height: min(targetSize.height, fullSize.height)))
-        case .imageOnly:
-            return (CGSize(width: min(targetSize.width, fullSize.width), height: min(targetSize.height, fullSize.height)), .zero)
-        case .imageLeft, .imageRight, .imageLeading, .imageTrailing:
-            let imageAndSpacing = imageFullSize.isZero ? 0 : (imageFullSize.width + spacing)
-            if targetSize.width >= fullSize.width {
-                return (CGSize(width: imageFullSize.width, height: min(targetSize.height, imageFullSize.height)), CGSize(width: titleFullSize.width, height: min(targetSize.height, titleFullSize.height)))
-            } else if targetSize.width >= imageAndSpacing {
-                return (CGSize(width: imageFullSize.width, height: min(targetSize.height, imageFullSize.height)), CGSize(width: targetSize.width - imageAndSpacing, height: min(targetSize.height, titleFullSize.height)))
+            fittingImageSize = fittingSize
+            fittingTitleSize = .zero
+            
+            fittingImageOrigin = .zero
+            fittingTitleOrigin = .zero
+            
+        case .left, .right:
+            fittingImageSize = CGSize(width: min(imageSize.width ,fittingSize.width),
+                                      height: min(imageSize.height, fittingSize.height))
+            let availableWidth = max(fittingSize.width - fittingImageSize.width - spacing, 0)
+            fittingTitleSize = CGSize(width: titleFlexibleSize ? availableWidth : min(availableWidth, titleSize.width),
+                                      height: min(titleSize.height, fittingSize.height))
+            
+            if imagePosition == .left {
+                fittingImageOrigin = CGPoint(x: 0, y: (fittingSize.height - fittingImageSize.height) / 2)
+                fittingTitleOrigin = CGPoint(x: fittingImageSize.width + spacing, y: (fittingSize.height - fittingTitleSize.height) / 2)
             } else {
-                return (CGSize(width: targetSize.width, height: min(targetSize.height, imageFullSize.height)), .zero)
+                fittingTitleOrigin = CGPoint(x: 0, y: (fittingSize.height - fittingTitleSize.height) / 2)
+                fittingImageOrigin = CGPoint(x: fittingTitleSize.width + spacing, y: (fittingSize.height - fittingImageSize.height) / 2)
             }
-        case .imageBelow, .imageAbove:
-            let imageAndSpacing = imageFullSize.isZero ? 0 : (imageFullSize.height + spacing)
-            if targetSize.height >= fullSize.height {
-                return (CGSize(width: min(targetSize.width, imageFullSize.width), height: imageFullSize.height), CGSize(width: min(targetSize.width, titleFullSize.width), height: titleFullSize.height))
-            } else if targetSize.height >= imageAndSpacing {
-                return (CGSize(width: min(targetSize.width, imageFullSize.width), height: imageFullSize.height), CGSize(width: min(targetSize.width, titleFullSize.width), height: targetSize.height - imageAndSpacing))
+             
+        case .above, .below:
+            fittingImageSize = CGSize(width: min(imageSize.width ,fittingSize.width),
+                                      height: min(imageSize.height, fittingSize.height))
+            let availableHeight = max(fittingSize.height - fittingImageSize.height - spacing, 0)
+            fittingTitleSize = CGSize(width: min(titleSize.width, fittingSize.width),
+                                      height: titleFlexibleSize ? availableHeight : min(availableHeight, titleSize.height))
+            
+            if imagePosition == .above {
+                fittingImageOrigin = CGPoint(x: (fittingSize.width - fittingImageSize.width) / 2, y: 0)
+                fittingTitleOrigin = CGPoint(x: (fittingSize.width - fittingTitleSize.width) / 2,  y: fittingImageSize.height + spacing)
             } else {
-                return (CGSize(width: min(targetSize.width, imageFullSize.width), height: targetSize.height), .zero)
+                fittingTitleOrigin = CGPoint(x: (fittingSize.width - fittingTitleSize.width) / 2, y: 0)
+                fittingImageOrigin = CGPoint(x: (fittingSize.width - fittingImageSize.width) / 2, y: fittingTitleSize.height + spacing)
             }
-        case .imageOverlaps:
-            return (CGSize(width: min(targetSize.width, imageFullSize.width), height: min(targetSize.height, imageFullSize.height)), CGSize(width: min(targetSize.width, titleFullSize.width), height: min(targetSize.height, titleFullSize.height)))
-        @unknown default:
-            return (CGSize(width: min(targetSize.width, imageFullSize.width), height: min(targetSize.height, imageFullSize.height)), CGSize(width: min(targetSize.width, titleFullSize.width), height: min(targetSize.height, titleFullSize.height)))
+        case .overlaps:
+            fittingImageSize = CGSize(width: min(imageSize.width, fittingSize.width),
+                                      height: min(imageSize.height, fittingSize.height))
+            fittingTitleSize = CGSize(width: min(titleSize.width, fittingSize.width),
+                                      height: min(titleSize.height, fittingSize.height))
+            
+            fittingImageOrigin = CGPoint(x: (fittingSize.width - fittingImageSize.width) / 2,
+                                         y: (fittingSize.height - fittingImageSize.height) / 2)
+            fittingTitleOrigin = CGPoint(x: (fittingSize.width - fittingTitleSize.width) / 2,
+                                         y: (fittingSize.height - fittingTitleSize.height) / 2)
         }
+        
+        let imageRect = CGRect(origin: CGPoint(x: (rect.width - fittingSize.width) / 2 + fittingImageOrigin.x, y: (rect.height - fittingSize.height) / 2 + fittingImageOrigin.y),
+                               size: fittingImageSize)
+        let titleRect = CGRect(origin: CGPoint(x: (rect.width - fittingSize.width) / 2 + fittingTitleOrigin.x, y: (rect.height - fittingSize.height) / 2 + fittingTitleOrigin.y),
+                               size: fittingTitleSize)
+        
+        return (imageRect, titleRect)
     }
-    
-    
-    /// 调整后image和title在tart中的偏移
-    /// - Parameter rect: rect
-    /// - Returns: res
-    func resizeContentOffset(at rect: CGRect) -> (imageOffset: CGPoint, titleOffset: CGPoint) {
-        let contentSize = resizeContentSize(at: rect)
-        let resize = resizeImageAndTitleSize(at: rect)
-        let imageSize = resize.imageSize
-        let titleSize = resize.titleSize
-        
-        if imageSize.isZero, titleSize.isZero {
-            return (.zero, .zero)
-        }
-        if imageSize.isZero {
-            return (.zero, .zero)
-        }
-        if titleSize.isZero {
-            return (.zero, .zero)
-        }
-        
-        
-        let imageLeft: (CGPoint, CGPoint) = (CGPoint(x: 0, y: imageSize.height > titleSize.height ? 0 : (titleSize.height - imageSize.height) / 2.0), CGPoint(x: imageSize.width + spacing, y: titleSize.height > imageSize.height ? 0 : (imageSize.height - titleSize.height) / 2.0))
-        
-        let imageRight: (CGPoint, CGPoint) = (CGPoint(x: titleSize.width + spacing, y: imageSize.height > titleSize.height ? 0 : (titleSize.height - imageSize.height) / 2.0), CGPoint(x: 0, y: titleSize.height > imageSize.height ? 0 : (imageSize.height - titleSize.height) / 2.0))
-        
-        switch imagePositionFixed {
-        case .noImage:
-            return (.zero, .zero)
-        case .imageOnly:
-            return (.zero, .zero)
-        case .imageAbove:
-            switch alignment {
-            case .left:
-                return (CGPoint(x: 0, y: 0), CGPoint(x: 0, y: imageSize.height + spacing))
-            case .right:
-                return (CGPoint(x: floor(contentSize.width - imageSize.width), y: 0), CGPoint(x: floor(contentSize.width - titleSize.width), y: imageSize.height + spacing))
-            default:
-                return (CGPoint(x: imageSize.width > titleSize.width ? 0 : (titleSize.width - imageSize.width) / 2.0, y: 0), CGPoint(x: titleSize.width > imageSize.width ? 0 : (titleSize.width - imageSize.width) / 2.0, y: imageSize.height + spacing))
-            }
-        case .imageBelow:
-            switch alignment {
-            case .left:
-                return (CGPoint(x: 0, y: titleSize.height), CGPoint(x: 0, y: 0))
-            case .right:
-                return (CGPoint(x: floor(contentSize.width - imageSize.width), y: titleSize.height), CGPoint(x: floor(contentSize.width - titleSize.width), y: 0))
-            default:
-                return (CGPoint(x: imageSize.width > titleSize.width ? 0 : (titleSize.width - imageSize.width) / 2.0, y: titleSize.height + spacing), CGPoint(x: titleSize.width > imageSize.width ? 0 : (imageSize.width - titleSize.width) / 2.0, y: 0))
-            }
-        case .imageLeft:
-            return imageLeft
-        case .imageRight:
-            return imageRight
-        case .imageLeading:
-            switch NSApplication.shared.userInterfaceLayoutDirection {
-            case .leftToRight:
-                return imageLeft
-            case .rightToLeft:
-                return imageRight
-            @unknown default:
-                fatalError()
-            }
-        case .imageTrailing:
-            switch NSApplication.shared.userInterfaceLayoutDirection {
-            case .leftToRight:
-                return imageRight
-            case .rightToLeft:
-                return imageLeft
-            @unknown default:
-                fatalError()
-            }
-        case .imageOverlaps:
-            return (CGPoint(x: imageSize.width > titleSize.width ? 0 : (titleSize.width - imageSize.width) / 2.0, y: imageSize.height > titleSize.height ? 0 : (titleSize.height - imageSize.height)  / 2.0), CGPoint(x: titleSize.width > imageSize.width ? 0 : (imageSize.width - titleSize.width) / 2.0, y: titleSize.height > imageSize.height ? 0 : (imageSize.height - titleSize.height) / 2.0))
-        @unknown default:
-            return (CGPoint(x: imageSize.width > titleSize.width ? 0 : (titleSize.width - imageSize.width) / 2.0, y: imageSize.height > titleSize.height ? 0 : (titleSize.height - imageSize.height)  / 2.0), CGPoint(x: titleSize.width > imageSize.width ? 0 : (imageSize.width - titleSize.width) / 2.0, y: titleSize.height > imageSize.height ? 0 : (imageSize.height - titleSize.height) / 2.0))
-        }
-    }
-    
-    
+     
 }
 
 fileprivate extension CGSize {
     var isZero: Bool {
         width <= 0 || height <= 0
     }
-    
-    var alignment: CGSize {
+    var ceilSize: CGSize {
         CGSize(width: ceil(width), height: ceil(height))
     }
-    
-    static func >= (l: CGSize, r: CGSize) -> Bool {
-        return l.width >= r.width && l.height >= r.height
+}
+
+fileprivate extension CGRect {
+    var pixelAlignment: CGRect {
+        let oldX = origin.x
+        let oldY = origin.y
+        
+        let newX = floor(oldX)
+        let newY = floor(oldY)
+        
+        let dx = oldX - newX
+        let dy = oldY - newY
+        
+        let newWidth = ceil(size.width + dx)
+        let newHeight = ceil(size.height + dy)
+        
+        return CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
     }
 }

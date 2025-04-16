@@ -7,7 +7,7 @@
 
 import AppKit
 
-public protocol MouseEventable {
+public protocol MouseEventable: AnyObject {
     
     /// 是否向superview转发事件
     var shouldForwardEventToSuperview: Bool { get set }
