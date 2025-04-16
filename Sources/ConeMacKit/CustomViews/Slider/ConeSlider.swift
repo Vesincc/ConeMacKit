@@ -9,7 +9,7 @@ import AppKit
  
 open class ConeSlider : NSControl {
     
-    enum ValueState {
+    public enum ValueState {
         case begin
         case change
         case end
@@ -54,10 +54,22 @@ open class ConeSlider : NSControl {
             updateProgress()
         }
     }
-    // 用于记录鼠标按下时的值.
-    private var preValue : Double?
+    public var valueState : ValueState = .begin
     
-    var valueState : ValueState = .begin
+    public var optionValues : [Any]? {
+        didSet {
+            if let optionValues = optionValues,
+               !optionValues.isEmpty {
+                maxValue = Double(optionValues.count - 1)
+            }
+        }
+    }
+    public var optionValue : Any? {
+        if let optionValues = optionValues {
+            return optionValues[Int(value)]
+        }
+        return nil
+    }
     
     private let knobLayer = CALayer()
     
@@ -71,6 +83,8 @@ open class ConeSlider : NSControl {
     
     private var dragStartLocation : NSPoint?
     private var dragStartProgress : Double?
+    
+    
     
     
     /// 轨道颜色
@@ -99,13 +113,7 @@ open class ConeSlider : NSControl {
             dotLayer.backgroundColor = dotColor.cgColor
         }
     }
-    
-    // 是否在值变化的时候允许撤销
-    @IBInspectable var allowUndoWhenValueChanged : Bool = true
-        
-    /// 是否在mousedown的时候接收事件。如果接收则会在鼠标按下的时候回调action。
-    @IBInspectable var recieveActionInMouseDown : Bool = false
-     
+
     open var totalWidth : CGFloat {
         return max(bounds.width, bounds.height) - knobWidth
     }
@@ -210,7 +218,6 @@ open class ConeSlider : NSControl {
         }
     }
     open override func mouseDown(with event: NSEvent) {
-        super.mouseDown(with: event)
         let location = convert(event.locationInWindow, from: nil)
         if knobLayer.frame.contains(location) {
             touchLocation = .knob
@@ -222,16 +229,9 @@ open class ConeSlider : NSControl {
         }else {
             touchLocation = .out
         }
-        preValue = value
-        
         valueState = .begin
-        
-        if recieveActionInMouseDown {
-            sendAction(action, to: target)
-        }
     }
     open override func mouseDragged(with event: NSEvent) {
-        super.mouseDragged(with: event)
         // 只有拖动滑块才能拖拽.
         guard let startLocation = dragStartLocation,
         let startProgress = dragStartProgress else {
@@ -249,7 +249,11 @@ open class ConeSlider : NSControl {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         // 实时更新 所以不需要隐式动画
-        value = Double(toPogress) * abs((maxValue - minValue)) + minValue
+        if let _ = optionValues {
+            value = Double(Int(Double(toPogress) * abs((maxValue - minValue)) + minValue))
+        }else {
+            value = Double(toPogress) * abs((maxValue - minValue)) + minValue
+        }
         CATransaction.commit()
         valueState = .change
         sendAction(action, to: target)
@@ -259,8 +263,11 @@ open class ConeSlider : NSControl {
         var toProgress = bounds.width > bounds.height ? location.x / bounds.width : location.y / bounds.height
         toProgress = max(0, toProgress)
         toProgress = min(1, toProgress)
-        value = Double(toProgress) * abs(maxValue - minValue) + minValue
-        
+        if let _ = optionValues {
+            value = Double(Int(Double(toProgress) * abs(maxValue - minValue) + minValue))
+        }else {
+            value = Double(toProgress) * abs(maxValue - minValue) + minValue
+        }
         if touchLocation == .knob {
             animateHighLightedKnob(highLighted: false)
         }
@@ -268,21 +275,6 @@ open class ConeSlider : NSControl {
         dragStartProgress = nil
         touchLocation = .out
         valueState = .end
-        if preValue == nil || preValue == value {
-            return
-        }
-        if allowUndoWhenValueChanged {
-            undoValue(preValue!)
-        }
-        preValue = nil
         sendAction(action, to: target)
-    }
-    private func undoValue(_ toValue : Double) {
-        undoManager?.registerUndo(withTarget: self, handler: { wself in
-            wself.undoValue(wself.value)
-            wself.value = toValue
-            wself.sendAction(wself.action, to: wself.target)
-        })
-        NotificationCenter.default.post(name: NSNotification.Name.NSUndoManagerDidUndoChange, object: undoManager)
     }
 }

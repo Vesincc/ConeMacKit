@@ -61,10 +61,10 @@ open class SpacingButtonCell: NSButtonCell {
         }
     }
      
-    /// 是否允许标题根据填充满可用宽度
+    /// title是否填充剩余区域
     /// - 默认为 false，表示标题将使用其原始宽度，不会填充。
     /// - 设置为 true 时 title填满剩余位置 可以通过调整 aligment 调整文本对齐
-    @IBInspectable public var titleFlexibleSize: Bool = false
+    @IBInspectable public var titleShouldFillCellSpace: Bool = false
     
     /// 内容区域内边距（对应上/左/下/右）
     public var contentEdgeInset: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -297,7 +297,7 @@ fileprivate extension SpacingButtonCell {
         let imagePosition = imagePositionWithUserInterfaceLayoutDirection
         
         var fittingSize = targetRect.size
-        if !titleFlexibleSize {
+        if !titleShouldFillCellSpace {
             fittingSize = CGSize(width: min(targetRect.width, fullLayout.contentSize.width), height: min(targetRect.height, fullLayout.contentSize.height))
         }
         
@@ -326,7 +326,7 @@ fileprivate extension SpacingButtonCell {
             fittingImageSize = CGSize(width: min(imageSize.width ,fittingSize.width),
                                       height: min(imageSize.height, fittingSize.height))
             let availableWidth = max(fittingSize.width - fittingImageSize.width - spacing, 0)
-            fittingTitleSize = CGSize(width: titleFlexibleSize ? availableWidth : min(availableWidth, titleSize.width),
+            fittingTitleSize = CGSize(width: titleShouldFillCellSpace ? availableWidth : min(availableWidth, titleSize.width),
                                       height: min(titleSize.height, fittingSize.height))
             
             if imagePosition == .left {
@@ -342,7 +342,7 @@ fileprivate extension SpacingButtonCell {
                                       height: min(imageSize.height, fittingSize.height))
             let availableHeight = max(fittingSize.height - fittingImageSize.height - spacing, 0)
             fittingTitleSize = CGSize(width: min(titleSize.width, fittingSize.width),
-                                      height: titleFlexibleSize ? availableHeight : min(availableHeight, titleSize.height))
+                                      height: titleShouldFillCellSpace ? availableHeight : min(availableHeight, titleSize.height))
             
             if imagePosition == .above {
                 fittingImageOrigin = CGPoint(x: (fittingSize.width - fittingImageSize.width) / 2, y: 0)
