@@ -393,8 +393,8 @@ fileprivate extension CGRect {
         let dx = oldX - newX
         let dy = oldY - newY
         
-        let newWidth = ceil(size.width + dx)
-        let newHeight = ceil(size.height + dy)
+        let newWidth = ceil(size.width) + ceil(dx)
+        let newHeight = ceil(size.height) + ceil(dy)
         
         return CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
     }
