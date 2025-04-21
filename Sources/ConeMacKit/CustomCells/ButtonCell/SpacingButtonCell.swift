@@ -69,6 +69,7 @@ open class SpacingButtonCell: NSButtonCell {
     /// 内容区域内边距（对应上/左/下/右）
     public var contentEdgeInset: NSEdgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     
+    private var textFieldCell = NSTextFieldCell()
     
     public override var cellSize: NSSize {
         CGSize(width: contentFullLayout().contentSize.width + contentEdgeInset.left + contentEdgeInset.right,
@@ -268,8 +269,8 @@ fileprivate extension SpacingButtonCell {
                 return attributedTitle
             }
         }()
-        let size = attributed.size()
-        return CGSize(width: size.width, height: size.height)
+        textFieldCell.attributedStringValue = attributed
+        return textFieldCell.cellSize
     }
     
     /// 图片全尺寸
@@ -393,8 +394,8 @@ fileprivate extension CGRect {
         let dx = oldX - newX
         let dy = oldY - newY
         
-        let newWidth = ceil(size.width) + ceil(dx)
-        let newHeight = ceil(size.height) + ceil(dy)
+        let newWidth = ceil(size.width + dx)
+        let newHeight = ceil(size.height + dy)
         
         return CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
     }
