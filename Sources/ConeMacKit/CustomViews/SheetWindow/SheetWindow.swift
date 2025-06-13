@@ -36,6 +36,8 @@ public extension SheetWindowCloseProtocol {
 
 public class SheetWindow: NSWindow {
     
+    public var windowButtonGroup: WindowButtonGroupBar?
+    
     var style: WindowPresentStyle? {
         didSet {
            configerStyle()
@@ -43,45 +45,7 @@ public class SheetWindow: NSWindow {
     }
     
     private var localMonitore: Any?
-    
-    private lazy var closeView: NSView = {
-        let view = NSView(frame: CGRect(x: 0, y: 0, width: 14, height: 16))
-        let bg = NSView(frame: CGRect(x: 1, y: 2, width: 12, height: 12))
-        bg.wantsLayer = true
-        
-        bg.layer?.backgroundColor = NSColor(rgb: 0x000000, alpha: 0.3).cgColor
-        bg.layer?.cornerRadius = 6
-        view.addSubview(bg)
-        
-        closeButton?.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 14, height: 16))
-        view.addSubview(closeButton!)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view
-            .viewBehaver
-            .mouseTracker
-            .subscribeMouseTrackEvent({ [weak self] event in
-                switch event {
-                case .entered:
-                    self?.closeButton?.isHighlighted = true
-                case .exited:
-                    self?.closeButton?.isHighlighted = false
-                    self?.closeButton?.alphaValue = 1
-                }
-            })
-        return view
-    }()
-    
-    public lazy var closeButton: NSButton? = {
-        let button = NSWindow.standardWindowButton(.closeButton, for: .closable)
-        button?.addTarget(self, action: #selector(closeAction))
-        if #available(macOS 10.14, *) {
-            button?.appearance = NSAppearance(named: .darkAqua)
-        } else {
-            button?.appearance = NSAppearance(named: .vibrantDark)
-        }
-        return button
-    }()
-    
+     
     override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
         super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
         appearance = NSAppearance(named: .aqua)
@@ -100,13 +64,18 @@ public class SheetWindow: NSWindow {
         }
          
         if closeEnable {
-            contentViewController.view.addSubview(closeView)
+            let group = WindowButtonGroupBar(types: [.closeButton])
+            group.appearance = appearance ?? self.appearance
+            group.buttons.forEach({ $0?.target = self })
+            group.translatesAutoresizingMaskIntoConstraints = false
+            group.button(for: .closeButton)?.addTarget(self, action: #selector(closeAction))
+            
+            contentViewController.view.addSubview(group)
             NSLayoutConstraint.activate([
-                closeView.topAnchor.constraint(equalTo: contentViewController.view.topAnchor, constant: 8 + offset.x),
-                closeView.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor, constant: 8 + offset.y),
-                closeView.widthAnchor.constraint(equalToConstant: 14),
-                closeView.heightAnchor.constraint(equalToConstant: 16)
+                group.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor, constant: 8 + offset.x),
+                group.topAnchor.constraint(equalTo: contentViewController.view.topAnchor, constant: 8 + offset.y)
             ])
+            self.windowButtonGroup = group
         }
         
         
@@ -116,16 +85,9 @@ public class SheetWindow: NSWindow {
         true
     }
     
-    public override func becomeKey() {
-        super.becomeKey()
-        closeButton?.alphaValue = 1
+    public override var canBecomeMain: Bool {
+        false
     }
-    
-    public override func resignKey() {
-        super.resignKey()
-        closeButton?.alphaValue = 1
-    }
-     
     
     func addWindowNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(windowWillClose(notification:)), name: NSWindow.willCloseNotification, object: nil)
@@ -179,8 +141,8 @@ public class SheetWindow: NSWindow {
     }
     
     @objc func closeAction() {
-        if let close = contentViewController as? SheetWindowCloseProtocol, close.closeEnable {
-            close.closeAction(sender: closeButton ?? NSButton())
+        if let close = contentViewController as? SheetWindowCloseProtocol, close.closeEnable, let closeButton = windowButtonGroup?.button(for: .closeButton) {
+            close.closeAction(sender: closeButton)
         } else {
             closeWindow(completion: nil)
         }
@@ -220,7 +182,6 @@ public class SheetWindow: NSWindow {
      
     
 }
-
  
 
 extension SheetWindow {

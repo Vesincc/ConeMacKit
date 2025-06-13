@@ -447,7 +447,7 @@ public extension ProgressHUD {
         }
         func configerViews() {
             wantsLayer = true
-            NSEvent.addLocalMonitorForEvents(matching: [.mouseEntered, .mouseExited]) { [weak self] event in
+            NSEvent.addLocalMonitorForEvents(matching: [.mouseEntered]) { [weak self] event in
                 guard let self = self else {
                     return event
                 }
