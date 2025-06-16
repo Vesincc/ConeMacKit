@@ -108,8 +108,11 @@ public extension NSWindow {
         completion?()
     }
     
-    func present(_ viewControllerToPresent: NSViewController, isEnableStandardButton: Bool = true, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) {
-        present(SheetWindow(contentViewController: viewControllerToPresent, appearance: appearance), isEnableStandardButton: isEnableStandardButton, style: style, completion: completion)
+    @discardableResult
+    func present(_ viewControllerToPresent: NSViewController, isEnableStandardButton: Bool = true, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) -> SheetWindow {
+        let window = SheetWindow(contentViewController: viewControllerToPresent, appearance: appearance)
+        present(window, isEnableStandardButton: isEnableStandardButton, style: style, completion: completion)
+        return window
     }
     
     func dismiss(completion: (() -> ())?) {

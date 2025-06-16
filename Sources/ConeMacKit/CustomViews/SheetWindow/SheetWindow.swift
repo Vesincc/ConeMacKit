@@ -11,7 +11,6 @@ import AppKit
 public protocol SheetWindowCloseProtocol: NSViewController {
     
     var closeEnable: Bool { get }
-    
     var closeOffset: CGPoint { get }
     
     func closeAction(sender: NSButton)
@@ -23,17 +22,15 @@ public extension SheetWindowCloseProtocol {
     var closeEnable: Bool {
         true
     }
-    
     var closeOffset: CGPoint {
         .zero
     }
-    
     func closeAction(sender: NSButton) {
         dismiss(completion: nil)
     }
     
 }
-
+ 
 public class SheetWindow: NSWindow {
     
     public var windowButtonGroup: WindowButtonGroupBar?
@@ -45,17 +42,27 @@ public class SheetWindow: NSWindow {
     }
     
     private var localMonitore: Any?
+    
+    public override func standardWindowButton(_ b: NSWindow.ButtonType) -> NSButton? {
+        windowButtonGroup?.button(for: b) ?? super.standardWindowButton(b)
+    }
      
     override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
         super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
-        appearance = NSAppearance(named: .aqua)
-        backgroundColor = .clear
+    }
+    
+    public convenience init(contentViewController: NSViewController) {
+        self.init(contentViewController: contentViewController, appearance: nil)
     }
      
     public convenience init(contentViewController: NSViewController, appearance: NSAppearance? = nil) {
-        self.init(contentRect: .zero, styleMask: [.closable, .borderless], backing: .buffered, defer: true)
+        self.init(contentRect: .zero, styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         self.contentViewController = contentViewController
+        self.isReleasedWhenClosed = true
+        self.title = contentViewController.title ?? ""
         self.appearance = appearance ?? NSApplication.shared.mainWindow?.appearance
+        
+        
         var closeEnable = true
         var offset: CGPoint = .zero
         if let close = contentViewController as? SheetWindowCloseProtocol {
@@ -64,6 +71,7 @@ public class SheetWindow: NSWindow {
         }
          
         if closeEnable {
+            contentViewController.view.translatesAutoresizingMaskIntoConstraints = false
             let group = WindowButtonGroupBar(types: [.closeButton])
             group.appearance = appearance ?? self.appearance
             group.buttons.forEach({ $0?.target = self })
@@ -77,8 +85,6 @@ public class SheetWindow: NSWindow {
             ])
             self.windowButtonGroup = group
         }
-        
-        
     }
        
     public override var canBecomeKey: Bool {
@@ -182,6 +188,7 @@ public class SheetWindow: NSWindow {
      
     
 }
+
  
 
 extension SheetWindow {

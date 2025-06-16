@@ -33,7 +33,7 @@ public class WindowButtonGroupBar: NSStackView {
         configerViews()
     }
     
-    private var _trackingArea: NSTrackingArea?
+    public var _trackingArea: NSTrackingArea?
     
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -45,20 +45,25 @@ public class WindowButtonGroupBar: NSStackView {
             let button = NSWindow.standardWindowButton($0, for: .closable)
             if let button = button {
                 addArrangedSubview(button)
-                button.addTrackingArea(NSTrackingArea(rect: button.bounds, options: [.activeAlways, .inVisibleRect, .mouseEnteredAndExited], owner: self, userInfo: nil))
+                button.addTrackingArea(NSTrackingArea(rect: button.bounds, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self, userInfo: nil))
             }
             return button
         })
         spacing = 6
         configerTrackingArea()
+         
     }
     
-    private func configerTrackingArea() {
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    public func configerTrackingArea() {
         if let _trackingArea = _trackingArea {
             removeTrackingArea(_trackingArea)
             self._trackingArea = nil
         }
-        let trackArea = NSTrackingArea.init(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways, .inVisibleRect], owner: self, userInfo: nil)
+        let trackArea = NSTrackingArea.init(rect: bounds, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self, userInfo: nil)
         addTrackingArea(trackArea)
         _trackingArea = trackArea
     }
@@ -68,7 +73,7 @@ public class WindowButtonGroupBar: NSStackView {
         configerTrackingArea()
     }
     
-    @objc func _mouseInGroup(_ button: NSButton) -> Bool {
+    @objc public func _mouseInGroup(_ button: NSButton) -> Bool {
         return isHovered
     }
     
@@ -93,4 +98,5 @@ public class WindowButtonGroupBar: NSStackView {
         }
         return button
     }
+    
 }

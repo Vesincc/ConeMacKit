@@ -23,7 +23,7 @@ public extension NSWindow {
             targetWindow = nil
         }
         let origin = targetWindow?.frame.origin ?? .zero
-        let aligmentSize: CGSize = targetWindow?.frame.size ?? NSScreen.main?.frame.size ?? .zero
+        let aligmentSize: CGSize = targetWindow?.frame.size ?? targetWindow?.screen?.frame.size ?? NSScreen.main?.frame.size ?? .zero
         let currentSize = frame.size
         setFrame(CGRect(
             x: origin.x - ceil((currentSize.width - aligmentSize.width) / 2.0) + (offset?.x ?? 0),

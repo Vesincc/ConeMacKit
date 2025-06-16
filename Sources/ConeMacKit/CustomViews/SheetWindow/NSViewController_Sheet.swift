@@ -10,7 +10,8 @@ import AppKit
 
 public extension NSViewController {
      
-    func present(_ viewControllerToPresent: NSViewController, isEnableStandardButton: Bool = true, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) {
+    @discardableResult
+    func present(_ viewControllerToPresent: NSViewController, isEnableStandardButton: Bool = true, style: WindowPresentStyle, appearance: NSAppearance? = nil, completion: (() -> ())? = nil) -> SheetWindow? {
         view.window?.present(viewControllerToPresent, isEnableStandardButton: isEnableStandardButton, style: style, appearance: appearance, completion: completion)
     }
     
