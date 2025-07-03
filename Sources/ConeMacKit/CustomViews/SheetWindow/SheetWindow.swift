@@ -56,7 +56,7 @@ public class SheetWindow: NSWindow {
     }
      
     public convenience init(contentViewController: NSViewController, appearance: NSAppearance? = nil) {
-        self.init(contentRect: .zero, styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
+        self.init(contentRect: .zero, styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView], backing: .buffered, defer: false)
         self.contentViewController = contentViewController
         self.isReleasedWhenClosed = true
         self.title = contentViewController.title ?? ""
