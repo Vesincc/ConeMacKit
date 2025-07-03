@@ -71,7 +71,6 @@ public class SheetWindow: NSWindow {
         }
          
         if closeEnable {
-            contentViewController.view.translatesAutoresizingMaskIntoConstraints = false
             let group = WindowButtonGroupBar(types: [.closeButton])
             group.appearance = appearance ?? self.appearance
             group.buttons.forEach({ $0?.target = self })
