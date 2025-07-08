@@ -288,7 +288,7 @@ open class ProgressHUD: NSView {
     /// hud max size  if euqal to zero, not limite
     open var maxSize: CGSize = .zero
 
-    private var contentView: ContentView = ContentView()
+    open var contentView: ContentView = ContentView()
     
     
     public enum ContentStyle {
@@ -474,14 +474,14 @@ public extension ProgressHUD {
         public override func mouseDown(with event: NSEvent) {
         }
         public override func mouseUp(with event: NSEvent) {
-        } 
+        }
     }
     
     
     
 }
 
-extension ProgressHUD {
+public extension ProgressHUD {
     
     class ContentView: NSView {
         override init(frame frameRect: NSRect) {
@@ -493,12 +493,12 @@ extension ProgressHUD {
             configerViews()
         }
         func configerViews() {
-            wantsLayer = true 
+            wantsLayer = true
         }
         
-        override func mouseDown(with event: NSEvent) {
+        public override func mouseDown(with event: NSEvent) {
         }
-        override func mouseUp(with event: NSEvent) {
+        public override func mouseUp(with event: NSEvent) {
         }
     }
     

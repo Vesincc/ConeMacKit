@@ -40,10 +40,12 @@ public extension NSWindow {
         completion?()
     }
     
-    func popover(_ viewControllerToPresent: NSViewController, sourceView: NSView?, style: WindowPopoverStyle = .none, configer: PopoverConfiger, completion: (() -> ())? = nil) {
+    @discardableResult
+    func popover(_ viewControllerToPresent: NSViewController, sourceView: NSView?, style: WindowPopoverStyle = .none, configer: PopoverConfiger, completion: (() -> ())? = nil) -> NSWindow {
         let pc = PopoverViewController(contentViewController: viewControllerToPresent, sourceView: sourceView, configer: configer)
         let pop = PopoverWindow(contentViewController: pc, appearance: configer.appearance)
         popover(pop, style: style, completion: completion)
+        return pop
     }
     
     func dismissPopover(completion: (() -> ())?) {
