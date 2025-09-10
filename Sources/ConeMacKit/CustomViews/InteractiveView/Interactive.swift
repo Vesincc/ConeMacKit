@@ -268,28 +268,29 @@ public extension InteractiveViewProtocol {
             return
         }
         isClicked = false
-        if !interactiveEventActions.isEmpty {
-            guard let window = event.window else {
-                return
+        
+        guard let window = event.window else {
+            return
+        }
+        let windowPoint = window.convertPoint(fromScreen: NSEvent.mouseLocation)
+        var isEntered = false
+        if let location = superview?.convert(windowPoint, from: nil) {
+            isEntered = frame.contains(location)
+        }
+        if isEntered {
+            if let action = interactiveEventActions[.mouseUpInside] {
+                action?(self)
             }
-            let windowPoint = window.convertPoint(fromScreen: NSEvent.mouseLocation)
-            if let location = superview?.convert(windowPoint, from: nil) {
-                isEntered = frame.contains(location)
-            }
-            if isEntered {
-                if let action = interactiveEventActions[.mouseUpInside] {
-                    action?(self)
-                }
-            } else {
-                if let action = interactiveEventActions[.mouseUpOutside] {
-                    action?(self)
-                }
+        } else {
+            if let action = interactiveEventActions[.mouseUpOutside] {
+                action?(self)
             }
         }
+        
         fixState()
     }
 }
- 
+
 public extension InteractiveViewProtocol {
     
     func cursor(for state: Interactive.State) -> NSCursor? {
