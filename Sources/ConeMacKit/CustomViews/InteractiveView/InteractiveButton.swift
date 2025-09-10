@@ -124,14 +124,13 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
         if hiddenImageAndText.textHidden {
             text = ""
         }
-        
         let attributedText = adapterValue(in: interactiveAttributedTexts, for: priority)
         let textColor = adapterValue(in: interactiveTextColors, for: priority) ?? .black
         let font = adapterValue(in: interactiveFonts, for: priority) ?? self.font ?? NSFont.systemFont(ofSize: 14)
         let block = adapterValue(in: interactiveBlocks, for: priority)
         
-        if backgroundColorEnable {
-            layer?.backgroundColor = backgroundColor?.cgColor
+        if backgroundColorEnable, let colorForState = backgroundColor {
+            layer?.backgroundColor = colorForState.cgColor
         }
         layer?.borderColor = borderColor?.cgColor ?? layer?.borderColor
         layer?.borderWidth = borderWidth ?? layer?.borderWidth ?? 0
@@ -140,6 +139,8 @@ open class InteractiveButton: NSButton, InteractiveButtonProtocol {
         } else {
             let paragraph = NSMutableParagraphStyle()
             paragraph.alignment = alignment
+            paragraph.lineBreakMode = lineBreakMode
+            
             let str = NSAttributedString(string: text, attributes: [
                 NSAttributedString.Key.font : font,
                 NSAttributedString.Key.foregroundColor : textColor,

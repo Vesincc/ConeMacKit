@@ -186,6 +186,14 @@ public extension InteractiveStateable {
         self.interactiveState = state
         interactiveStateDidChanged(lastState: last)
     }
+    
+    func resetState(to state: Interactive.State = .normal) {
+        isEnabled = !state.contains(.disabled)
+        isSelected = state.contains(.selected)
+        isClicked = state.contains(.clicked)
+        isEntered = state.contains(.hovered)
+        fixState()
+    }
 }
 
 // MARK: - InteractiveViewProtocol
@@ -260,20 +268,22 @@ public extension InteractiveViewProtocol {
             return
         }
         isClicked = false
-        guard let window = event.window else {
-            return
-        }
-        let windowPoint = window.convertPoint(fromScreen: NSEvent.mouseLocation)
-        if let location = superview?.convert(windowPoint, from: nil) {
-            isEntered = frame.contains(location)
-        }
-        if isEntered {
-            if let action = interactiveEventActions[.mouseUpInside] {
-                action?(self)
+        if !interactiveEventActions.isEmpty {
+            guard let window = event.window else {
+                return
             }
-        } else {
-            if let action = interactiveEventActions[.mouseUpOutside] {
-                action?(self)
+            let windowPoint = window.convertPoint(fromScreen: NSEvent.mouseLocation)
+            if let location = superview?.convert(windowPoint, from: nil) {
+                isEntered = frame.contains(location)
+            }
+            if isEntered {
+                if let action = interactiveEventActions[.mouseUpInside] {
+                    action?(self)
+                }
+            } else {
+                if let action = interactiveEventActions[.mouseUpOutside] {
+                    action?(self)
+                }
             }
         }
         fixState()

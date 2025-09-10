@@ -51,13 +51,18 @@ open class PlainTextField: NSTextField {
         focusRingType = .none
     }
     
+    
+    /// 默认window打开时是第一响应者
+    open override var acceptsFirstResponder: Bool {
+        return firstResponderEnable
+    }
+    
+    open var firstResponderEnable = false
+    
     open override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
         DispatchQueue.main.async {
-            // 取消第一响应者状态
-            if self.window?.firstResponder == self.currentEditor() {
-                self.window?.makeFirstResponder(nil)
-            }
+            self.firstResponderEnable = true
         }
     }
     
