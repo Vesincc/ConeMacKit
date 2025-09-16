@@ -78,9 +78,13 @@ public class SheetWindow: NSWindow {
             group.button(for: .closeButton)?.addTarget(self, action: #selector(closeAction))
             
             contentViewController.view.addSubview(group)
+            var position: CGFloat = 8
+            if let radius = self.value(forKey: "_cornerRadius") as? CGFloat {
+                position = radius
+            }
             NSLayoutConstraint.activate([
-                group.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor, constant: 8 + offset.x),
-                group.topAnchor.constraint(equalTo: contentViewController.view.topAnchor, constant: 8 + offset.y)
+                group.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor, constant: position + offset.x),
+                group.topAnchor.constraint(equalTo: contentViewController.view.topAnchor, constant: position + offset.y)
             ])
             self.windowButtonGroup = group
         }
