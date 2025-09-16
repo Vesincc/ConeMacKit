@@ -79,8 +79,10 @@ public class SheetWindow: NSWindow {
             
             contentViewController.view.addSubview(group)
             var position: CGFloat = 8
-            if let radius = self.value(forKey: "_cornerRadius") as? CGFloat {
-                position = radius
+            if #available(macOS 26, *) {
+                if let radius = self.value(forKey: "_cornerRadius") as? CGFloat {
+                    position = radius
+                }
             }
             NSLayoutConstraint.activate([
                 group.leadingAnchor.constraint(equalTo: contentViewController.view.leadingAnchor, constant: position + offset.x),
