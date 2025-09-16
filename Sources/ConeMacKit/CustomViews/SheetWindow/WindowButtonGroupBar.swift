@@ -88,6 +88,7 @@ public class WindowButtonGroupBar: NSStackView {
     public func updateButtonsState() {
         buttons.forEach({
             $0?.needsDisplay = true
+            $0?.needsLayout = true
         })
     }
     
