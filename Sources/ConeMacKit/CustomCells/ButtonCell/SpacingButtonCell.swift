@@ -310,17 +310,23 @@ fileprivate extension SpacingButtonCell {
          
         switch imagePosition {
         case .noImage:
+            let availableWidth = fittingSize.width
+             
             fittingImageSize = .zero
-            fittingTitleSize = fittingSize
+            fittingTitleSize = CGSize(width: titleShouldFillCellSpace ? availableWidth : min(availableWidth, titleSize.width),
+                                      height: min(titleSize.height, fittingSize.height))
             
             fittingImageOrigin = .zero
-            fittingTitleOrigin = .zero
+            fittingTitleOrigin = CGPoint(x: (fittingSize.width - fittingTitleSize.width) / 2,
+                                         y: (fittingSize.height - fittingTitleSize.height) / 2)
             
         case .imageOnly:
-            fittingImageSize = fittingSize
+            fittingImageSize = CGSize(width: min(imageSize.width ,fittingSize.width),
+                                      height: min(imageSize.height, fittingSize.height))
             fittingTitleSize = .zero
             
-            fittingImageOrigin = .zero
+            fittingImageOrigin = CGPoint(x: (fittingSize.width - fittingImageSize.width) / 2,
+                                         y: (fittingSize.height - fittingImageSize.height) / 2)
             fittingTitleOrigin = .zero
             
         case .left, .right:
