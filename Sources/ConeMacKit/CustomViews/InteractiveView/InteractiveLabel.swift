@@ -55,6 +55,8 @@ public extension InteractiveLabel {
     
     override var stringValue: String {
         didSet {
+            // 默认重新设置文本清除之前保存的交互模型数据.
+            clearInteractiveItems()
             originAttributedStringValue = NSAttributedString(string: stringValue, attributes: [
                 .font : font ?? NSFont.systemFont(ofSize: 14),
                 .foregroundColor : textColor ?? NSColor.white
@@ -239,6 +241,11 @@ open class InteractiveLabel: NSTextField {
                 mouseExited(with: NSEvent())
             }
         }
+    }
+    
+    /// 清除之前的交互模型.
+    open func clearInteractiveItems() {
+        items.removeAll()
     }
     
     open override func resetCursorRects() {
